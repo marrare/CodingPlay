@@ -1,0 +1,16 @@
+{
+  "name": "CodingPlay",
+  "version": "0.0.1",
+  "description": "coding dojo in real time with PBD",
+  "git repository": "https://github.com/marrare/CodingPlay.git",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.3",
+    "ejs": "~2.5.7",
+    "express": "~4.16.0",
+    "http-errors": "~1.6.2"
+  }
+}
