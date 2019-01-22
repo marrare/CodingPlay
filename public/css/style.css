@@ -25,6 +25,7 @@ Author E-mail: naimlasker@gmail.com
 /* Wide Mobile Layout: 480px */
 /*---------------------------------------------------- */
 /*----------------------------------------------------*/
+
 body {
   line-height: 24px;
   font-size: 14px;
@@ -3868,7 +3869,25 @@ h6 {
       .single-footer-widget .social_widget a:hover {
         background: #3fcaff; }
 
-/* End Footer Area css
+#footer {
+    width: 100%;
+}
+
+/* Login area css
+============================================================================================ */
+/*---------------------------------------------------- */
+#login-column{
+  margin: 0 auto;
+  border: 1px solid #9C9C9C;
+}
+.container #login-column #login-form {
+  padding: 20px;
+}
+.container #login-column #login-form #register-link {
+  margin-top: -85px;
+  padding-bottom: 60px;
+} 3fcaff
+/* End Login area css
 ============================================================================================ */
 /*---------------------------------------------------- */
 
