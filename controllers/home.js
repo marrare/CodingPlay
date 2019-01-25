@@ -38,6 +38,20 @@ module.exports = (app) => {
                 res.render("test", {alunos : result});
             }
         }); 
+    },
+
+    salvarAluno: function(req, res){
+        var connection = app.config.dbConnection();
+        var AlunoModel = new app.models.TestDao(connection);
+        // console.dir(req.body);
+        AlunoModel.salvarAluno(req.body, 
+            function(err, result){
+            if (err) {
+                throw err;
+            } else {
+                res.render("test", {alunos : result});
+            }
+        }); 
     }
   };
   return HomeController;

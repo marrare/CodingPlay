@@ -30,25 +30,31 @@
                 <div class="offset-2"></div>
                     <div class="col-lg-8 col-md-8">
                         <h3 class="mb-30 title_color text-center">Criar Conta</h3>
-                        <form action="#">
+                        <form action="salvarAluno" method="POST">
                             <div class="mt-10">
-                                <input type="text" name="first_name" placeholder="Matrícula" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Matrícula'" required class="single-input">
+                                <input type="text" name="id" placeholder="Id" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Matrícula'" required class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="text" name="last_name" placeholder="Nome" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nome'" required class="single-input">
+                                <input type="text" name="nome" placeholder="Nome" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Matrícula'" required class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="text" name="last_name" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required class="single-input">
+                                <input type="text" name="turno" placeholder="Turno" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nome'" required class="single-input">
+                            </div>
+                            <!-- <div class="mt-10">
+                                <input type="text" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="password" name="EMAIL" placeholder="Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Senha'" required class="single-input">
+                                <input type="password" name="senha" placeholder="Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Senha'" required class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="password" name="EMAIL" placeholder="Confirmar Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirmar Senha'" required class="single-input">
+                                <input type="password" name="resenha" placeholder="Confirmar Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirmar Senha'" required class="single-input">
                             </div>
 
                             <div class="mt-10">
                                 <textarea class="single-textarea" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required></textarea>
+                            </div> -->
+                            <div class="mt-10">
+                                <button type="submit">Salvar</button>
                             </div>
                         </form>
                     </div>
