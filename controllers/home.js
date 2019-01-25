@@ -11,7 +11,6 @@ module.exports = (app) => {
     },
     
     
-    
     login(req, res) {
         const { usuario } = req.body;
         const { email, nome} = usuario;
@@ -27,6 +26,18 @@ module.exports = (app) => {
     logout(req, res) {
         req.session.destroy();
         res.redirect('/');
+    },
+    
+    test: function(req, res) {
+        var connection = app.config.dbConnection();
+        var AlunoModel = new app.models.TestDao(connection);
+        AlunoModel.listaAlunos(function(err, result){
+            if (err) {
+                throw err;
+            } else {
+                res.render("test", {alunos : result});
+            }
+        }); 
     }
   };
   return HomeController;

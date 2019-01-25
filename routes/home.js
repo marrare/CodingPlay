@@ -5,4 +5,5 @@ module.exports = (app) => {
     app.get('/sair',home.logout);
     app.get('/login',home.paginaLogin);
     app.get('/novaConta',home.cadastro);
+    app.get('/test',home.test);
 };

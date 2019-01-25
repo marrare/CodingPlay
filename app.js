@@ -9,6 +9,7 @@ app.use(express.static(path.join(__dirname, 'public'))); //middlewares arquivos 
 
 consign({})
     .include('models')
+    .then('config')
     .then('controllers')
     .then('routes')
     .into(app)
