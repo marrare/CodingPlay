@@ -4,7 +4,5 @@ module.exports = (app) => {
     app.post('/entrar', home.login);
     app.get('/sair',home.logout);
     app.get('/login',home.paginaLogin);
-    app.get('/novaConta',home.cadastro);
-    app.get('/test',home.test);
-    app.post('/salvarAluno',home.salvarAluno);
+    app.get('/novaConta',home.paginaCadastro);
 };

@@ -6,7 +6,7 @@ module.exports = (app) => {
     paginaLogin: function(req, res) {
       res.render('login');
     },
-    cadastro: function(req, res) {
+    paginaCadastro: function(req, res) {
       res.render('cadastrar');
     },
     
@@ -26,33 +26,8 @@ module.exports = (app) => {
     logout(req, res) {
         req.session.destroy();
         res.redirect('/');
-    },
-    
-    test: function(req, res) {
-        var connection = app.config.dbConnection();
-        var AlunoModel = new app.models.TestDao(connection);
-        AlunoModel.listaAlunos(function(err, result){
-            if (err) {
-                throw err;
-            } else {
-                res.render("test", {alunos : result});
-            }
-        }); 
-    },
-
-    salvarAluno: function(req, res){
-        var connection = app.config.dbConnection();
-        var AlunoModel = new app.models.TestDao(connection);
-        // console.dir(req.body);
-        AlunoModel.salvarAluno(req.body, 
-            function(err, result){
-            if (err) {
-                throw err;
-            } else {
-                res.render("test", {alunos : result});
-            }
-        }); 
     }
+    
   };
   return HomeController;
 };
