@@ -19,6 +19,9 @@ AlunoDao.prototype.Sessao = function(id_aluno, callback){
 AlunoDao.prototype.salvar = function(aluno, callback){
 	this._connection.query('insert into aluno set ? ', aluno, callback)
 }
+AlunoDao.prototype.buscarLogin = function(aluno, callback){
+	this._connection.query('select * from aluno where email = "' + aluno.email +'" and senha = "' + aluno.senha + '"', callback);
+}
 
 module.exports = function(){
 	return AlunoDao;

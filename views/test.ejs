@@ -4,14 +4,16 @@
     <body>
         <table>
             <tr>
+                <th>Matrícula</th>
                 <th>Nome</th>
-                <th>Turma</th>
+                <th>Email</th>
             </tr>
             
             <% for(var i = 0; i < alunos.length; i++) { %>
                 <tr>
+                    <td><%= alunos[i].matricula %></td>
                     <td><%= alunos[i].nome %></td>
-                    <td><%= alunos[i].turma %></td>
+                    <td><%= alunos[i].email %></td>
                 </tr>
             <% } %>
             
