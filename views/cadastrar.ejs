@@ -30,21 +30,26 @@
                 <div class="offset-2"></div>
                     <div class="col-lg-8 col-md-8">
                         <h3 class="mb-30 title_color text-center">Criar Conta</h3>
-                        <form action="novoAluno" method="post">
+                        <form id="novaConta" action="novoAluno" method="post">
                             <div class="mt-10">
-                                <input type="text" name="matricula" placeholder="Matrícula" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Matrícula'" required class="single-input">
+                                <label for="matricula"></label>
+                                <input type="text" name="matricula" maxlength="20" placeholder="Matrícula" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Matrícula'" class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="text" name="nome" placeholder="Nome" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nome'" required class="single-input">
+                                <label for="nome"></label>
+                                <input type="text" name="nome" maxlength="60" placeholder="Nome" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Nome'" class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="text" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" required class="single-input">
+                                <label for="email"></label>
+                                <input type="text" name="email" maxlength="40" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'" class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="password" name="senha" placeholder="Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Senha'" required class="single-input">
+                                <label for="senha"></label>
+                                <input type="password" id="senha" name="senha" maxlength="100" placeholder="Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Senha'" class="single-input">
                             </div>
                             <div class="mt-10">
-                                <input type="password" placeholder="Confirmar Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirmar Senha'" required class="single-input">
+                                <label for="confirSenha"></label>
+                                <input type="password" id="confirSenha"  placeholder="Confirmar Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirmar Senha'"  class="single-input">
                             </div>
                             <div class="button-group-area mt-20">
                                 <input type="submit" class="genric-btn info-border circle arrow" value="Confirmar">
@@ -67,6 +72,9 @@
 	<script src="js/popper.js"></script>
 	<script src="js/bootstrap.min.js"></script>
     <script src="js/footer.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+    <script src="js/validacao.js"></script>
 	<script src="js/stellar.js"></script>
 	<script src="js/jquery.magnific-popup.min.js"></script>
 	<script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>

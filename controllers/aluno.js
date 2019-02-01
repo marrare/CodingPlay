@@ -3,6 +3,8 @@ module.exports = (app) => {
     novoAluno: function(req, res) {
         var aluno = req.body;
 
+        console.log(aluno);
+        
         var connection = app.config.dbConnection();
         var AlunoModel = new app.models.AlunoDao(connection);
 
