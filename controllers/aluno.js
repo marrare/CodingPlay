@@ -2,8 +2,8 @@ module.exports = (app) => {
   const AlunoController = {
     novoAluno: function(req, res) {
         var aluno = req.body;
-
-        console.log(aluno);
+        
+        delete aluno.confirSenha;
         
         var connection = app.config.dbConnection();
         var AlunoModel = new app.models.AlunoDao(connection);
