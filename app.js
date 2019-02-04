@@ -15,7 +15,15 @@ app.use(expressSession({
   secret: 'blocos', 
   resave: false, 
   saveUninitialized: false,
+  cookie:{
+      expires: 600000
+  }
 }));
+
+app.use(function(req, res, next){
+    res.locals.session = req.session;
+    next();
+});
 
 app.use(bodyParser.json()); //middlewares cria objeto JSON vindo de form HTML
 app.use(bodyParser.urlencoded({extended: true}));
