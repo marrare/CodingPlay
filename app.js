@@ -16,7 +16,8 @@ app.use(expressSession({
   resave: false, 
   saveUninitialized: false,
   cookie:{
-      expires: 600000
+      expires: 600000,
+      tipo: undefined
   }
 }));
 

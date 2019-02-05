@@ -22,7 +22,15 @@
     
 <body>
 
-    <% include headerOff %>
+    <!--=============== Seleção do tipo de navegador de acordo com usuário logado ====================-->
+    <% if(session.tipo == 'aluno' && session.usuario != 'undefined') { %>
+            <%- include ./aluno/comum/header %>
+    <% } else if(session.tipo == 'professor' && session.usuario != 'undefined') { %>
+            <%- include ./professor/comum/header %>
+    <% } else { %>
+            <%- include headerOff %>
+    <% } %>
+    <!--=============== END - Seleção do tipo de navegador de acordo com usuário logado ================-->
     
     <!--================Home Banner Area =================-->
 	<section class="home_banner_area">

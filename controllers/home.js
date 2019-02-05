@@ -4,6 +4,7 @@ module.exports = (app) => {
       res.render('index');
     },
     paginaLogin: function(req, res) {
+        console.log(req.session);
       res.render('login');
     },
     paginaCadastro: function(req, res) {
@@ -23,7 +24,7 @@ module.exports = (app) => {
             } else {
                 if(resultAluno[0] != undefined) {
                     req.session.usuario = resultAluno[0];
-                    req.session.usuario.tipo = 'aluno';
+                    req.session.tipo = 'aluno';
                     res.redirect('/');
                 } else   {
                     
@@ -34,7 +35,7 @@ module.exports = (app) => {
                         } else {
                             if(resultProfessor[0] != undefined) {
                                 req.session.usuario = resultProfessor[0];
-                                req.session.usuario.tipo = 'professor';
+                                req.session.tipo = 'professor';
                                 res.redirect('/');
                             } else {
                                 res.render('login', {msg:"Email ou senha invalido"});
