@@ -2749,6 +2749,31 @@ h6 {
 
 /* End About Us Area css
 ============================================================================================ */
+
+/* Card Sessões area css
+============================================================================================ */
+/*---------------------------------------------------- */
+.cardsessions{
+    margin:0px 0px 25px 0px;
+    padding: 10px;
+    border-style: double;
+    border-color: #ddd;
+    border-top: 0px; 
+    border-radius: 0px 0px 10px 10px;
+}
+.cardsessions h6 {
+    text-align: left;
+    margin: 0px 0px 5px 0px;
+    padding: 0px;
+}
+.cardsessions h6:nth-child(1) {
+    float: right;
+}
+
+/* Card Sessões Login area css
+============================================================================================ */
+/*---------------------------------------------------- */
+
 /* Start Upcoming Games Area css
 ============================================================================================ */
 .upcoming_games_area {
@@ -2756,14 +2781,13 @@ h6 {
 
 .new_games_item {
   position: relative;
-  display: inline-block;
-  margin-bottom: 40px; }
+  display: inline-block; }
   .new_games_item:hover .upcoming_title {
     background: -webkit-linear-gradient(to right, #3fcaff 0%, #a4ffb0 100%);
     background: -moz-linear-gradient(to right, #3fcaff 0%, #a4ffb0 100%);
     background: -o-linear-gradient(to right, #3fcaff 0%, #a4ffb0 100%);
     background: linear-gradient(to right, #3fcaff 0%, #a4ffb0 100%); }
-    .new_games_item:hover .upcoming_title a {
+    .new_games_item:hover .upcoming_title h3 {
       color: #22195e; }
   .new_games_item .upcoming_title {
     position: absolute;
@@ -2783,9 +2807,8 @@ h6 {
       -webkit-transition: all 0.4s ease 0s;
       -moz-transition: all 0.4s ease 0s;
       -o-transition: all 0.4s ease 0s;
-      transition: all 0.4s ease 0s; }
-      .new_games_item .upcoming_title h3 a {
-        color: #fff; }
+      transition: all 0.4s ease 0s;
+      color: #fff;}
 
 /* End Upcoming Games Area css
 ============================================================================================ */
@@ -3890,5 +3913,7 @@ h6 {
 /* End Login area css
 ============================================================================================ */
 /*---------------------------------------------------- */
+
+
 
 /*# sourceMappingURL=style.css.map */

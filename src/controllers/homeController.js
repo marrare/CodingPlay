@@ -1,24 +1,19 @@
 module.exports = (app) => {
   const HomeController = {
-    index: function(req, res) {
+    paginaIndex: function(req, res) {
       res.render('index');
     },
     paginaLogin: function(req, res) {
-        console.log(req.session);
       res.render('login');
     },
-    paginaCadastro: function(req, res) {
-      res.render('cadastrar');
-    },
-    
     
     login(req, res) {
         var dadosLogin = req.body;
         
         var connection = app.config.dbConnection();
         
-        var AlunoModel = new app.models.AlunoDao(connection);
-        AlunoModel.buscarLogin(dadosLogin, function(err, resultAluno){
+        var daoAluno = new app.src.models.AlunoDao(connection);
+        daoAluno.buscarLogin(dadosLogin, function(err, resultAluno){
             if (err) {
                 throw err;
             } else {
@@ -28,8 +23,8 @@ module.exports = (app) => {
                     res.redirect('/');
                 } else   {
                     
-                    var ProfessorModel = new app.models.ProfessorDao(connection);
-                    ProfessorModel.buscarLogin(dadosLogin, function(err, resultProfessor){
+                    var daoProfessor = new app.src.models.ProfessorDao(connection);
+                    daoProfessor.buscarLogin(dadosLogin, function(err, resultProfessor){
                         if (err) {
                             throw err;
                         } else {

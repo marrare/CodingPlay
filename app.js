@@ -31,10 +31,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public'))); //middlewares arquivos estáticos(imagens,css,js)
 
 consign({})
-    .include('models')
+    .include('src/models')
     .then('config')
-    .then('controllers')
-    .then('routes')
+    .then('src/controllers')
+    .then('src/routes')
     .into(app)
 ;
 
