@@ -5,4 +5,5 @@ module.exports = (app) => {
     const { sessaoController } = app.src.controllers;
     app.get('/sessoes/list', autenticadorLogado, sessaoController.paginaListarSessoes);
     app.get('/sessao/add', autenticadorProfessor, sessaoController.paginaNovaSessao);
+    app.get('/sessoes/filtro', autenticadorLogado, sessaoController.filtro);
 };

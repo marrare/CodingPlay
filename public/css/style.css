@@ -2774,6 +2774,36 @@ h6 {
 ============================================================================================ */
 /*---------------------------------------------------- */
 
+/* Pesquisar Sessões Login area css
+============================================================================================ */
+/*---------------------------------------------------- */
+.upcoming_games_area .search-slt{
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: #55595c;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    height: calc(3rem + 2px) !important;
+    border-radius:0;
+}
+.upcoming_games_area .wrn-btn{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+     height: calc(3rem + 2px) !important;
+     border-radius:0;
+}
+.upcoming_games_area .ajuste_pesquisa {
+    border-radius: 0px 10px 10px 0px;
+}
+/* End Pesquisar Sessões Login area css
+============================================================================================ */
+/*---------------------------------------------------- */
+
 /* Start Upcoming Games Area css
 ============================================================================================ */
 .upcoming_games_area {
