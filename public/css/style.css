@@ -2831,6 +2831,7 @@ h6 {
     -o-transition: all 0.4s ease 0s;
     transition: all 0.4s ease 0s; }
     .new_games_item .upcoming_title h3 {
+      overflow-wrap: break-word;
       font-size: 18px;
       margin: 0;
       padding: 20px;
