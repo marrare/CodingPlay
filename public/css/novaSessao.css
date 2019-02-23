@@ -1,0 +1,24 @@
+.section_gap .listProblemas th, .listProblemas td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.section_gap .listProblemas tr:hover .seleCampo {
+    text-shadow: 1px 1px 1px black;
+    color: white;
+    -webkit-transition: text-shadow 0.5s; /* Safari */
+    transition: text-shadow 0.5s;
+    -webkit-transition: color 0.5s; /* Safari */
+    transition: color 0.5s;
+    background-color: #dcdcdc;
+    -webkit-transition: background-color 0.5s; /* Safari */
+    transition: background-color 0.5s;
+}
+.section_gap .listProblemas tr .seleCampo {
+    -webkit-transition: background-color 0.5s; /* Safari */
+    transition: background-color 0.5s;
+}
+.section_gap .listProblemas th {
+  background-color: #2c2172;
+  color: white;
+}

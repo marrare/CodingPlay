@@ -5,7 +5,8 @@ var connMySQL = function(){
 		host : 'localhost',
 		user : 'root',
 		password : '',
-		database : 'codingplay'
+		database : 'codingplay',
+        charset: "utf8_general_ci"
 	});
 }
 

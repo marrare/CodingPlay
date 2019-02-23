@@ -15,7 +15,18 @@ module.exports = (app) => {
     },
       
     paginaNovaSessao: function(req, res) {
-        res.render('./sessao/novaSessao');
+        
+        var connection = app.config.dbConnection();
+        var daoProblema = new app.src.models.ProblemaDao(connection);
+        
+        daoProblema.listaProblemasProfessor(function(err, result) {
+            if (err) {
+                throw err;
+            } else {
+                res.render('./sessao/novaSessao',{problemas : result});
+            }      
+        });
+        
     },
     
     filtro: function(req, res) {
