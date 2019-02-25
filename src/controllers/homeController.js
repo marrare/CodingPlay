@@ -4,7 +4,7 @@ module.exports = (app) => {
       res.render('index');
     },
     paginaLogin: function(req, res) {
-      res.render('login');
+      res.render('login',{msgUsuarioCad : req.flash("msgUsuarioCad")});
     },
     
     login(req, res) {
