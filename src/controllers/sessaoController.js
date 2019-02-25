@@ -13,6 +13,21 @@ module.exports = (app) => {
             }
         });
     },
+    
+    paginaListarSessoesFiltro: function(req, res) {
+        var valor = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        
+        daoSessao.filtrar(valor, function(err, result) {
+            if(err) {
+                throw err;
+            } else {
+                res.render('./sessao/listarSessoes',{sessoes : result});
+            }
+        });  
+    },
       
     paginaNovaSessao: function(req, res) {
         
@@ -28,21 +43,41 @@ module.exports = (app) => {
         });
         
     },
-    
-    filtro: function(req, res) {
+      
+    paginaNovaSessaoFiltro: function(req, res) {
         var valor = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoProblema = new app.src.models.ProblemaDao(connection);
+        
+        daoProblema.filtrar(valor, function(err, result) {
+            if(err) {
+                throw err;
+            } else {
+                res.render('./sessao/novaSessao',{problemas : result});
+            }
+        });  
+    },
+    
+    novaSessao: function(req, res) {
+        var sessao = req.query;
+        
+        sessao.id_professor = req.session.usuario.id;
         
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
         
-        daoSessao.filtrar(valor, function(err, result) {
+        daoSessao.salvar(sessao, function(err) {
             if(err) {
                 throw err;
             } else {
-                res.render('./sessao/listarSessoes',{sessoes : result});
+                res.redirect('/sessao/add');
             }
-        });  
-    }  
+        }); 
+
+    }
+    
+     
       
   };
     return SessoesController;

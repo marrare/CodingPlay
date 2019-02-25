@@ -2,6 +2,10 @@ function SessaoDao(connection){
 	this._connection = connection;
 }
 
+SessaoDao.prototype.salvar = function(sessao, callback){
+	this._connection.query('insert into sessao set ? ', sessao, callback);
+}
+
 SessaoDao.prototype.listaSessoes = function(callback){
     this._connection.query("select A.tamanho_grupo,B.nome,C.nome_problema, DATE_FORMAT(hora_inicio,'%Y/%m/%d  %H:%i') AS hora_inicio, DATE_FORMAT(hora_final,'%Y/%m/%d  %H:%i') AS hora_final from sessao A INNER JOIN professor B INNER JOIN problema C ON A.id_professor = B.id AND A.id_problema = C.id order by hora_inicio asc", callback);
 }

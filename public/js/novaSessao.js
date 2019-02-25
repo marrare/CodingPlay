@@ -1,0 +1,65 @@
+$(function(){
+    $(".pointer").click(function(e) {
+        e.preventDefault;
+        var idProblema = $(this).closest('tr').find('td[data-nome]').data('nome');
+        var problema = $(this).closest('tr').find('td[data-problema]').data('problema');
+        var professor = $(this).closest('tr').find('td[data-professor]').data('professor');
+        var dificuldade = $(this).closest('tr').find('td[data-dificuldade]').data('dificuldade');
+        $("#idProblema").attr("value",idProblema);
+        $("#problema").html(problema);
+        $("#professor").html(professor);
+        $("#dificuldade").html(dificuldade);
+
+        $(".section_gap_top").attr("class","section_gap");
+
+        $("#confirmar, #cancelar").show("slow");
+        $("#areaProblema").hide("slow");
+        $("#problemaSelecionado").show("slow");
+    });
+    $("#cancelar").click(function(e) {
+        $("#confirmar, #cancelar").hide("slow");
+        $("#areaProblema").show("slow");
+        $("#problemaSelecionado").hide("slow");
+
+        $(".section_gap").attr("class","section_gap_top");
+
+        $("#idProblema").attr("value","");
+        $(".Problema td:nth-child(1)").html("");
+        $(".Problema td:nth-child(2)").html("");
+        $(".Problema td:nth-child(3)").html("");
+    });
+});
+
+$(document).ready(function(){
+    
+    var agora = new Date();
+    var ano = agora.getFullYear();
+    var mes = agora.getMonth()+1;
+    var data = agora.getDate();
+    var horas = agora.getHours();
+    var horasFinal = horas+1;
+    var minutos = agora.getMinutes();
+    
+    if(mes < 10) {
+        mes = "0"+mes;
+    }
+    if(data < 10) {
+        data = "0"+data;
+    }
+    if(horas < 10) {
+        horas = "0"+horas;
+    }
+    if(horasFinal < 10) {
+        horasFinal = "0"+horasFinal;
+    }
+    if(minutos < 10) {
+        minutos = "0"+minutos;
+    }
+    
+    var tempoInicio = ano+"-"+mes+"-"+data+"T"+horas+":"+minutos;
+    var tempoFinal = ano+"-"+mes+"-"+data+"T"+horasFinal+":"+minutos;
+    console.log(tempoFinal);
+
+    $("#hora_inicio").attr("min",tempoInicio);
+    $("#hora_final").attr("min",tempoFinal);
+});

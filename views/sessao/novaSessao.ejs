@@ -36,14 +36,128 @@
     <% } %>
     <!--=============== END - Seleção do tipo de navegador de acordo com usuário logado ================-->
     
-    
-    <!--================Problem Area =================-->
-    
-    <section class="section_gap">
-        <div class="whole-wrap">
-            <div class="container">
-                <h3 class="mb-30 title_color">Selecione um problema</h3>
-                <table class="col-lg-12 listProblemas">
+    <section class="section_gap_top">
+        <div class="container">
+            
+            <!--================ Information about Session Area =================-->
+            <h3 class="mb-30 title_color text-center">Criar Sessão do Dojo de Programação</h3>
+            <form action="/sessao/save" method="get" id="novaSessao">
+                <div class="row">
+                    <div class="offset-lg-1"></div>
+                    <div class="col-lg-5 col-sm-12">
+                            <label for="hora_inicio">Data Inicio</label>
+                            <input id="hora_inicio" type="datetime-local" name="hora_inicio" required>
+                    </div>
+                    
+                    <label class="col-sm-2 col-form-label" for="tamanho_grupo">Tamanho do Grupo</label>
+                    <div class="col-lg-3 col-sm-10 p-0">
+                        <select name="tamanho_grupo" class="form-control search-slt" id="tamanho_grupo" required>
+                            <option></option>
+                            <option value="4">4 Pessoas</option>
+                            <option value="5">5 Pessoas</option>
+                            <option value="6">6 Pessoas</option>
+                            <option value="7">7 Pessoas</option>
+                            <option value="8">8 Pessoas</option>
+                            <option value="9">9 Pessoas</option>
+                            <option value="10">10 Pessoas</option>
+                        </select>
+                    </div>
+                    <div class="offset-lg-1"></div>
+                </div>
+                
+                <div class="row mt-10">
+                    
+                    <div class="offset-lg-1"></div>
+                    <div class="col-lg-5 col-sm-12">
+                            <label for="hora_final">Data Final</label>&nbsp;
+                            <input id="hora_final" type="datetime-local" name="hora_final" required>
+                    </div>
+                    
+                    <label class="col-sm-2 col-form-label" for="tempo_rotacao">Tempo de Rotação </label>
+                    <div class="col-lg-3 col-sm-10 p-0">
+                        <select name="tempo_rotacao" class="form-control search-slt" id="tempo_rotacao" required>
+                            <option></option>
+                            <option value="6">6 Minutos</option>
+                            <option value="7">7 Minutos</option>
+                            <option value="8">8 Minutos</option>
+                            <option value="9">9 Minutos</option>
+                            <option value="10">10 Minutos</option>
+                            <option value="11">11 Minutos</option>
+                            <option value="12">12 Minutos</option>
+                        </select>
+                    </div>
+                    <div class="offset-lg-1"></div>
+                </div>
+                <div class="row mt-10" >
+                    <div class="col-lg-5 col-sm-12">
+                        <input type="text" name="id_problema" id="idProblema" hidden required>
+                    </div>
+                </div>
+                
+                <table class="col-lg-12 col-sm-10 listProblemas" id="problemaSelecionado">
+                    <tr>
+                        <th>Problema</th>
+                        <th>Professor</th>
+                        <th>Dificuldade</th>
+                    </tr>
+                    <tr class="problema">
+                        <td class="seleCampo" id="problema"></td>
+                        <td class="seleCampo" id="professor"></td>
+                        <td class="seleCampo" id="dificuldade"></td>
+                    </tr>
+                </table>
+                
+                <div class="text-center button-group-area mt-20" id="confirmar">
+                    <input type="submit" class="genric-btn info-border circle arrow" value="Confirmar">
+                </div>
+                <div class="text-center button-group-area mt-0" id="cancelar">
+                    <input type="reset" class="genric-btn danger-border circle arrow" value="Cancelar">
+                </div>
+                
+            </form>
+        </div>
+    </section>
+    <!--================ END - Information about Session Area =================-->
+            
+            
+    <!--================ Problem Area =================-->
+    <section class="upcoming_games_area" id="areaProblema">
+        <div class="container">
+            <div class="row">
+                <h3 class="title_color">Selecione um problema</h3>
+                
+                <!--===================== Filtro ==================================== -->
+                <div class="container">
+                    <form class="filtro" action="filtro" method="get" novalidate="novalidate">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                        <input type="text" name="problema" class="form-control search-slt" placeholder="Buscar por Problema" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Buscar por Problema'">
+                                    </div>
+                                     <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                        <input type="text" name="professor" class="form-control search-slt" placeholder="Buscar por Professor" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Buscar por Professor'">
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                        <select name="dificuldade" class="form-control search-slt" id="exampleFormControlSelect1">
+                                            <option value="">Dificuldade</option>
+                                            <option value="fácil">Fácil</option>
+                                            <option value="médio">Médio</option>
+                                            <option value="difícil">Difícil</option>
+                                            <option value="expert">Expert</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                        <button type="submit" class="ajuste_pesquisa btn primary_btn btn-block">Pesquisar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--===================== End Filtro ==================================== -->
+                
+                <table class="col-lg-12 col-sm-10 listProblemas">
                     <tr>
                         <th>Número</th>
                         <th>Problema</th>
@@ -52,20 +166,21 @@
                     </tr>
 
                     <% for(var i = 0; i < problemas.length; i++) { %>
-                        <tr>
+                        <tr class="pointer">
+                            <td data-nome="<%=problemas[i].id%>" hidden></td>
                             <td class="seleCampo">0<%=i+1%></td>
-                            <td class="seleCampo"><%=problemas[i].nome_problema%></td>
-                            <td class="seleCampo"><%=problemas[i].nome%></td>
-                            <td class="seleCampo"><%=problemas[i].dificuldade%></td>
+                            <td data-problema="<%=problemas[i].nome_problema%>" class="seleCampo"><%=problemas[i].nome_problema%></td>
+                            <td data-professor="<%=problemas[i].nome%>" class="seleCampo"><%=problemas[i].nome%></td>
+                            <td data-dificuldade="<%=problemas[i].dificuldade%>" class="seleCampo"><%=problemas[i].dificuldade%></td>
                         </tr>
                     <% } %>
                 </table>
-                
             </div>
+            <!--================ END - Problem Area =================-->
+            
         </div>
     </section>
-    
-    <!--================Problem Area =================-->
+
     
     
     <% include ../comum/footer %>
@@ -89,6 +204,8 @@
     
     <!-- JS adicionais -->
     <script src="/js/footer.js"></script>
+    <script src="/js/novaSessao.js"></script>
+
 </body>
 
 </html>
