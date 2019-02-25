@@ -5,7 +5,8 @@ $(document).ready(function(){
                 required: true
             },
             nome: {
-            	required: true
+            	required: true,
+                min: 3
             },
             email: {
     			required: true,
@@ -25,7 +26,8 @@ $(document).ready(function(){
 				required:"Campo obrigatorio"
 			},
         	nome: {
-                required: "Campo obrigatório"
+                required: "Campo obrigatório",
+                min: "Mínimo de 3 caracteres"
             },
 			email: {
 				required: "Campo obrigatório",
