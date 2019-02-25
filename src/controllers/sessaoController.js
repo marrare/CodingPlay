@@ -38,7 +38,7 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
-                res.render('./sessao/novaSessao',{problemas : result});
+                res.render('./sessao/novaSessao',{problemas : result, menssagem : req.flash("menssagem")});
             }      
         });
         
@@ -71,6 +71,7 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                req.flash("menssagem","Sessão Criada com Sucesso");
                 res.redirect('/sessao/add');
             }
         }); 

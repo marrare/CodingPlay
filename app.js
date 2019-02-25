@@ -4,6 +4,7 @@ const consign = require('consign');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
+const flash = require('req-flash');
 const app = express();
 
 
@@ -19,6 +20,7 @@ app.use(expressSession({
       tipo: undefined
   }
 }));
+app.use(flash());
 
 app.use(function(req, res, next){
     res.locals.session = req.session;
