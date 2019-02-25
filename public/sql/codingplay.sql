@@ -54,8 +54,9 @@ CREATE TABLE sessao (
   FOREIGN KEY (id_Problema) REFERENCES problema (id)
 );
 
-INSERT INTO professor VALUES (1,'34452','professor','professor@gmail.com','db26588a2def92ed7e1e72ed8befe9a27af133542b2b088c6534489535badbff',1,'2019-02-22 04:13:57');
+-- Senha "professor'1234"
+INSERT INTO professor(matricula,nome,email,senha) VALUES ('34452','professor','professor@gmail.com','db26588a2def92ed7e1e72ed8befe9a27af133542b2b088c6534489535badbff');
 
-INSERT INTO problema VALUES (1,1,'Soma idade','Criar uma variável idade, adicionar 20 ao seu valor e imprimi-la.','Fácil','2019-02-22 04:13:57'),(2,1,'Média','Encontrar a média da soma destes valores: 7,8,8,5,4','Fácil','2019-02-22 04:13:57');
+INSERT INTO problema(id_professor,nome_problema,desc_problema,dificuldade) VALUES (1,'Soma idade','Criar uma variável idade, adicionar 20 ao seu valor e imprimi-la.','Fácil'),(1,'Média','Encontrar a média da soma destes valores: 7,8,8,5,4','Fácil');
 
-INSERT INTO sessao VALUES (1,1,1,'Acamp Programing',6,8,'2019-02-08 22:00:00','2019-02-09 01:00:00',NULL,NULL,'2019-02-22 04:13:57'),(2,1,2,'Development',6,8,'2019-02-09 18:00:00','2019-02-09 20:00:00',NULL,NULL,'2019-02-22 04:13:57'),(3,1,2,'Academing',6,8,'2019-02-09 22:00:00','2019-02-10 00:00:00',NULL,NULL,'2019-02-22 04:13:57'),(4,1,1,'Testando',6,8,'2019-02-10 18:00:00','2019-02-09 20:00:00',NULL,NULL,'2019-02-22 04:13:57');
+INSERT INTO sessao(id_professor,id_problema,nome_sessao,tamanho_grupo,tempo_rotacao,hora_inicio,hora_final) VALUES (1,2,'rzT81V75',8,8,'2019-03-08 22:00:00','2019-03-08 23:00:00'),(1,2,'ys8hP185',4,8,'2019-03-20 18:00:00','2019-03-20 20:00:00'),(1,1,'Rc3Lf958',10,6,'2019-04-01 20:00:00','2019-04-01 22:00:00'),(1,1,'5P1yse67',6,8,'2019-03-10 18:00:00','2019-03-10 20:00:00');
