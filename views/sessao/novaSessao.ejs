@@ -40,8 +40,8 @@
         <div class="container">
             
             <!--================ Information about Session Area =================-->
-            <h3 class="mb-30 title_color text-center">Criar Sessão do Dojo de Programação</h3>
-            <form action="/sessao/save" method="get" id="novaSessao">
+            <h3 class="mb-30 title_color text-center" id="teast">Criar Sessão do Dojo de Programação</h3>
+            <form action="/sessao/save" method="post" id="novaSessao">
                 <div class="row">
                     <div class="offset-lg-1"></div>
                     <div class="col-lg-5 col-sm-12">
@@ -88,11 +88,12 @@
                     </div>
                     <div class="offset-lg-1"></div>
                 </div>
-                <div class="row mt-10" >
-                    <div class="col-lg-5 col-sm-12">
-                        <input type="text" name="id_problema" id="idProblema" hidden required>
-                    </div>
-                </div>
+                
+                <!--============ Valores Inputs Ocultos ==============-->
+                    <input type="text" name="id_problema" id="idProblema" hidden required>
+                    <input type="text" name="nome_sessao" id="nomeSessao" hidden required>
+                    <p  id="codigoTemporario" hidden></p>
+                <!--============ END - Valores Inputs Ocultos ==============-->
                 
                 <table class="col-lg-12 col-sm-10 listProblemas" id="problemaSelecionado">
                     <tr>

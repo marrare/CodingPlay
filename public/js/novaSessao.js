@@ -1,3 +1,4 @@
+//////////////////////////// EFEITOS DE SELECIONAR PROBLEMA
 $(function(){
     $(".pointer").click(function(e) {
         e.preventDefault;
@@ -30,6 +31,7 @@ $(function(){
     });
 });
 
+//////////// PERMITE APENAS QUE A SESSÃO SEJA REALIZADA PARA UMA DATA FUTURA
 $(document).ready(function(){
     
     var agora = new Date();
@@ -62,4 +64,45 @@ $(document).ready(function(){
 
     $("#hora_inicio").attr("min",tempoInicio);
     $("#hora_final").attr("min",tempoFinal);
+});
+
+////////////////////////// GERAR PALAVRA COM 4 LETRAS E 4 NÚMEROS
+$(".pointer").click(function(e) {
+    var palavra = "", letras=0, numeros=0;
+    var letraMaiuscula = Math.round(Math.random() * (90 - 65) + 65);
+    var letraMinuscula = Math.round(Math.random() * (122 - 97) + 97);
+    var numero = Math.round(Math.random() * (57 - 48) + 48);
+    var aleatorio = Math.round(Math.random() * (3 - 1) + 1);
+
+    for( i=0; i < 8; i++) {
+
+        if(letras == 4) {
+            aleatorio = 3;
+        } else if (numeros == 4) {
+            aleatorio = Math.round(Math.random() * (2 - 1) + 1);
+        } else {
+            aleatorio = Math.round(Math.random() * (3 - 1) + 1);
+        }
+
+        switch (aleatorio) {
+            case 1: letraMaiuscula = Math.round(Math.random() * (90 - 65) + 65);
+                    palavra += ("&#"+letraMaiuscula);
+                    letras++;
+                    break;
+
+            case 2:	letraMinuscula = Math.round(Math.random() * (122 - 97) + 97);
+                    palavra += ("&#"+letraMinuscula);
+                    letras++;
+                    break;
+
+            case 3:	numero = Math.round(Math.random() * (57 - 48) + 48);
+                    palavra += ("&#"+numero);
+                    numeros++;
+                    break;
+        }
+    }
+
+    $("#codigoTemporario").html(palavra);
+    palavra = $("#codigoTemporario").html();
+    $("#nomeSessao").attr("value",palavra);
 });
