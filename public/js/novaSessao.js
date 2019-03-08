@@ -15,12 +15,12 @@ $(function(){
 
         $("#confirmar, #cancelar").show("slow");
         $("#areaProblema").hide("slow");
-        $("#problemaSelecionado").show("slow");
+        $("#dadosCriarSessao").show("slow");
     });
     $("#cancelar").click(function(e) {
         $("#confirmar, #cancelar").hide("slow");
         $("#areaProblema").show("slow");
-        $("#problemaSelecionado").hide("slow");
+        $("#dadosCriarSessao").hide("slow");
 
         $(".section_gap").attr("class","section_gap_top");
 

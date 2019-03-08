@@ -25,7 +25,7 @@
 .upcoming_games_area form.filtro {
     padding: 20px 0px 15px;
 }
-#confirmar, #cancelar, #problemaSelecionado {
+#confirmar, #cancelar, #dadosCriarSessao {
     display: none;
 }
 #problemaSelecionado {
@@ -35,4 +35,7 @@
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
+}
+section#areaProblema {
+    margin-top: 7%;
 }
