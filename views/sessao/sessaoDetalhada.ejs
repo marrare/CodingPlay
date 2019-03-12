@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="img/favicon.icon" type="image/png">
+	<title>Coding Play</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/vendors/linericon/style.css"> <!-- Icones -->
+	<link rel="stylesheet" href="/css/font-awesome.min.css"> <!-- Icones -->
+	<link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="/css/magnific-popup.css"> <!-- Popup de video ou fotos -->
+	<link rel="stylesheet" href="/vendors/nice-select/css/nice-select.css"> <!-- Selecionar select -->
+	<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+	<link rel="stylesheet" href="/vendors/flaticon/flaticon.css"> <!-- Icones -->
+	<!-- main css -->
+    
+	<link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/sessaoDetalhada.css">
+</head>
+    
+
+    
+<body>
+
+    <!--=============== Seleção do tipo de navegador de acordo com usuário logado ====================-->
+    <% if(session.tipo == 'aluno' && session.usuario != 'undefined') { %>
+            <%- include ../aluno/comum/header %>
+    <% } else if(session.tipo == 'professor' && session.usuario != 'undefined') { %>
+            <%- include ../professor/comum/header %>
+    <% } else { %>
+            <%- include ../headerOff %>
+    <% } %>
+    <!--=============== END - Seleção do tipo de navegador de acordo com usuário logado ================-->
+    
+
+        <div class="container">
+            <div class="section_gap">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <h2 class="title_color"><strong>Problema: </strong><%=sessao[0].nome_problema%></h2>
+                        <h4 class="mb-30 title_color"><strong>Dificuldade: </strong><%=sessao[0].dificuldade%></h4>
+                        
+
+                                <blockquote class="generic-blockquote">
+                                    <%=sessao[0].desc_problema%> 
+                                </blockquote>
+
+                        
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="blog_right_sidebar">
+                            <aside class="single_sidebar_widget post_category_widget">
+                                <h4 class="widget_title">Detalhes</h4>
+                                <ul class="list cat-list">
+                                    <li>
+                                        <a class="d-flex justify-content-between">
+                                            <p>Codigo</p>
+                                            <p><%=sessao[0].nome_sessao%></p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex justify-content-between">
+                                            <p>Professor</p>
+                                            <p><%=sessao[0].nome%></p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex justify-content-between">
+                                            <p>Hora Início</p>
+                                            <p><%=sessao[0].hora_inicio%></p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex justify-content-between">
+                                            <p>Hora Final</p>
+                                            <p><%=sessao[0].hora_final%></p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex justify-content-between">
+                                            <p>Tamanho do grupo</p>
+                                            <p><%=sessao[0].tamanho_grupo%> pessoas</p>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="d-flex justify-content-between">
+                                            <p>Tempo de Rotação</p>
+                                            <p><%=sessao[0].tempo_rotacao%> minutos</p>
+                                        </a>
+                                    </li>
+                                    <a href="/test">
+                                        <div  class="participaSessao">
+                                            <strong>Participar</strong>
+                                        </div>
+                                    </a>
+                                </ul>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    
+    
+    <% include ../comum/footer %>
+    
+    <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/stellar.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script> <!-- Popups -->
+	<script src="/vendors/nice-select/js/jquery.nice-select.min.js"></script> <!-- Selecionar select -->
+	<script src="/vendors/isotope/imagesloaded.pkgd.min.js"></script> <!-- Adicionar imagens aleatórias -->
+	<script src="/vendors/isotope/isotope-min.js"></script>
+	<script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
+	<script src="/js/jquery.ajaxchimp.min.js"></script>
+	<script src="/vendors/counter-up/jquery.waypoints.min.js"></script> <!-- Acompanha tela e realiza eventos dependendo do que se vê na tela -->
+	<script src="/vendors/counter-up/jquery.counterup.min.js"></script>
+	<script src="/js/mail-script.js"></script>
+    <script src="js/theme.js"></script>
+    
+    <!-- JS adicionais -->
+    <script src="/js/footer.js"></script>
+</body>
+
+</html>

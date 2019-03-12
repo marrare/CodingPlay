@@ -86,7 +86,7 @@
                     <% for(var i = 0; i < sessoes.length; i++) { %>
 
                         <div class="col-lg-3 col-md-6">
-                            <a href="/">
+                            <a href="/sessao/info?id=<%=sessoes[i].id%>">
                                 <div class="new_games_item">
                                     <img src="/img/gallery_img2.png" alt="">
                                     <div class="upcoming_title">
@@ -99,12 +99,13 @@
                                 <h6>Inicio: <%=sessoes[i].hora_inicio%></h6>
                                 <h6>Fim: <%=sessoes[i].hora_final%></h6>
                                 <h6>Professor: <%=sessoes[i].nome %></h6>
+                                <h6>Codigo: <%=sessoes[i].nome_sessao %></h6>
                             </div>
                         </div>
 
                     <% } %>
                 <% } %>
-
+        
             </div>
         </div>
     </section>

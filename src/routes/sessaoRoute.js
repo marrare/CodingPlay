@@ -8,4 +8,5 @@ module.exports = (app) => {
     app.get('/sessao/add', autenticadorProfessor, sessaoController.paginaNovaSessao);    
     app.get('/sessao/filtro', autenticadorProfessor, sessaoController.paginaNovaSessaoFiltro);
     app.post('/sessao/save', autenticadorProfessor, sessaoController.novaSessao);
+    app.get('/sessao/info', autenticadorLogado, sessaoController.paginaSessaoDetalhada);
 };

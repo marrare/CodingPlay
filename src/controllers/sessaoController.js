@@ -76,6 +76,21 @@ module.exports = (app) => {
             }
         }); 
 
+    },
+      
+    paginaSessaoDetalhada: function(req, res) {
+        var valor = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        
+        daoSessao.buscarPorId(valor, function(err, result) {
+            if (err) {
+                throw err;
+            } else {
+                res.render('./sessao/sessaoDetalhada',{sessao : result});
+            }
+        });
     }
     
      

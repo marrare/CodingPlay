@@ -1,0 +1,28 @@
+.blog_right_sidebar .post_category_widget .cat-list li:hover {
+    border-color: #f8b600; 
+}
+.blog_right_sidebar .post_category_widget .cat-list li:hover a { 
+    color: #f8b600;
+}
+.blog_right_sidebar .widget_title {
+    font-size: 2.0em;
+    background: #fff;
+    color: black;
+}
+.participaSessao {
+    background-color: #fff;
+    padding: 7px;
+    border-radius: 10px;
+    border:1px solid #f8b600;
+    color: #f8b600;
+    margin-top:10%;
+    width: 100%;
+    transition: color 0.5s;
+    transition: background-color 0.5s;
+    text-align: center;
+    
+}
+.participaSessao:hover {
+    color: #fff;
+    background-color: #f8b600;
+}
