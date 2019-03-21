@@ -60,13 +60,12 @@ $(document).ready(function(){
     
     var tempoInicio = ano+"-"+mes+"-"+data+"T"+horas+":"+minutos;
     var tempoFinal = ano+"-"+mes+"-"+data+"T"+horasFinal+":"+minutos;
-    console.log(tempoFinal);
 
     $("#hora_inicio").attr("min",tempoInicio);
     $("#hora_final").attr("min",tempoFinal);
 });
 
-////////////////////////// GERAR PALAVRA COM 4 LETRAS E 4 NÚMEROS
+////////////////////////// GERAR PALAVRA COM 3 LETRAS E 2 NÚMEROS
 $(".pointer").click(function(e) {
     var palavra = "", letrasConfirmadas=0, numerosConfirmados=0;
     var aleatorio = Math.round(Math.random() * (2 - 1) + 1);

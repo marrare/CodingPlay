@@ -9,7 +9,7 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
-                res.render('./sessao/listarSessoes',{sessoes : result});
+                res.render('./sessao/listarSessoes',{sessoes : result, menssagem : req.flash("menssagem")});
             }
         });
     },
@@ -38,7 +38,7 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
-                res.render('./sessao/novaSessao',{problemas : result, menssagem : req.flash("menssagem")});
+                res.render('./sessao/novaSessao',{problemas : result});
             }      
         });
         
@@ -72,7 +72,7 @@ module.exports = (app) => {
                 throw err;
             } else {
                 req.flash("menssagem","Sessão Criada com Sucesso");
-                res.redirect('/sessao/add');
+                res.redirect('/sessoes/list');
             }
         }); 
 
@@ -84,17 +84,24 @@ module.exports = (app) => {
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
         
-        daoSessao.buscarPorId(valor, function(err, result) {
-            if (err) {
-                throw err;
-            } else {
-                res.render('./sessao/sessaoDetalhada',{sessao : result});
-            }
-        });
+        if (valor.id != null) {
+            daoSessao.buscarPorId(valor, function(err, result) {
+                if (err) {
+                    throw err;
+                } else {
+                    res.render('./sessao/sessaoDetalhada',{sessao : result});
+                }
+            });
+        } else if (valor.nome_sessao != null) {
+            daoSessao.buscarPorNomeSessao(valor, function(err, result) {
+                if (err) {
+                    throw err;
+                } else {
+                    res.render('./sessao/sessaoDetalhada',{sessao : result});
+                }
+            });
+        }
     }
-    
-     
-      
   };
     return SessoesController;
 };
