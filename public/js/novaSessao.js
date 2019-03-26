@@ -1,3 +1,9 @@
+$(document).ready(function(){
+    var codigo = Math.random().toString(36).substr(2, 9);
+    $("#textoColaborativo").attr("value",codigo);
+});
+
+
 //////////////////////////// EFEITOS DE SELECIONAR PROBLEMA
 $(function(){
     $(".pointer").click(function(e) {

@@ -44,6 +44,7 @@ CREATE TABLE sessao (
   id_Professor int(11) NOT NULL,
   id_Problema int(11) NOT NULL,
   nome_sessao varchar(20) NOT NULL,
+  texto_colaborativo varchar(10) NOT NULL,
   tamanho_grupo tinyint(4) NOT NULL,
   tempo_rotacao tinyint(4) NOT NULL,
   hora_inicio timestamp NOT NULL,
@@ -61,4 +62,4 @@ INSERT INTO professor(matricula,nome,email,senha) VALUES ('34452','professor','p
 
 INSERT INTO problema(id_professor,nome_problema,desc_problema,dificuldade) VALUES (1,'Soma idade','Criar uma variável idade, adicionar 20 ao seu valor e imprimi-la.','Fácil'),(1,'Média','Encontrar a média da soma destes valores: 7,8,8,5,4','Fácil');
 
-INSERT INTO sessao(id_professor,id_problema,nome_sessao,tamanho_grupo,tempo_rotacao,hora_inicio,hora_final) VALUES (1,2,'P5A4C',8,8,'2019-03-08 22:00:00','2019-03-08 23:00:00'),(1,2,'HTN46',4,8,'2019-03-20 18:00:00','2019-03-20 20:00:00'),(1,1,'26PAG',10,6,'2019-04-01 20:00:00','2019-04-01 22:00:00'),(1,1,'4ER2T',6,8,'2019-03-10 18:00:00','2019-03-10 20:00:00');
+INSERT INTO sessao(id_professor,id_problema,nome_sessao,texto_collaborativo,tamanho_grupo,tempo_rotacao,hora_inicio,hora_final) VALUES (1,2,'P5A4C','g073vryca',8,8,'2019-03-08 22:00:00','2019-03-08 23:00:00'),(1,2,'HTN46','nx15vztpj',4,8,'2019-03-20 18:00:00','2019-03-20 20:00:00'),(1,1,'26PAG','8wfhau04e',10,6,'2019-04-01 20:00:00','2019-04-01 22:00:00'),(1,1,'4ER2T','annjpa2zt',6,8,'2019-03-10 18:00:00','2019-03-10 20:00:00');

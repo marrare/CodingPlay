@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const consign = require('consign');
 const bodyParser = require('body-parser');
+const Pusher = require('pusher');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const flash = require('req-flash');
@@ -38,6 +39,21 @@ consign({})
     .then('src/routes')
     .into(app)
 ;
+
+var pusher = new Pusher({
+  appId: '730978',
+  key: '58026cd0bcc122dade8b',
+  secret: '66b576388ace13633d8a',
+  cluster: 'us2',
+  encrypted: true
+});
+
+app.post('/pusher/auth', function(req, res) {
+  var socketId = req.body.socket_id;
+  var channel = req.body.channel_name;
+  var auth = pusher.authenticate(socketId, channel);
+  res.send(auth);
+});
 
 app.listen(3000, () => {
     console.log('CodingPlay no ar.');

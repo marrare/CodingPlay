@@ -101,6 +101,9 @@ module.exports = (app) => {
                 }
             });
         }
+    },
+    poc: function(req, res) {
+        res.render('poc');
     }
   };
     return SessoesController;
