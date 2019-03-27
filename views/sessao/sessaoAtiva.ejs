@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="img/favicon.icon" type="image/png">
+	<title>Coding Play</title>
+    
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/sweetalert2.min.css">
+    <link href="/css/textCollaboractive.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col-lg-10 bloco_text_collaborative">
+                <div class="doc">
+                  <div id="doc" class="doc__text-editor"></div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <h4>Time</h4>
+                <ul>
+                    <li>Piloto</li>
+                    <li>Copiloto</li>
+                    <li>Plateia-1</li>
+                    <li>Plateia-2</li>
+                    <li>Plateia-3</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+    
+    <!-- JS adicionais -->
+    <script src="/js/sweetalert2.min.js"></script>
+	
+    <!-- API Pusher -->
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+    <script src="/js/textCollaboractive.js"></script>
+    <script>
+        var altura = ($(window).height()-1);
+            $(".doc__text-editor").css("height",altura);
+        $(window).resize(function() {
+            var altura = ($(window).height()-1);
+            $(".doc__text-editor").css("height",altura);
+        });
+    </script>
+</body>
+    
+</html>

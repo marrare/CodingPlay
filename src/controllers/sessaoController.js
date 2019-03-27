@@ -103,7 +103,7 @@ module.exports = (app) => {
         }
     },
     poc: function(req, res) {
-        res.render('poc');
+        res.render('./sessao/sessaoAtiva');
     }
   };
     return SessoesController;
