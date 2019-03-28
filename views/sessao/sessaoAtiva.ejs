@@ -12,14 +12,42 @@
 	<link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/sweetalert2.min.css">
     <link href="/css/textCollaboractive.css" rel="stylesheet">
-    
+    <style>
+        .bloco_problema{
+            padding: 0.5% 2% 0.5% 2%; 
+            background-color: #efeff5;
+            border-bottom: 2px solid #f2f2f2;
+        }
+        .bloco_problema h5{
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-family: monospace, sans-serif;
+            padding: 0.5% 0% 0.5% 0%;
+            margin-bottom:0px;
+        }
+        .bloco_problema p{
+            font-family: sans-serif;
+            border-top: 1px solid #e0e0eb;
+        }
+    </style>
 </head>
 <body>
+    <div class="bloco_problema">
+        <h5 id="botaoDesafio">Desafio</h5>
+        <p>Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems </p>
+    </div>
     <div class="container-fluid" >
         <div class="row">
             <div class="col-lg-10 bloco_text_collaborative">
+                
                 <div class="doc">
-                  <div id="doc" class="doc__text-editor"></div>
+                    <% if(session.tipo == 'aluno' && session.usuario != 'undefined') { %>
+                            <div id="doc" class="doc__text-editor" style="pointer-events: none;" ></div>
+                    <% } else if(session.tipo == 'professor' && session.usuario != 'undefined') { %>
+                            <div id="doc" class="doc__text-editor"></div>
+                    <% } %>
+                            
                 </div>
             </div>
             <div class="col-lg-2">
@@ -48,12 +76,28 @@
     <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
     <script src="/js/textCollaboractive.js"></script>
     <script>
-        var altura = ($(window).height()-1);
-            $(".doc__text-editor").css("height",altura);
+        function redimensionarBlocoResposta() {
+            var alturaJanela = $(window).height();
+            var alturaProblema = $('.bloco_problema').height();
+            alturaProblema = Math.ceil(alturaProblema);
+            var alturaResposta = ((alturaJanela - alturaProblema)-20);
+            
+            $(".doc__text-editor").css("height",alturaResposta);
+        
+        }
+        
+        redimensionarBlocoResposta();
+        
         $(window).resize(function() {
-            var altura = ($(window).height()-1);
-            $(".doc__text-editor").css("height",altura);
+            redimensionarBlocoResposta();
         });
+        
+        $(".bloco_problema h5").click(function() {
+            $(".bloco_problema p").slideToggle( function() {
+                redimensionarBlocoResposta();
+            }); 
+        }); 
+
     </script>
 </body>
     
