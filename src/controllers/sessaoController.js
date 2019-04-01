@@ -85,15 +85,16 @@ module.exports = (app) => {
         var daoSessao = new app.src.models.SessaoDao(connection);
         
         if (valor.id != null) {
-            daoSessao.buscarPorId(valor, function(err, result) {
+            daoSessao.buscarPorId(valor.id, function(err, result) {
                 if (err) {
                     throw err;
                 } else {
+                    
                     res.render('./sessao/sessaoDetalhada',{sessao : result});
                 }
             });
         } else if (valor.nome_sessao != null) {
-            daoSessao.buscarPorNomeSessao(valor, function(err, result) {
+            daoSessao.buscarPorNomeSessao(valor.nome_sessao, function(err, result) {
                 if (err) {
                     throw err;
                 } else {
@@ -102,8 +103,19 @@ module.exports = (app) => {
             });
         }
     },
-    poc: function(req, res) {
-        res.render('./sessao/sessaoAtiva');
+    paginaSessaoAtiva: function(req, res) {
+        var valor = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        
+        daoSessao.buscarPorNomeSessao(valor.codigoSessao, function(err, result) {
+            if (err) {
+                throw err;
+            } else {
+                res.render('./sessao/sessaoAtiva',{sessao : result});
+            }
+        });
     }
   };
     return SessoesController;

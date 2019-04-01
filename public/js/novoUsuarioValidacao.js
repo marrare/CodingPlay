@@ -1,3 +1,10 @@
+//Gerar código de texto compartilhado da sessão 
+$(document).ready(function(){
+    var codigo = Math.random().toString().substring(2);
+    $("#idPusher").attr("value",codigo);
+});
+
+//Validação
 $(document).ready(function(){
     $("#novaConta").validate({
         rules: {
@@ -6,7 +13,7 @@ $(document).ready(function(){
             },
             nome: {
             	required: true,
-                min: 3
+                minlength: 3
             },
             email: {
     			required: true,
@@ -27,7 +34,7 @@ $(document).ready(function(){
 			},
         	nome: {
                 required: "Campo obrigatório",
-                min: "Mínimo de 3 caracteres"
+                minlength: "Mínimo de 3 caracteres"
             },
 			email: {
 				required: "Campo obrigatório",

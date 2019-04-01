@@ -25,4 +25,5 @@
 .participaSessao:hover {
     color: #fff;
     background-color: #f8b600;
+    cursor: pointer;
 }

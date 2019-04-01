@@ -51,7 +51,13 @@ var pusher = new Pusher({
 app.post('/pusher/auth', function(req, res) {
   var socketId = req.body.socket_id;
   var channel = req.body.channel_name;
-  var auth = pusher.authenticate(socketId, channel);
+  var presenceData = {
+    user_id: req.body.userId,
+    user_info: {
+      name: req.body.nome
+    }
+  };
+  var auth = pusher.authenticate(socketId, channel, presenceData);
   res.send(auth);
 });
 

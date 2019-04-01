@@ -1,3 +1,4 @@
+//Gerar código de texto compartilhado da sessão 
 $(document).ready(function(){
     var codigo = Math.random().toString(36).substr(2, 9);
     $("#textoColaborativo").attr("value",codigo);

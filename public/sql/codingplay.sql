@@ -6,6 +6,7 @@ SET SQL_MODE='allow_invalid_dates';
 
 CREATE TABLE aluno (
   id int(11) NOT NULL AUTO_INCREMENT,
+  codigo_pusher varchar(25) NOT NULL,
   matricula varchar(20)  NOT NULL,
   nome varchar(60) NOT NULL,
   email varchar(40) NOT NULL,
@@ -19,6 +20,7 @@ CREATE TABLE aluno (
 
 CREATE TABLE professor (
   id int(11) NOT NULL AUTO_INCREMENT,
+  codigo_pusher varchar(25) NOT NULL,
   matricula varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   nome varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   email varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -57,10 +59,11 @@ CREATE TABLE sessao (
   FOREIGN KEY (id_Problema) REFERENCES problema (id)
 );
 
-INSERT INTO aluno(matricula,nome,email,senha) VALUES ('321457','aluno','aluno@gmail.com','9b856e7d565fb4c118445b56259e3ad592c84a71eceafb793c48b367cdb84c88');
+-- Senha "aluno1234"
+INSERT INTO aluno(codigo_pusher,matricula,nome,email,senha) VALUES ('6902168891230884','321457','aluno','aluno@gmail.com','9b856e7d565fb4c118445b56259e3ad592c84a71eceafb793c48b367cdb84c88');
 
--- Senha "professor'1234"
-INSERT INTO professor(matricula,nome,email,senha) VALUES ('34452','professor','professor@gmail.com','db26588a2def92ed7e1e72ed8befe9a27af133542b2b088c6534489535badbff');
+-- Senha "professor1234"
+INSERT INTO professor(codigo_pusher,matricula,nome,email,senha) VALUES ('7933409374315861','34452','professor','professor@gmail.com','db26588a2def92ed7e1e72ed8befe9a27af133542b2b088c6534489535badbff');
 
 INSERT INTO problema(id_professor,nome_problema,desc_problema,dificuldade) VALUES (1,'Soma idade','Criar uma variável idade, adicionar 20 ao seu valor e imprimi-la.','Fácil'),(1,'Média','Encontrar a média da soma destes valores: 7,8,8,5,4','Fácil');
 

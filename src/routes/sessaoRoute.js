@@ -9,5 +9,5 @@ module.exports = (app) => {
     app.get('/sessao/filtro', autenticadorProfessor, sessaoController.paginaNovaSessaoFiltro);
     app.post('/sessao/save', autenticadorProfessor, sessaoController.novaSessao);
     app.get('/sessao/info', autenticadorLogado, sessaoController.paginaSessaoDetalhada);
-    app.get('/sessao/active', autenticadorLogado, sessaoController.poc);
+    app.get('/sessao/active', autenticadorLogado, sessaoController.paginaSessaoAtiva);
 };

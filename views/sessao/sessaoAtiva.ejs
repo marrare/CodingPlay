@@ -25,6 +25,7 @@
             font-family: monospace, sans-serif;
             padding: 0.5% 0% 0.5% 0%;
             margin-bottom:0px;
+            cursor: pointer;
         }
         .bloco_problema p{
             font-family: sans-serif;
@@ -35,7 +36,7 @@
 <body>
     <div class="bloco_problema">
         <h5 id="botaoDesafio">Desafio</h5>
-        <p>Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems Testando Problems </p>
+        <p><%=sessao[0].desc_problema%></p>
     </div>
     <div class="container-fluid" >
         <div class="row">
@@ -51,14 +52,10 @@
                 </div>
             </div>
             <div class="col-lg-2">
-                <h4>Time</h4>
-                <ul>
-                    <li>Piloto</li>
-                    <li>Copiloto</li>
-                    <li>Plateia-1</li>
-                    <li>Plateia-2</li>
-                    <li>Plateia-3</li>
-                </ul>
+                <div class="members_block">
+                    <ul id="members"></ul>
+                    <h1 id="usersOnline"></h1>
+                </div>
             </div>
         </div>
     </div>
@@ -74,6 +71,8 @@
 	
     <!-- API Pusher -->
     <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+    <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
+    <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
     <script src="/js/textCollaboractive.js"></script>
     <script>
         function redimensionarBlocoResposta() {
