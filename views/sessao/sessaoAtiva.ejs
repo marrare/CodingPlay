@@ -31,7 +31,15 @@
             font-family: sans-serif;
             border-top: 1px solid #e0e0eb;
         }
+        
+
+        .piloto {
+            color: red;
+        }
     </style>
+    <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
+    <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
+    <script> var tipoUsuario = "<%= session.tipo %>" </script>
 </head>
 <body>
     <div class="bloco_problema">
@@ -42,20 +50,39 @@
         <div class="row">
             <div class="col-lg-10 bloco_text_collaborative">
                 
+                
+                
                 <div class="doc">
-                    <% if(session.tipo == 'aluno' && session.usuario != 'undefined') { %>
-                            <div id="doc" class="doc__text-editor" style="pointer-events: none;" ></div>
-                    <% } else if(session.tipo == 'professor' && session.usuario != 'undefined') { %>
-                            <div id="doc" class="doc__text-editor"></div>
-                    <% } %>
-                            
+                    <div id="doc" class="doc__text-editor"  ></div>
                 </div>
+                
+                
             </div>
             <div class="col-lg-2">
-                <div class="members_block">
+                <div class="members_block" id="membersBlock">
                     <ul id="members"></ul>
                     <h1 id="usersOnline"></h1>
+                    <script>
+                        setTimeout(function() {
+                            if(("user-"+codigoPusher) == idPiloto) {
+                                $(".doc__text-editor").css("pointer-events", "none");
+                            }
+
+                            var el = document.querySelector('.piloto');
+                            idPiloto = el && el.id;
+
+                            if(("user-"+codigoPusher) == idPiloto) {
+                                $(".doc__text-editor").css("pointer-events", "auto");
+                            }
+                        }, 5000);
+                        
+                    </script>
                 </div>
+                
+                <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
+                    <button id="sendAll" onclick="changePiloto()">Trocar piloto</button>
+                <% } %>
+                
             </div>
         </div>
     </div>
@@ -71,8 +98,6 @@
 	
     <!-- API Pusher -->
     <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
-    <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
-    <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
     <script src="/js/textCollaboractive.js"></script>
     <script>
         function redimensionarBlocoResposta() {
@@ -96,6 +121,35 @@
                 redimensionarBlocoResposta();
             }); 
         }); 
+        
+        //Alterar Piloto da Sessão
+        var idPiloto = "";
+        var pilotoAtual = 1;
+        function changePiloto() {
+
+            var tamanhoList = $("#members li").length;
+
+            $("#members li:nth-child("+(pilotoAtual-1)+")").removeClass('piloto');
+            if(pilotoAtual > tamanhoList) {
+                pilotoAtual = 1;
+            }
+            $("#members li:nth-child("+pilotoAtual+")").addClass('piloto');
+
+            setTimeout(function() {
+                if(("user-"+codigoPusher) == idPiloto) {
+                    $(".doc__text-editor").css("pointer-events", "none");
+                }
+                
+                var el = document.querySelector('.piloto');
+                idPiloto = el && el.id;
+
+                if(("user-"+codigoPusher) == idPiloto) {
+                    $(".doc__text-editor").css("pointer-events", "auto");
+                }
+            }, 5000);
+            
+            return pilotoAtual++;
+        }
 
     </script>
 </body>

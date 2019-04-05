@@ -89,7 +89,6 @@ module.exports = (app) => {
                 if (err) {
                     throw err;
                 } else {
-                    
                     res.render('./sessao/sessaoDetalhada',{sessao : result});
                 }
             });

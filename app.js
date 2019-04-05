@@ -54,7 +54,8 @@ app.post('/pusher/auth', function(req, res) {
   var presenceData = {
     user_id: req.body.userId,
     user_info: {
-      name: req.body.nome
+      name: req.body.nome,
+      acesso: req.body.acesso
     }
   };
   var auth = pusher.authenticate(socketId, channel, presenceData);

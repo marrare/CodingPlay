@@ -5,6 +5,8 @@
   var doc = document.getElementById('doc');
   doc.contentEditable = true;
   doc.focus();
+  var membersBlock = document.getElementById('membersBlock');
+  var sendAll = document.getElementById('sendAll');
 
   // if this is a new doc, generate a unique identifier
   // append it as a query param
@@ -16,7 +18,8 @@
   }
 
   
-  var CodigoUser = "user-" + codigoPusher;
+  const CodigoUser = "user-" + codigoPusher;
+  const agora = new Date();
 
   return new Promise(function (resolve, reject) {
     // subscribe to the changes via Pusher
@@ -26,8 +29,8 @@
       auth: {
         params: {
           userId: CodigoUser,
-          nome: nomeUsuario
-          
+          nome: nomeUsuario,
+          acesso: agora
         }
       }
     });
@@ -38,6 +41,11 @@
       doc.innerHTML = html;
       // set the previous cursor position
       setCaretPosition(doc, currentCursorPosition);
+    });
+    channel.bind('client-members-edit', function(html) {
+        console.log(html);
+        membersBlock.innerHTML = html;
+      
     });
     channel.bind('pusher:subscription_succeeded', function(members) {
 
@@ -53,6 +61,11 @@
     channel.bind('pusher:member_added', function(member) {
       addMember(member);
       updateMembersCount(channel.members.count);
+      var idUserAntigo = oldUser(channel.members.count,channel.members);
+      if(idUserAntigo == CodigoUser) {
+          channel.trigger('client-members-edit', membersBlock.innerHTML);
+          channel.trigger('client-text-edit', doc.innerHTML);
+      }
     });
     channel.bind('pusher:member_removed', function(member) {
       removeMember(member);
@@ -62,8 +75,14 @@
     function triggerChange (e) {
       channel.trigger('client-text-edit', e.target.innerHTML);
     }
-
+    function triggerChangeMembers () {
+      channel.trigger('client-members-edit', membersBlock.innerHTML);
+    }
+    
     doc.addEventListener('input', triggerChange);
+    if(tipoUsuario == "professor") {
+        sendAll.addEventListener('click', triggerChangeMembers);
+    }
   })
 
   // a unique random key generator
@@ -145,5 +164,20 @@
   }
   function updateMembersCount(member) {
     document.getElementById('usersOnline').innerHTML = member;
+  }
+  function oldUser(countMembers,membersOnline) {
+    var acessoOld= new Date(membersOnline.me.info.acesso);
+    var idUser = membersOnline.me.id;
+      
+    membersOnline.each(function(member) {
+        var membroAcesso = new Date(member.info.acesso);
+        
+        if(membroAcesso < acessoOld) {
+            idUser = member.id;
+            acessoOld = new Date(member.info.acesso);
+        }
+    });
+
+    return idUser;
   }
 })();
