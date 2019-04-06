@@ -5,8 +5,9 @@
   var doc = document.getElementById('doc');
   doc.contentEditable = true;
   doc.focus();
-  var membersBlock = document.getElementById('membersBlock');
   var sendAll = document.getElementById('sendAll');
+  var membersBlock = document.getElementById('membersBlock');
+  var membersBlockSend = document.getElementById('membersBlockSend');
 
   // if this is a new doc, generate a unique identifier
   // append it as a query param
@@ -43,8 +44,7 @@
       setCaretPosition(doc, currentCursorPosition);
     });
     channel.bind('client-members-edit', function(html) {
-        console.log(html);
-        membersBlock.innerHTML = html;
+        $("#membersBlock").html(html);
       
     });
     channel.bind('pusher:subscription_succeeded', function(members) {
@@ -76,7 +76,7 @@
       channel.trigger('client-text-edit', e.target.innerHTML);
     }
     function triggerChangeMembers () {
-      channel.trigger('client-members-edit', membersBlock.innerHTML);
+      channel.trigger('client-members-edit', $("#membersBlockSend").val());
     }
     
     doc.addEventListener('input', triggerChange);

@@ -31,8 +31,9 @@
             font-family: sans-serif;
             border-top: 1px solid #e0e0eb;
         }
-        
-
+        .doc {
+            pointer-events: none;
+        }
         .piloto {
             color: red;
         }
@@ -40,6 +41,38 @@
     <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
     <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
     <script> var tipoUsuario = "<%= session.tipo %>" </script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script>
+        //Alterar Piloto da Sessão
+        var idPiloto = "";
+        var pilotoAtual = 1;
+        function changePiloto() {
+
+            var tamanhoList = $("#members li").length;
+
+            $("#members li:nth-child("+(pilotoAtual-1)+")").removeClass('piloto');
+            if(pilotoAtual > tamanhoList) {
+                pilotoAtual = 1;
+            }
+            $("#members li:nth-child("+pilotoAtual+")").addClass('piloto');
+            
+            $("#idPilotoRecept").html(idPiloto);
+            $("#membersBlockSend").val($("#membersBlock").html());
+            
+            if(("user-"+codigoPusher) == idPiloto) {
+                $(".doc__text-editor").css("pointer-events", "none");
+            }
+
+            var el = document.querySelector('.piloto');
+            idPiloto = el && el.id;
+
+            if(("user-"+codigoPusher) == idPiloto) {
+                $(".doc__text-editor").css("pointer-events", "auto");
+            }
+            
+            return pilotoAtual++;
+        }
+    </script>
 </head>
 <body>
     <div class="bloco_problema">
@@ -59,11 +92,19 @@
                 
             </div>
             <div class="col-lg-2">
+                <textarea id="membersBlockSend" hidden></textarea>
                 <div class="members_block" id="membersBlock">
+                    <div id="idPilotoRecept" hidden></div>
                     <ul id="members"></ul>
                     <h1 id="usersOnline"></h1>
                     <script>
-                        setTimeout(function() {
+                        $("#members").ready(function() {
+                            if($("#idPilotoRecept").html() != ""){
+                                idPiloto = $("#idPilotoRecept").html();
+                            } else {
+                                idPiloto="";
+                            }
+                            
                             if(("user-"+codigoPusher) == idPiloto) {
                                 $(".doc__text-editor").css("pointer-events", "none");
                             }
@@ -74,7 +115,7 @@
                             if(("user-"+codigoPusher) == idPiloto) {
                                 $(".doc__text-editor").css("pointer-events", "auto");
                             }
-                        }, 5000);
+                        });
                         
                     </script>
                 </div>
@@ -89,7 +130,7 @@
     
     <!-- Optional JavaScript -->
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="/js/jquery-3.2.1.min.js"></script>
+	
 	<script src="/js/popper.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
     
@@ -121,36 +162,6 @@
                 redimensionarBlocoResposta();
             }); 
         }); 
-        
-        //Alterar Piloto da Sessão
-        var idPiloto = "";
-        var pilotoAtual = 1;
-        function changePiloto() {
-
-            var tamanhoList = $("#members li").length;
-
-            $("#members li:nth-child("+(pilotoAtual-1)+")").removeClass('piloto');
-            if(pilotoAtual > tamanhoList) {
-                pilotoAtual = 1;
-            }
-            $("#members li:nth-child("+pilotoAtual+")").addClass('piloto');
-
-            setTimeout(function() {
-                if(("user-"+codigoPusher) == idPiloto) {
-                    $(".doc__text-editor").css("pointer-events", "none");
-                }
-                
-                var el = document.querySelector('.piloto');
-                idPiloto = el && el.id;
-
-                if(("user-"+codigoPusher) == idPiloto) {
-                    $(".doc__text-editor").css("pointer-events", "auto");
-                }
-            }, 5000);
-            
-            return pilotoAtual++;
-        }
-
     </script>
 </body>
     
