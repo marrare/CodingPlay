@@ -3949,5 +3949,19 @@ label.error {
     color: red;
     font-size: 0.8em;
 }
+.bem{
+    margin: auto 0px auto 0px;
+    color: #fff;
+}
+.vindo {
+    margin: auto 5px auto 0px;
+    color: #fff;
+}
+.nome_usuario {
+    color: #fff;
+    margin: auto 0px;;
+    margin-right:15px;
+    
+}
 
 /*# sourceMappingURL=style.css.map */
