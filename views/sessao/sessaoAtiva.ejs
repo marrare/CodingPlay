@@ -12,53 +12,36 @@
 	<link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/sweetalert2.min.css">
     <link href="/css/textCollaboractive.css" rel="stylesheet">
-    <style>
-        .bloco_problema{
-            padding: 0.5% 2% 0.5% 2%; 
-            background-color: #efeff5;
-            border-bottom: 2px solid #f2f2f2;
-        }
-        .bloco_problema h5{
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-family: monospace, sans-serif;
-            padding: 0.5% 0% 0.5% 0%;
-            margin-bottom:0px;
-            cursor: pointer;
-        }
-        .bloco_problema p{
-            font-family: sans-serif;
-            border-top: 1px solid #e0e0eb;
-        }
-        .doc {
-            pointer-events: none;
-        }
-        .piloto {
-            color: red;
-        }
-    </style>
     <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
     <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
     <script> var tipoUsuario = "<%= session.tipo %>" </script>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script>
+    
         //Alterar Piloto da Sessão
+        var qtdPilotos = 1;
         var idPiloto = "";
-        var pilotoAtual = 1;
         function changePiloto() {
 
-            var tamanhoList = $("#members li").length;
-
-            $("#members li:nth-child("+(pilotoAtual-1)+")").removeClass('piloto');
-            if(pilotoAtual > tamanhoList) {
-                pilotoAtual = 1;
+            if(qtdPilotos > 1) {
+                $("<li></li>").insertAfter($("#members li:last-child"));
+                $("#members li:last-child").html($("#members li:first-child").html());
+                $("#members li:last-child").attr("id",$("#members li:first-child").attr("id"));
+                $("#members li:first-child").remove();
             }
-            $("#members li:nth-child("+pilotoAtual+")").addClass('piloto');
-            
+
+            $("#members li:first-child").addClass('piloto');
+            $("#members li:last-child").removeClass('piloto');
+            $("#members li:nth-child(2)").addClass('copiloto');
+            $("#members li:nth-child(1)").removeClass('copiloto');
+
+            $("#members li h3").html("plateia");
+            $(".piloto h3").html("piloto");
+            $(".copiloto h3").html("copiloto");
+
             $("#idPilotoRecept").html(idPiloto);
             $("#membersBlockSend").val($("#membersBlock").html());
-            
+
             if(("user-"+codigoPusher) == idPiloto) {
                 $(".doc__text-editor").css("pointer-events", "none");
             }
@@ -69,9 +52,12 @@
             if(("user-"+codigoPusher) == idPiloto) {
                 $(".doc__text-editor").css("pointer-events", "auto");
             }
-            
-            return pilotoAtual++;
+
+            qtdPilotos++;
+
+            return qtdPilotos;
         }
+        
     </script>
 </head>
 <body>
@@ -91,12 +77,11 @@
                 
                 
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-2 infoSessao">
                 <textarea id="membersBlockSend" hidden></textarea>
                 <div class="members_block" id="membersBlock">
                     <div id="idPilotoRecept" hidden></div>
                     <ul id="members"></ul>
-                    <h1 id="usersOnline"></h1>
                     <script>
                         $("#members").ready(function() {
                             if($("#idPilotoRecept").html() != ""){
@@ -115,12 +100,14 @@
                             if(("user-"+codigoPusher) == idPiloto) {
                                 $(".doc__text-editor").css("pointer-events", "auto");
                             }
+                            
                         });
                         
                     </script>
                 </div>
                 
                 <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
+                    <img src="/img/refresh.png" id="cancel" height="27px" class="refresh">
                     <button id="sendAll" onclick="changePiloto()">Trocar piloto</button>
                 <% } %>
                 
@@ -140,28 +127,79 @@
     <!-- API Pusher -->
     <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
     <script src="/js/textCollaboractive.js"></script>
+    
+    <!-- Funcionamento página sessão -->
     <script>
         function redimensionarBlocoResposta() {
             var alturaJanela = $(window).height();
             var alturaProblema = $('.bloco_problema').height();
             alturaProblema = Math.ceil(alturaProblema);
             var alturaResposta = ((alturaJanela - alturaProblema)-20);
-            
+
             $(".doc__text-editor").css("height",alturaResposta);
-        
+
         }
-        
+
         redimensionarBlocoResposta();
-        
+
         $(window).resize(function() {
             redimensionarBlocoResposta();
         });
-        
+
         $(".bloco_problema h5").click(function() {
             $(".bloco_problema p").slideToggle( function() {
                 redimensionarBlocoResposta();
             }); 
-        }); 
+        });
+    </script>
+    <script>
+        //Contagem regrassiva
+        var segundos;
+        var contagem;
+        function contagemRegressiva() {
+
+            $("#sendAll").css("pointer-events", "none");
+            $("#sendAll").css("width", "50%");
+            $("#sendAll").css("margin-left", "0%");
+            $("#cancel").show();
+
+            if(segundos < 0) {
+                $("#sendAll").html("Trocar piloto");
+                $("#sendAll").css("pointer-events", "auto");
+                $("#sendAll").css("width", "70%");
+                $("#sendAll").css("margin-left", "15%");
+                $("#cancel").hide();
+                return 0;
+            }
+
+            var min = (segundos-(segundos % 60))/60;
+            var seg = segundos % 60;
+
+            if(min<10) {
+                min = "0"+min;
+            }
+            if(seg<10) {
+                seg = "0"+seg;
+            }
+
+            $("#sendAll").html(min+":"+seg);
+            segundos--;
+
+            return segundos;
+        }
+        $("#cancel").click(function() {
+            clearInterval(contagem);
+            $("#sendAll").html("Trocar piloto");
+            $("#sendAll").css("pointer-events", "auto");
+            $("#sendAll").css("width", "70%");
+            $("#sendAll").css("margin-left", "15%");
+            $("#cancel").hide();
+        });
+        $("#sendAll").click(function() {
+            clearInterval(contagem);
+            segundos = (<%=sessao[0].tempo_rotacao%>*60);
+            contagem = setInterval(contagemRegressiva, 1000);
+        });
     </script>
 </body>
     

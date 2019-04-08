@@ -1,8 +1,79 @@
 .doc .doc__text-editor {
-  background: #fff;
-  position: relative;
-  font-size: 24px;
+    background: #fff;
+    position: relative;
+    font-size: 16px;
+    pointer-events: none;
 }
 .bloco_text_collaborative {
-    padding: 0px;
+    padding-right: 0px;
+}
+.bloco_problema{
+    padding: 0.5% 2% 0.5% 2%; 
+    background-color: #efeff5;
+    border-bottom: 2px solid #f2f2f2;
+}
+.bloco_problema h5{
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-family: monospace, sans-serif;
+    padding: 0.5% 0% 0.5% 0%;
+    margin-bottom:0px;
+    cursor: pointer;
+}
+.bloco_problema p{
+    font-family: sans-serif;
+    border-top: 1px solid #e0e0eb;
+}
+.infoSessao {
+    padding:0px;
+    background-color: #fcfcfc;
+    border-top:1px solid #ddd;
+    border-left: 1px solid #ddd;
+}
+#members{
+    margin: 0px;
+    padding: 0px 0px 15px 0px;
+
+}
+#members li{
+    text-transform:uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    list-style-type:none;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0px 10px 10px;
+}
+#members li h3{
+    font-size: 12px;
+    text-align: center;
+    margin-top:5px;
+    margin-bottom:0px;
+
+}
+.piloto {
+    color: #2BBCDE;
+    font-weight: bold;
+}
+.copiloto {
+    color: #de4d2b;
+    font-weight: bold;
+}
+#sendAll {
+    border: 2px double #ddd;
+    color: #fff;
+    padding: 5px;
+    font-weight: bold;
+    background-color: #565656;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0 15% 0 15%;
+    width:70%;
+}
+.refresh {
+    cursor:pointer;
+    display:none;
+    margin-left: 15%;
 }

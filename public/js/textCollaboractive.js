@@ -48,8 +48,6 @@
       
     });
     channel.bind('pusher:subscription_succeeded', function(members) {
-
-      updateMembersCount(members.count);
         
       members.each(function(member) {
         addMember(member);
@@ -60,7 +58,6 @@
       
     channel.bind('pusher:member_added', function(member) {
       addMember(member);
-      updateMembersCount(channel.members.count);
       var idUserAntigo = oldUser(channel.members.count,channel.members);
       if(idUserAntigo == CodigoUser) {
           channel.trigger('client-members-edit', membersBlock.innerHTML);
@@ -69,7 +66,6 @@
     });
     channel.bind('pusher:member_removed', function(member) {
       removeMember(member);
-      updateMembersCount(channel.members.count);
     });
   }).then(function (channel) {
     function triggerChange (e) {
@@ -152,6 +148,8 @@
     var textnode = document.createTextNode(member.info.name);
     node.setAttribute("id",member.id);
     node.appendChild(textnode);
+    var tipoFuncao = document.createElement("h3");
+    node.appendChild(tipoFuncao);
     document.getElementById('members').appendChild(node);
        
   } 
@@ -161,9 +159,6 @@
     if (node.parentNode) {
         node.parentNode.removeChild(node);
     }
-  }
-  function updateMembersCount(member) {
-    document.getElementById('usersOnline').innerHTML = member;
   }
   function oldUser(countMembers,membersOnline) {
     var acessoOld= new Date(membersOnline.me.info.acesso);
