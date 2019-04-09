@@ -4,9 +4,6 @@
     font-size: 16px;
     pointer-events: none;
 }
-.bloco_text_collaborative {
-    padding-right: 0px;
-}
 .bloco_problema{
     padding: 0.5% 2% 0.5% 2%; 
     background-color: #efeff5;
@@ -14,6 +11,8 @@
 }
 .bloco_problema h5{
     text-align: center;
+    text-shadow:1px 1px 10px black;
+    color: #fff;
     text-transform: uppercase;
     letter-spacing: 5px;
     font-family: monospace, sans-serif;
@@ -34,7 +33,6 @@
 #members{
     margin: 0px;
     padding: 0px 0px 15px 0px;
-
 }
 #members li{
     text-transform:uppercase;

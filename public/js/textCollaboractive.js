@@ -5,9 +5,14 @@
   var doc = document.getElementById('doc');
   doc.contentEditable = true;
   doc.focus();
+    
   var sendAll = document.getElementById('sendAll');
   var membersBlock = document.getElementById('membersBlock');
   var membersBlockSend = document.getElementById('membersBlockSend');
+    
+  var btnChat = document.getElementById('btnChat');
+  var msgChat = document.getElementById('msgChat');
+  var msgChatSent = document.getElementById('msgChatSent');
 
   // if this is a new doc, generate a unique identifier
   // append it as a query param
@@ -47,6 +52,10 @@
         $("#membersBlock").html(html);
       
     });
+    channel.bind('client-mensagem-send', function(msgReceveid, idUsuario) {
+        var user = channel.members.get(idUsuario.user_id);
+        sendMessage(msgReceveid.msg,msgReceveid.tipoUsuario,user);
+    });
     channel.bind('pusher:subscription_succeeded', function(members) {
         
       members.each(function(member) {
@@ -74,11 +83,20 @@
     function triggerChangeMembers () {
       channel.trigger('client-members-edit', $("#membersBlockSend").val());
     }
+    function triggerMensageSend () {
+      channel.trigger('client-mensagem-send', {msg : $("#msgChatSent").val(), tipoUsuario : $("#tipoUserChat").val()});
+    }
     
     doc.addEventListener('input', triggerChange);
     if(tipoUsuario == "professor") {
         sendAll.addEventListener('click', triggerChangeMembers);
     }
+    btnChat.addEventListener('click', triggerMensageSend);
+    msgChat.addEventListener('keypress',function(e) {
+        if(e.which == 13) {
+            channel.trigger('client-mensagem-send', {msg : $("#msgChatSent").val(), tipoUsuario : $("#tipoUserChat").val()});
+        }
+    });
   })
 
   // a unique random key generator
@@ -175,4 +193,28 @@
 
     return idUser;
   }
+  function sendMessage(msg,tipoUsuario,user) {
+      console.log(tipoUsuario);
+      var text = "";
+      
+      if(tipoUsuario == "piloto") {
+          text = "<li class='message piloto_msg'>";
+      } else if(tipoUsuario == "copiloto") {
+          text = "<li class='message copiloto_msg'>";
+      }
+      text += "<div class='chat-body clearfix'>";
+      text += "<strong class='primary-font'>";
+      text += user.info.name;
+      text += "</strong><p>";
+      text += msg;
+      text += "</p></div></li>";
+        
+      
+      $("#chat").append(text);
+  }   
+
+          
+        
+      
+
 })();

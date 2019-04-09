@@ -12,6 +12,79 @@
 	<link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/sweetalert2.min.css">
     <link href="/css/textCollaboractive.css" rel="stylesheet">
+    <style>
+        .chat {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .message {
+          clear: both;
+          line-height: 18px;
+          font-size: 15px;
+          padding: 8px;
+          position: relative;
+          margin: 8px 0;
+          max-width: 85%;
+          word-wrap: break-word;
+        }
+        .message.copiloto_msg {
+          background: #f6cdc4;
+          border-radius: 5px 0px 5px 5px;
+          float: right;
+        }
+        .message.piloto_msg {
+          background: #c4ecf6;
+          border-radius: 0px 5px 5px 5px;
+          float: left;
+        }
+        .chat li .chat-body p {
+            margin: 0;
+            color: #777777;
+        }
+        .panel-heading {
+            cursor:pointer;
+            font-weight: bold;
+            text-shadow:1px 1px 10px black;
+            color: #fff;
+            background-color: #efeff5;
+            border-color: #f2f2f2;
+            padding: 10px 15px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+        .panel-body {
+            overflow-y: scroll;
+            min-height:150px;
+            max-height:150px;
+            padding: 15px;
+            border-left: 1px solid #f2f2f2;
+        }
+        .panel-footer {
+            display:none;
+        }
+        .btn-sm {
+            height: 38px;
+        }
+        .input-sm {
+            border-radius: 0px 0px 0px 3px;
+            border: 1px solid #f2f2f2;
+        }
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #F5F5F5;
+        }
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background-color: #555;
+        }
+    </style>
+    
     <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
     <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
     <script> var tipoUsuario = "<%= session.tipo %>" </script>
@@ -20,6 +93,7 @@
     
         //Alterar Piloto da Sessão
         var qtdPilotos = 1;
+        var idCopiloto = "";
         var idPiloto = "";
         function changePiloto() {
 
@@ -42,15 +116,36 @@
             $("#idPilotoRecept").html(idPiloto);
             $("#membersBlockSend").val($("#membersBlock").html());
 
+            if(("user-"+codigoPusher) == idCopiloto) {
+                $(".panel-footer").hide();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("");
+            }
+            
             if(("user-"+codigoPusher) == idPiloto) {
                 $(".doc__text-editor").css("pointer-events", "none");
+                $(".panel-footer").hide();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("");
             }
-
+            
             var el = document.querySelector('.piloto');
             idPiloto = el && el.id;
-
+            
             if(("user-"+codigoPusher) == idPiloto) {
                 $(".doc__text-editor").css("pointer-events", "auto");
+                $(".panel-footer").show();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("piloto");
+            }
+            
+            var el = document.querySelector('.copiloto');
+            idCopiloto = el && el.id;
+            
+            if(("user-"+codigoPusher) == idCopiloto) {
+                $(".panel-footer").show();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("copiloto");
             }
 
             qtdPilotos++;
@@ -75,7 +170,27 @@
                     <div id="doc" class="doc__text-editor"  ></div>
                 </div>
                 
-                
+                <div class="panel panel-info">
+                    <div class="panel-heading">Chat</div>
+                    <div class="blocoChat">
+                        <div class="panel-body" id="panelBody">
+                            <input type="text" id="tipoUserChat" hidden>
+                            <input type="text" id="msgChatSent" hidden>
+                            <ul class="chat" id="chat">
+                                
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="input-group">
+                            <input id="msgChat" type="text" class="form-control input-sm" placeholder="Digite aqui..." @keyup.enter="joinChat">
+                            <span class="input-group-btn">
+                              <button class="btn btn-primary btn-sm" id="btnChat">Enviar</button>
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                    
             </div>
             <div class="col-lg-2 infoSessao">
                 <textarea id="membersBlockSend" hidden></textarea>
@@ -90,8 +205,18 @@
                                 idPiloto="";
                             }
                             
+                            //Documento compartilhado e chat
+                            if(("user-"+codigoPusher) == idCopiloto) {
+                                $(".panel-footer").hide();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("");
+                            }
+
                             if(("user-"+codigoPusher) == idPiloto) {
                                 $(".doc__text-editor").css("pointer-events", "none");
+                                $(".panel-footer").hide();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("");
                             }
 
                             var el = document.querySelector('.piloto');
@@ -99,6 +224,18 @@
 
                             if(("user-"+codigoPusher) == idPiloto) {
                                 $(".doc__text-editor").css("pointer-events", "auto");
+                                $(".panel-footer").show();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("piloto");
+                            }
+
+                            var el = document.querySelector('.copiloto');
+                            idCopiloto = el && el.id;
+
+                            if(("user-"+codigoPusher) == idCopiloto) {
+                                $(".panel-footer").show();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("copiloto");
                             }
                             
                         });
@@ -133,8 +270,10 @@
         function redimensionarBlocoResposta() {
             var alturaJanela = $(window).height();
             var alturaProblema = $('.bloco_problema').height();
+            var alturaChat = $('.panel-info').height();
             alturaProblema = Math.ceil(alturaProblema);
-            var alturaResposta = ((alturaJanela - alturaProblema)-20);
+            alturaChat = Math.ceil(alturaChat);
+            var alturaResposta = (((alturaJanela - alturaProblema)-20)-alturaChat);
 
             $(".doc__text-editor").css("height",alturaResposta);
 
@@ -148,6 +287,11 @@
 
         $(".bloco_problema h5").click(function() {
             $(".bloco_problema p").slideToggle( function() {
+                redimensionarBlocoResposta();
+            }); 
+        });
+        $(".panel-heading").click(function() {
+            $(".blocoChat").fadeToggle( function() {
                 redimensionarBlocoResposta();
             }); 
         });
@@ -199,6 +343,46 @@
             clearInterval(contagem);
             segundos = (<%=sessao[0].tempo_rotacao%>*60);
             contagem = setInterval(contagemRegressiva, 1000);
+        });
+        
+        function insertMessages() {
+            var text = "";
+            var tipoUsuario = $("#tipoUserChat").val();
+            var msg = $("#msgChat").val();
+            
+      
+            if(tipoUsuario == "piloto") {
+              text = "<li class='message piloto_msg'>";
+            } else if(tipoUsuario == "copiloto") {
+              text = "<li class='message copiloto_msg'>";
+            }
+            text += "<div class='chat-body clearfix'>";
+            text += "<strong class='primary-font'>";
+            text += nomeUsuario;
+            text += "</strong><p>";
+            text += msg;
+            text += "</p></div></li>";
+
+            $("#chat").append(text);
+        }
+        
+        $("#btnChat").click(function() {
+            insertMessages();
+            var el =document.getElementById("panelBody");
+            var height = el.scrollHeight;
+            el.scrollTop = height;
+            $("#msgChatSent").val($("#msgChat").val());
+            $("#msgChat").val("");
+        });
+        $("#msgChat").on('keypress',function(e) {
+            if(e.which == 13) {
+                insertMessages();
+                var el =document.getElementById("panelBody");
+                var height = el.scrollHeight;
+                el.scrollTop = height;
+                $("#msgChatSent").val($("#msgChat").val());
+                $("#msgChat").val("");
+            }
         });
     </script>
 </body>
