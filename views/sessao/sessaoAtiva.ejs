@@ -12,7 +12,19 @@
 	<link rel="stylesheet" href="/css/bootstrap.css">
     <link rel="stylesheet" href="/css/sweetalert2.min.css">
     <link href="/css/textCollaboractive.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
     <style>
+        .contagemRegressiva {
+            text-align: center;
+            text-shadow:1px 1px 5px black;
+            font-weight: bold;
+            letter-spacing:1px;
+            color: #fcfcfc;
+            background-color:#ddd;
+            padding:1px;
+            font-family:Orbitron;
+            
+        }
         .chat {
             list-style: none;
             margin: 0;
@@ -112,6 +124,13 @@
             $("#members li h3").html("plateia");
             $(".piloto h3").html("piloto");
             $(".copiloto h3").html("copiloto");
+            
+            var date1 = new Date();
+            var date2 = new Date(date1);
+            date2.setMinutes(date1.getMinutes()+<%=sessao[0].tempo_rotacao%>);
+            $("#cronometro").html(date2);
+            
+            
 
             $("#idPilotoRecept").html(idPiloto);
             $("#membersBlockSend").val($("#membersBlock").html());
@@ -196,6 +215,7 @@
                 <textarea id="membersBlockSend" hidden></textarea>
                 <div class="members_block" id="membersBlock">
                     <div id="idPilotoRecept" hidden></div>
+                    <div id="cronometro" hidden></div>
                     <ul id="members"></ul>
                     <script>
                         $("#members").ready(function() {
@@ -238,10 +258,14 @@
                                 $("#tipoUserChat").val("copiloto");
                             }
                             
+                            contagemRegressiva();
+                            
                         });
                         
                     </script>
                 </div>
+                
+                <div id="contagemRegressiva" class="contagemRegressiva"></div>
                 
                 <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
                     <img src="/img/refresh.png" id="cancel" height="27px" class="refresh">
@@ -298,41 +322,46 @@
     </script>
     <script>
         //Contagem regrassiva
-        var segundos;
-        var contagem;
+        
+        
         function contagemRegressiva() {
 
-            $("#sendAll").css("pointer-events", "none");
-            $("#sendAll").css("width", "50%");
-            $("#sendAll").css("margin-left", "0%");
-            $("#cancel").show();
-
-            if(segundos < 0) {
-                $("#sendAll").html("Trocar piloto");
-                $("#sendAll").css("pointer-events", "auto");
-                $("#sendAll").css("width", "70%");
-                $("#sendAll").css("margin-left", "15%");
-                $("#cancel").hide();
+            var date2 = new Date($("#cronometro").html());
+            
+            if(isNaN(date2)) {
                 return 0;
             }
+            
+            var x = setInterval(function() {
 
-            var min = (segundos-(segundos % 60))/60;
-            var seg = segundos % 60;
+                var now = new Date();
 
-            if(min<10) {
-                min = "0"+min;
-            }
-            if(seg<10) {
-                seg = "0"+seg;
-            }
+                console.log(now >= date2);
+                if(now >= date2) {
+                    $("#contagemRegressiva").html("00:00");
+                    clearInterval(x);
+                    return 0;
+                }
 
-            $("#sendAll").html(min+":"+seg);
-            segundos--;
+                var timeDiff = (Math.abs(date2.getTime() - now.getTime()) / 1000);
+                var minutes = (timeDiff - (timeDiff % 60)) / 60;
+                var seconds = Math.floor(timeDiff % 60);
+                timeDiff = Math.floor(timeDiff);
 
-            return segundos;
+                if(minutes<10) {
+                    minutes = "0"+minutes;
+                }
+                if(seconds<10) {
+                    seconds = "0"+seconds;
+                }
+
+                $("#contagemRegressiva").html(minutes + ":" + seconds);
+                
+
+            }, 1000);
         }
         $("#cancel").click(function() {
-            clearInterval(contagem);
+            clearInterval(x);
             $("#sendAll").html("Trocar piloto");
             $("#sendAll").css("pointer-events", "auto");
             $("#sendAll").css("width", "70%");
@@ -340,9 +369,7 @@
             $("#cancel").hide();
         });
         $("#sendAll").click(function() {
-            clearInterval(contagem);
-            segundos = (<%=sessao[0].tempo_rotacao%>*60);
-            contagem = setInterval(contagemRegressiva, 1000);
+            contagemRegressiva();
         });
         
         function insertMessages() {

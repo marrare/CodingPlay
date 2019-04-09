@@ -32,7 +32,7 @@
 }
 #members{
     margin: 0px;
-    padding: 0px 0px 15px 0px;
+    padding: 0px;
 }
 #members li{
     text-transform:uppercase;
