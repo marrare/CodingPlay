@@ -276,7 +276,7 @@
                 <div id="contagemRegressiva" class="contagemRegressiva"></div>
                 
                 <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
-                    <button id="sendAll" onclick="changePiloto()">Iniciar Sessão</button>
+                            <button id="sendAll" onclick="changePiloto()">Iniciar Sessão</button>
                 <% } %>
                 
             </div>
@@ -398,27 +398,30 @@
             var tipoUsuario = $("#tipoUserChat").val();
             var msg = $("#msgChat").val();
             
-      
-            if(tipoUsuario == "piloto") {
-              text = "<li class='message piloto_msg'>";
-            } else if(tipoUsuario == "copiloto") {
-              text = "<li class='message copiloto_msg'>";
-            }
-            text += "<div class='chat-body clearfix'>";
-            text += "<strong class='primary-font'>";
-            text += nomeUsuario;
-            text += "</strong><p>";
-            text += msg;
-            text += "</p></div></li>";
+            if(msg != "" && msg != undefined) {
+                
+                if(tipoUsuario == "piloto") {
+                  text = "<li class='message piloto_msg'>";
+                } else if(tipoUsuario == "copiloto") {
+                  text = "<li class='message copiloto_msg'>";
+                }
+                text += "<div class='chat-body clearfix'>";
+                text += "<strong class='primary-font'>";
+                text += nomeUsuario;
+                text += "</strong><p>";
+                text += msg;
+                text += "</p></div></li>";
 
-            $("#chat").append(text);
+                $("#chat").prepend(text);
+            } 
+            
         }
         
         $("#btnChat").click(function() {
             insertMessages();
             var el =document.getElementById("panelBody");
             var height = el.scrollHeight;
-            el.scrollTop = height;
+            el.scrollBottom = height;
             $("#msgChatSent").val($("#msgChat").val());
             $("#msgChat").val("");
         });
@@ -427,7 +430,7 @@
                 insertMessages();
                 var el =document.getElementById("panelBody");
                 var height = el.scrollHeight;
-                el.scrollTop = height;
+                el.scrollBottom = height;
                 $("#msgChatSent").val($("#msgChat").val());
                 $("#msgChat").val("");
             }

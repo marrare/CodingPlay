@@ -84,7 +84,9 @@
       channel.trigger('client-members-edit', $("#membersBlockSend").val());
     }
     function triggerMensageSend () {
-      channel.trigger('client-mensagem-send', {msg : $("#msgChatSent").val(), tipoUsuario : $("#tipoUserChat").val()});
+        if($("#msgChatSent").val() != "") {
+            channel.trigger('client-mensagem-send', {msg : $("#msgChatSent").val(), tipoUsuario : $("#tipoUserChat").val()});
+        }
     }
     
     doc.addEventListener('input', triggerChange);
@@ -94,7 +96,10 @@
     btnChat.addEventListener('click', triggerMensageSend);
     msgChat.addEventListener('keypress',function(e) {
         if(e.which == 13) {
-            channel.trigger('client-mensagem-send', {msg : $("#msgChatSent").val(), tipoUsuario : $("#tipoUserChat").val()});
+            if($("#msgChatSent").val() != "") {
+                channel.trigger('client-mensagem-send', {msg : $("#msgChatSent").val(), tipoUsuario : $("#tipoUserChat").val()});
+            }
+            
         }
     });
   })
@@ -209,7 +214,7 @@
       text += "</p></div></li>";
         
       
-      $("#chat").append(text);
+      $("#chat").prepend(text);
   }   
 
           
