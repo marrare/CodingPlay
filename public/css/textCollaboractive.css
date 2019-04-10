@@ -11,7 +11,7 @@
 }
 .bloco_problema h5{
     text-align: center;
-    text-shadow:1px 1px 10px black;
+    text-shadow:1px 1px 5px black;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 5px;
@@ -22,7 +22,8 @@
 }
 .nome_usuario {
     float: right;
-    color: black;
+    font-weight: bold;
+    color: #f2f2f2;
     font-size: 0.8em;
     text-transform: capitalize;
     letter-spacing: 0px;
@@ -102,7 +103,7 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    margin: 0 15% 0 15%;
+    margin: 10% 15% 0 15%;
     width:70%;
 }
 .refresh {

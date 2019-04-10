@@ -57,7 +57,7 @@
         .panel-heading {
             cursor:pointer;
             font-weight: bold;
-            text-shadow:1px 1px 10px black;
+            text-shadow:1px 1px 5px black;
             color: #fff;
             background-color: #efeff5;
             border-color: #f2f2f2;
@@ -102,14 +102,14 @@
     <script> var tipoUsuario = "<%= session.tipo %>" </script>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script>
-    
+        var channel;
+            
         //Alterar Piloto da Sessão
-        var qtdPilotos = 1;
         var idCopiloto = "";
         var idPiloto = "";
         function changePiloto() {
-
-            if(qtdPilotos > 1) {
+            
+            if($(".piloto").html() != undefined) {
                 $("<li></li>").insertAfter($("#members li:last-child"));
                 $("#members li:last-child").html($("#members li:first-child").html());
                 $("#members li:last-child").attr("id",$("#members li:first-child").attr("id"));
@@ -129,8 +129,6 @@
             var date2 = new Date(date1);
             date2.setMinutes(date1.getMinutes()+<%=sessao[0].tempo_rotacao%>);
             $("#cronometro").html(date2);
-            
-            
 
             $("#idPilotoRecept").html(idPiloto);
             $("#membersBlockSend").val($("#membersBlock").html());
@@ -166,10 +164,13 @@
                 redimensionarBlocoResposta();
                 $("#tipoUserChat").val("copiloto");
             }
+            
+            contagemRegressiva();
 
-            qtdPilotos++;
+            
+            
 
-            return qtdPilotos;
+            return 0;
         }
         
     </script>
@@ -275,7 +276,7 @@
                 <div id="contagemRegressiva" class="contagemRegressiva"></div>
                 
                 <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
-                    <button id="sendAll" onclick="changePiloto()">Trocar piloto</button>
+                    <button id="sendAll" onclick="changePiloto()">Iniciar Sessão</button>
                 <% } %>
                 
             </div>
@@ -328,25 +329,44 @@
     </script>
     <script>
         //Contagem regrassiva
-        
+        var intervalId;
         
         function contagemRegressiva() {
-
+                
             var date2 = new Date($("#cronometro").html());
             
             if(isNaN(date2)) {
                 return 0;
             }
             
-            var x = setInterval(function() {
+            stopContagem();
+            
+            intervalId = setInterval(function() {
 
                 var now = new Date();
 
-                console.log(now >= date2);
-                if(now >= date2) {
+                if($(".piloto").html() === undefined) {
                     $("#contagemRegressiva").html("00:00");
-                    clearInterval(x);
-                    return 0;
+                    stopContagem();
+                    
+                    var idUserAntigo = oldUser(channel.members.count,channel.members);
+                    if(idUserAntigo == ("user-" + codigoPusher)) {
+                        changePiloto();
+                        channel.trigger('client-members-edit', $("#membersBlockSend").val());
+                    }
+                    
+                    
+                } else if(now >= date2) {
+                    $("#contagemRegressiva").html("00:00");
+                    stopContagem();
+                    
+                    var idUserAntigo = oldUser(channel.members.count,channel.members);
+                    if(idUserAntigo == ("user-" + codigoPusher)) {
+                        changePiloto();
+                        channel.trigger('client-members-edit', $("#membersBlockSend").val());
+                    }
+                    
+                    
                 }
 
                 var timeDiff = (Math.abs(date2.getTime() - now.getTime()) / 1000);
@@ -366,16 +386,11 @@
 
             }, 1000);
         }
-        $("#cancel").click(function() {
-            clearInterval(x);
-            $("#sendAll").html("Trocar piloto");
-            $("#sendAll").css("pointer-events", "auto");
-            $("#sendAll").css("width", "70%");
-            $("#sendAll").css("margin-left", "15%");
-            $("#cancel").hide();
-        });
+        function stopContagem() {
+            clearInterval(intervalId);
+        }
         $("#sendAll").click(function() {
-            contagemRegressiva();
+            $("#sendAll").slideToggle();
         });
         
         function insertMessages() {
@@ -417,6 +432,22 @@
                 $("#msgChat").val("");
             }
         });
+        
+        function oldUser(countMembers,membersOnline) {
+            var acessoOld= new Date(membersOnline.me.info.acesso);
+            var idUser = membersOnline.me.id;
+
+            membersOnline.each(function(member) {
+                var membroAcesso = new Date(member.info.acesso);
+
+                if(membroAcesso < acessoOld) {
+                    idUser = member.id;
+                    acessoOld = new Date(member.info.acesso);
+                }
+            });
+
+            return idUser;
+        }
     </script>
 </body>
     

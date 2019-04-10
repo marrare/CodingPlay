@@ -40,7 +40,7 @@
         }
       }
     });
-    var channel = pusher.subscribe(id);
+    channel = pusher.subscribe(id);
     channel.bind('client-text-edit', function(html) {
       // save the current position
       var currentCursorPosition = getCaretCharacterOffsetWithin(doc);
@@ -68,8 +68,6 @@
     channel.bind('pusher:member_added', function(member) {
       addMember(member);
       var idUserAntigo = oldUser(channel.members.count,channel.members);
-        console.log(idUserAntigo);
-        console.log(CodigoUser);
       if(idUserAntigo == CodigoUser) {
           channel.trigger('client-members-edit', membersBlock.innerHTML);
           channel.trigger('client-text-edit', doc.innerHTML);
@@ -183,8 +181,6 @@
   function oldUser(countMembers,membersOnline) {
     var acessoOld= new Date(membersOnline.me.info.acesso);
     var idUser = membersOnline.me.id;
-      console.log(idUser);
-      console.log(acessoOld);
       
     membersOnline.each(function(member) {
         var membroAcesso = new Date(member.info.acesso);
