@@ -175,9 +175,16 @@
     </script>
 </head>
 <body>
+    <a href="/sessao/info?id=<%=sessao[0].id%>" class="sair_sessao_ativa">
+        <div class="participaSessao">Sair</div>
+    </a>
     <div class="bloco_problema">
-        <h5 id="botaoDesafio">Desafio</h5>
+        <h5 id="botaoDesafio">
+            Desafio 
+            <span class="nome_usuario"><%= session.usuario.nome %></span>
+        </h5>
         <p><%=sessao[0].desc_problema%></p>
+        
     </div>
     <div class="container-fluid" >
         <div class="row">
@@ -268,7 +275,6 @@
                 <div id="contagemRegressiva" class="contagemRegressiva"></div>
                 
                 <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
-                    <img src="/img/refresh.png" id="cancel" height="27px" class="refresh">
                     <button id="sendAll" onclick="changePiloto()">Trocar piloto</button>
                 <% } %>
                 

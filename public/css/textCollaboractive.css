@@ -20,6 +20,41 @@
     margin-bottom:0px;
     cursor: pointer;
 }
+.nome_usuario {
+    float: right;
+    color: black;
+    font-size: 0.8em;
+    text-transform: capitalize;
+    letter-spacing: 0px;
+    font-family: Flaticon, sans-serif;
+}
+.sair_sessao_ativa {
+    position: absolute;
+    margin: 0px;
+    padding: 0px;
+}
+.sair_sessao_ativa:hover {
+    text-decoration: none;
+}
+.participaSessao {
+    background-color: #de4d2b;
+    font-weight: bold;
+    padding: 8px;
+    border:1px solid #fff;
+    border-radius: 0px 0px 20px 0px;
+    color: #fff;
+    width: 100px;
+    transition: color 0.5s;
+    transition: background-color 0.5s;
+    text-align: center;
+    
+}
+.participaSessao:hover {
+    color: #de4d2b;
+    background-color: #fff;
+    border:1px solid #de4d2b;
+    cursor: pointer;
+}
 .bloco_problema p{
     font-family: sans-serif;
     border-top: 1px solid #e0e0eb;
