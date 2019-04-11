@@ -2766,9 +2766,6 @@ h6 {
     margin: 0px 0px 5px 0px;
     padding: 0px;
 }
-.cardsessions h6:nth-child(1) {
-    float: right;
-}
 
 /* Card Sessões Login area css
 ============================================================================================ */

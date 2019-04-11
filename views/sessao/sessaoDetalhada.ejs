@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="/css/sweetalert2.min.css">
 	<link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/sessaoDetalhada.css">
+    <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
+    <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
+    <script> var text_colaboractive = "<%=sessao[0].texto_colaborativo%>" </script>
+
 </head>
     
 
@@ -92,6 +96,12 @@
                                             <p><%=sessao[0].tempo_rotacao%> minutos</p>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a class="d-flex justify-content-between">
+                                            <p>Participantes Online</p>
+                                            <p id="<%=sessao[0].texto_colaborativo%>"></p>
+                                        </a>
+                                    </li>
                                     <% if(session.usuario != 'undefined' && session.tipo == 'aluno') { %>
                                         <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=1&id=presence-<%=sessao[0].texto_colaborativo%>">
                                             <div  class="participaSessao">
@@ -137,6 +147,12 @@
     <!-- JS adicionais -->
     <script src="/js/sweetalert2.min.js"></script>
     <script src="/js/footer.js"></script>
+    
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+    <script src="/js/spySessao.js"></script>
+    <script>
+        qtdUsersPorSessao(text_colaboractive);
+    </script>
 </body>
 
 </html>
