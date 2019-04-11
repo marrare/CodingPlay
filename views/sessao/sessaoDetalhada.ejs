@@ -92,9 +92,17 @@
                                             <p><%=sessao[0].tempo_rotacao%> minutos</p>
                                         </a>
                                     </li>
-                                    <a href="/sessao/active?codigoSessao=<%=sessao[0].nome_sessao%>&?id=presence-<%=sessao[0].texto_colaborativo%>">
-                                        <div  class="participaSessao">
-                                            <strong>Participar</strong>
+                                    <% if(session.usuario != 'undefined' && session.tipo == 'aluno') { %>
+                                        <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=1&id=presence-<%=sessao[0].texto_colaborativo%>">
+                                            <div  class="participaSessao">
+                                                <strong>Participar</strong>
+                                            </div>
+                                        </a>
+                                    <% } %>
+                                    
+                                    <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=0&id=presence-<%=sessao[0].texto_colaborativo%>">
+                                        <div  class="observaSessao">
+                                            <strong>Observar</strong>
                                         </div>
                                     </a>
                                 </ul>

@@ -25,6 +25,19 @@
             font-family:Orbitron;
             
         }
+        .observadores {
+            text-align: center;
+            text-shadow:1px 1px 5px black;
+            font-weight: bold;
+            border-top:2px ridge #fff;
+            border-bottom:2px ridge #fff;
+            letter-spacing:1px;
+            color: #fcfcfc;
+            background-color:#ddd;
+            padding:1px;
+            font-family:Orbitron;
+            
+        }
         .chat {
             list-style: none;
             margin: 0;
@@ -100,6 +113,7 @@
     <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
     <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
     <script> var tipoUsuario = "<%= session.tipo %>" </script>
+    <script> var participante = "<%=sessao[0].participante%>" </script>
     <script src="/js/jquery-3.2.1.min.js"></script>
     <script>
         var channel;
@@ -223,6 +237,7 @@
                 <textarea id="membersBlockSend" hidden></textarea>
                 <div class="members_block" id="membersBlock">
                     <div id="idPilotoRecept" hidden></div>
+                    <div id="inicioSessao" hidden></div>
                     <div id="cronometro" hidden></div>
                     <ul id="members"></ul>
                     <script>
@@ -276,8 +291,10 @@
                 <div id="contagemRegressiva" class="contagemRegressiva"></div>
                 
                 <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
-                            <button id="sendAll" onclick="changePiloto()">Iniciar Sessão</button>
+                            <button id="sendAll">Iniciar Sessão</button>
                 <% } %>
+                <div class="observadores">Observadores</div>
+                <ul id="observador"></ul>
                 
             </div>
         </div>
@@ -338,6 +355,9 @@
             if(isNaN(date2)) {
                 return 0;
             }
+            if($("#inicioSessao").html() != 'ok') {   
+                return 0;
+            }
             
             stopContagem();
             
@@ -390,6 +410,8 @@
             clearInterval(intervalId);
         }
         $("#sendAll").click(function() {
+            $("#inicioSessao").html('ok');
+            changePiloto();
             $("#sendAll").slideToggle();
         });
         

@@ -108,10 +108,11 @@ module.exports = (app) => {
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
         
-        daoSessao.buscarPorNomeSessao(valor.codigoSessao, function(err, result) {
+        daoSessao.buscarPorId(valor.idSessao, function(err, result) {
             if (err) {
                 throw err;
             } else {
+                result[0].participante = valor.participante;
                 res.render('./sessao/sessaoAtiva',{sessao : result});
             }
         });

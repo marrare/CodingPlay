@@ -36,7 +36,9 @@
         params: {
           userId: CodigoUser,
           nome: nomeUsuario,
-          acesso: agora
+          acesso: agora,
+          tipo: tipoUsuario,
+          participante: participante
         }
       }
     });
@@ -99,7 +101,6 @@
             if($("#msgChatSent").val() != "") {
                 channel.trigger('client-mensagem-send', {msg : $("#msgChatSent").val(), tipoUsuario : $("#tipoUserChat").val()});
             }
-            
         }
     });
   })
@@ -167,13 +168,22 @@
     return pos; // needed because of recursion stuff
   }
   function addMember(member){
-    var node = document.createElement("li");
-    var textnode = document.createTextNode(member.info.name);
-    node.setAttribute("id",member.id);
-    node.appendChild(textnode);
-    var tipoFuncao = document.createElement("h3");
-    node.appendChild(tipoFuncao);
-    document.getElementById('members').appendChild(node);
+    if(member.info.participante == '1' && member.info.tipo == 'aluno') {
+        var node = document.createElement("li");
+        var textnode = document.createTextNode(member.info.name);
+        node.setAttribute("id",member.id);
+        node.appendChild(textnode);
+        var tipoFuncao = document.createElement("h3");
+        node.appendChild(tipoFuncao);
+        document.getElementById('members').appendChild(node);
+    } else if(member.info.participante == '0' || member.info.participante == '1' && member.info.tipo == 'professor') {
+        var node = document.createElement("li");
+        var textnode = document.createTextNode(member.info.name);
+        node.setAttribute("id",member.id);
+        node.appendChild(textnode);
+        document.getElementById('observador').appendChild(node);
+    }
+    
        
   } 
 

@@ -85,6 +85,18 @@
     margin-bottom:0px;
 
 }
+#observador{
+    margin: 0px;
+    padding: 0px;
+}
+#observador li{
+    text-transform:uppercase;
+    font-size: 14px;
+    font-weight: bold;
+    list-style-type:none;
+    border-bottom: 1px solid #ddd;
+    padding: 6px 6px 6px 6px;
+}
 .piloto {
     color: #2BBCDE;
     font-weight: bold;
@@ -103,7 +115,7 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    margin: 10% 15% 0 15%;
+    margin: 10% 15% 10% 15%;
     width:70%;
 }
 .refresh {
