@@ -13,6 +13,8 @@
   var btnChat = document.getElementById('btnChat');
   var msgChat = document.getElementById('msgChat');
   var msgChatSent = document.getElementById('msgChatSent');
+    
+  var enviarResposta = document.getElementById('enviarResposta');
 
   // if this is a new doc, generate a unique identifier
   // append it as a query param
@@ -54,6 +56,16 @@
         $("#membersBlock").html(html);
       
     });
+    channel.bind('client-members_alert', function(func) {
+        if(func.func == 1) {
+            confirmarResposta();
+        } else if(func.func == 2) {
+            alertRetomarSessao();
+        } else if(func.func == 3) {
+            finalizandoSessao();
+        }
+      
+    });   
     channel.bind('client-mensagem-send', function(msgReceveid, idUsuario) {
         var user = channel.members.get(idUsuario.user_id);
         sendMessage(msgReceveid.msg,msgReceveid.tipoUsuario,user);
@@ -82,6 +94,9 @@
     function triggerChange (e) {
       channel.trigger('client-text-edit', e.target.innerHTML);
     }
+    function triggerEnviarResposta () {
+      channel.trigger('client-members_alert', {func : 1});
+    }
     function triggerChangeMembers () {
       channel.trigger('client-members-edit', $("#membersBlockSend").val());
     }
@@ -103,6 +118,8 @@
             }
         }
     });
+      
+    enviarResposta.addEventListener('click', triggerEnviarResposta);
   })
 
   // a unique random key generator

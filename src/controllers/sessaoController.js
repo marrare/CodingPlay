@@ -113,9 +113,43 @@ module.exports = (app) => {
                 throw err;
             } else {
                 result[0].participante = valor.participante;
+                console.log(result);
                 res.render('./sessao/sessaoAtiva',{sessao : result});
             }
         });
+    },
+    finalizarSessao: function(req, res) {
+        var valor = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        var ParticipaSessaoDao = new app.src.models.ParticipaSessaoDao(connection);
+        
+        daoSessao.finalizar(valor, function(err) {
+            if(err) {
+                throw err;
+            } else {
+                
+                var participantes = valor.participantes.split("/");
+                participantes.pop();
+                
+                for(i=0; i < participantes.length; i++) {
+                    var part = {
+                        id_participante : participantes[i],
+                        id_sessao : valor.sessao_id
+                    }
+                    
+                    ParticipaSessaoDao.salvar(part, function(err) {
+                        if(err) {
+                            throw err;
+                        }
+                    });
+                }
+                
+                res.redirect('/sessoes/list');
+            }
+        });
+
     }
   };
     return SessoesController;

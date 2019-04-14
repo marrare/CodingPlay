@@ -156,6 +156,7 @@
             if(("user-"+codigoPusher) == idPiloto) {
                 $(".doc__text-editor").css("pointer-events", "none");
                 $(".panel-footer").hide();
+                $(".confirm_solução").hide();
                 redimensionarBlocoResposta();
                 $("#tipoUserChat").val("");
             }
@@ -166,6 +167,7 @@
             if(("user-"+codigoPusher) == idPiloto) {
                 $(".doc__text-editor").css("pointer-events", "auto");
                 $(".panel-footer").show();
+                $(".confirm_solução").show();
                 redimensionarBlocoResposta();
                 $("#tipoUserChat").val("piloto");
             }
@@ -180,9 +182,6 @@
             }
             
             contagemRegressiva();
-
-            
-            
 
             return 0;
         }
@@ -238,6 +237,7 @@
                 <div class="members_block" id="membersBlock">
                     <div id="idPilotoRecept" hidden></div>
                     <div id="inicioSessao" hidden></div>
+                    <div id="horaInicioSessao" hidden></div>
                     <div id="cronometro" hidden></div>
                     <ul id="members"></ul>
                     <script>
@@ -258,6 +258,7 @@
                             if(("user-"+codigoPusher) == idPiloto) {
                                 $(".doc__text-editor").css("pointer-events", "none");
                                 $(".panel-footer").hide();
+                                $(".confirm_solução").hide();
                                 redimensionarBlocoResposta();
                                 $("#tipoUserChat").val("");
                             }
@@ -268,6 +269,7 @@
                             if(("user-"+codigoPusher) == idPiloto) {
                                 $(".doc__text-editor").css("pointer-events", "auto");
                                 $(".panel-footer").show();
+                                $(".confirm_solução").show();
                                 redimensionarBlocoResposta();
                                 $("#tipoUserChat").val("piloto");
                             }
@@ -290,11 +292,14 @@
                 
                 <div id="contagemRegressiva" class="contagemRegressiva"></div>
                 
-                <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
+                <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor' && sessao[0].hora_inicio_realizado == null) { %>
                             <button id="sendAll">Iniciar Sessão</button>
                 <% } %>
                 <div class="observadores">Observadores</div>
                 <ul id="observador"></ul>
+                
+                
+                <button id="enviarResposta" class="confirm_solução">Enviar<br>Resposta</button>
                 
             </div>
         </div>
@@ -410,6 +415,8 @@
             clearInterval(intervalId);
         }
         $("#sendAll").click(function() {
+            var now = new Date();
+            $("#horaInicioSessao").html(now);
             $("#inicioSessao").html('ok');
             changePiloto();
             $("#sendAll").slideToggle();
@@ -472,6 +479,118 @@
             });
 
             return idUser;
+        }
+        
+        function confirmarResposta() {
+            var usuarioSeletor = "#user-"+codigoPusher+" h3";
+            var funcaoSessao = $(usuarioSeletor).html();
+            
+            if(funcaoSessao == 'copiloto') {
+                Swal.fire({
+                    title: 'Concorda com a solução ?',
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim',
+                    cancelButtonText: 'Não'
+                }).then((result) => {
+                    if (result.value) {
+                        var resposta = $("#doc").text();
+                        var qtdParticipantes = $("#members li").length;
+                        var participantes = "";
+                        for(i=1; i <= qtdParticipantes; i++){
+                            var participante = $("#members li:nth-child("+i+")").attr('id');
+                            participantes += (participante.substring(5,21)+"/");
+                        }
+                        var chat = $("#chat").html();
+                        var horaInicio = getTimeAndDate($("#horaInicioSessao").html());
+                        var horaFinal = getTimeAndDate(new Date());
+                        
+                        channel.trigger('client-members_alert', {func : 3});
+                        window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&chat="+chat+"&horaInicio="+horaInicio+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>;
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        channel.trigger('client-members_alert', {func : 2});
+                        alertRetomarSessao();
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: 'Finalizando sessão',
+                    text: "aguardando confirmação do copiloto para finalizar"
+                })
+            }
+            
+            
+        }
+        
+        $("#enviarResposta").click(function() {
+            confirmarResposta();
+        });
+        
+        function getTimeAndDate(date) {
+            var now = new Date(date);
+            
+            var year = now.getFullYear();
+            var month = now.getMonth()+1;
+            var data = now.getDate();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            
+            month = verificaTamanhoData(month);
+            data = verificaTamanhoData(data);
+            hours = verificaTamanhoData(hours);
+            minutes = verificaTamanhoData(minutes);
+            seconds = verificaTamanhoData(seconds);
+            
+            return year+"-"+month+"-"+data+" "+hours+":"+minutes+":"+seconds;
+        }
+        function verificaTamanhoData(valor) {
+            if(valor < 10) {
+                valor = "0"+valor;
+            }
+            
+            return valor;
+        }
+        
+        function alertRetomarSessao() {
+            let timerInterval
+            Swal.fire({
+              title: 'Envio cancelado',
+              html: 'Retomando sessão em <strong></strong> segundos',
+              timer: 3000,
+              onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  Swal.getContent().querySelector('strong')
+                    .textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              onClose: () => {
+                clearInterval(timerInterval)
+              }
+            })
+        }
+        
+        function finalizandoSessao() {
+            let timerInterval
+            Swal.fire({
+              title: 'Sessão finalizada',
+              html: 'finalizando em <strong></strong> segundos',
+              timer: 3000,
+              onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  Swal.getContent().querySelector('strong')
+                    .textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              onClose: () => {
+                clearInterval(timerInterval);
+              }
+            })
+            window.location = "/sessao/info?nome_sessao=<%=sessao[0].nome_sessao%>";
         }
     </script>
 </body>

@@ -10,4 +10,5 @@ module.exports = (app) => {
     app.post('/sessao/save', autenticadorProfessor, sessaoController.novaSessao);
     app.get('/sessao/info', autenticadorLogado, sessaoController.paginaSessaoDetalhada);
     app.get('/sessao/active', autenticadorLogado, sessaoController.paginaSessaoAtiva);
+    app.get('/sessao/confirm', autenticadorLogado, sessaoController.finalizarSessao);
 };

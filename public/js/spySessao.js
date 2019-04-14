@@ -41,7 +41,7 @@ function qtdUsersPorSessao(text_colaboractive) {
      var online = 0;
         
       members.each(function(member) {
-        if(member.info.participante == '1') {
+        if(member.info.participante == '1' && member.info.tipo == 'aluno') {
             online++;
         }
       });

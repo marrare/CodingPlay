@@ -118,8 +118,17 @@
     margin: 10% 15% 10% 15%;
     width:70%;
 }
-.refresh {
-    cursor:pointer;
-    display:none;
-    margin-left: 15%;
+.confirm_solução {
+    display: none;
+    border: 2px double #ddd;
+    color: #fff;
+    padding: 5px;
+    font-weight: bold;
+    background-color: #565656;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 10% 15% 10% 15%;
+    width:70%;
 }

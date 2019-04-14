@@ -45,6 +45,7 @@ CREATE TABLE sessao (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_Professor int(11) NOT NULL,
   id_Problema int(11) NOT NULL,
+  situacao char(1) NOT NULL DEFAULT 1,
   nome_sessao varchar(20) NOT NULL,
   texto_colaborativo varchar(10) NOT NULL,
   tamanho_grupo tinyint(4) NOT NULL,
@@ -53,10 +54,22 @@ CREATE TABLE sessao (
   hora_final timestamp NOT NULL,
   hora_inicio_realizado timestamp NULL DEFAULT NULL,
   hora_final_realizado timestamp NULL DEFAULT NULL,
+  resposta_sessao_realizada text DEFAULT NULL,
+  chat_sessao_realizada text DEFAULT NULL,
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (id_Professor) REFERENCES professor (id),
   FOREIGN KEY (id_Problema) REFERENCES problema (id)
+);
+
+CREATE TABLE participa_sessao (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_participante int(11) NOT NULL,
+  id_sessao int(11) NOT NULL,
+  data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_participante) REFERENCES aluno (id),
+  FOREIGN KEY (id_sessao) REFERENCES sessao (id)
 );
 
 -- Senha "aluno1234"
