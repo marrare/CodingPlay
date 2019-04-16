@@ -496,6 +496,8 @@
                     cancelButtonText: 'Não'
                 }).then((result) => {
                     if (result.value) {
+                        
+                        
                         var resposta = $("#doc").text();
                         var qtdParticipantes = $("#members li").length;
                         var participantes = "";
@@ -506,9 +508,9 @@
                         var chat = $("#chat").html();
                         var horaInicio = getTimeAndDate($("#horaInicioSessao").html());
                         var horaFinal = getTimeAndDate(new Date());
-                        
-                        channel.trigger('client-members_alert', {func : 3});
-                        window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&chat="+chat+"&horaInicio="+horaInicio+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>;
+
+                        window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&chat="+chat+"&horaInicio="+horaInicio+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>
+ 
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         channel.trigger('client-members_alert', {func : 2});
                         alertRetomarSessao();
@@ -590,7 +592,7 @@
                 clearInterval(timerInterval);
               }
             })
-            window.location = "/sessao/info?nome_sessao=<%=sessao[0].nome_sessao%>";
+            window.location = "/sessao/info?id=<%=sessao[0].id%>";
         }
     </script>
 </body>

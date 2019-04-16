@@ -83,13 +83,20 @@ module.exports = (app) => {
         
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
+        var ParticipaSessaoDao = new app.src.models.ParticipaSessaoDao(connection);
         
         if (valor.id != null) {
             daoSessao.buscarPorId(valor.id, function(err, result) {
                 if (err) {
                     throw err;
                 } else {
-                    res.render('./sessao/sessaoDetalhada',{sessao : result});
+                    ParticipaSessaoDao.buscarPorIdSessao(valor.id, function(err2, result2) {
+                        if (err2) {
+                            throw err;
+                        } else {
+                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                        }
+                    });
                 }
             });
         } else if (valor.nome_sessao != null) {
@@ -97,7 +104,13 @@ module.exports = (app) => {
                 if (err) {
                     throw err;
                 } else {
-                    res.render('./sessao/sessaoDetalhada',{sessao : result});
+                    ParticipaSessaoDao.buscarPorIdSessao(result[0].id, function(err2, result2) {
+                        if (err2) {
+                            throw err;
+                        } else {
+                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                        }
+                    });
                 }
             });
         }
@@ -107,14 +120,25 @@ module.exports = (app) => {
         
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
+        var ParticipaSessaoDao = new app.src.models.ParticipaSessaoDao(connection);
         
         daoSessao.buscarPorId(valor.idSessao, function(err, result) {
             if (err) {
                 throw err;
             } else {
-                result[0].participante = valor.participante;
-                console.log(result);
-                res.render('./sessao/sessaoAtiva',{sessao : result});
+                if(result[0].situacao == 1) {
+                    result[0].participante = valor.participante;
+                    res.render('./sessao/sessaoAtiva',{sessao : result});
+                } else {
+                    ParticipaSessaoDao.buscarPorIdSessao(valor.id, function(err2, result2) {
+                        if (err2) {
+                            throw err;
+                        } else {
+                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                        }
+                    });
+                }
+                
             }
         });
     },
@@ -146,7 +170,9 @@ module.exports = (app) => {
                     });
                 }
                 
-                res.redirect('/sessoes/list');
+                req.flash("menssagem","Sessão Finalizada com Sucesso");
+                res.redirect('/sessao/info?id='+valor.sessao_id);
+                
             }
         });
 

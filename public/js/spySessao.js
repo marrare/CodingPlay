@@ -1,4 +1,4 @@
-function qtdUsersPorSessao(text_colaboractive) {
+function qtdUsersPorSessao(text_colaboractive,situacao,confirm) {
 
   
   channelCodigo = 'presence-' +text_colaboractive;
@@ -20,31 +20,41 @@ function qtdUsersPorSessao(text_colaboractive) {
     channel = pusher.subscribe(channelCodigo);
     channel.bind('pusher:subscription_succeeded', function(members) {
         
-      updateMembersCount(channel.members);
-    
+      if(situacao == 1){    
+        updateMembersCount(channel.members);
+      }
       resolve(channel);
     });
       
     channel.bind('pusher:member_added', function() {
-      
-      updateMembersCount(channel.members);
-      
+      if(situacao == 1){
+        updateMembersCount(channel.members);
+      }
     });
     channel.bind('pusher:member_removed', function() {
-
-      updateMembersCount(channel.members);
-      
+      if(situacao == 1){
+        updateMembersCount(channel.members);
+      }
     });
+  }).then(function (channel) {
+    function triggerEnviarResposta () {
+      channel.trigger('client-members_alert', {func : 3});
+    }
+      
+    if(confirm == 1) {
+        triggerEnviarResposta();
+    }
   })
-
+  
+  
   function updateMembersCount(members) {
-     var online = 0;
-        
-      members.each(function(member) {
+    var online = 0;
+
+    members.each(function(member) {
         if(member.info.participante == '1' && member.info.tipo == 'aluno') {
             online++;
         }
-      });
+    });
     document.getElementById(text_colaboractive).innerHTML = online;
   }
 

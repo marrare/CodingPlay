@@ -45,7 +45,7 @@ CREATE TABLE sessao (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_Professor int(11) NOT NULL,
   id_Problema int(11) NOT NULL,
-  situacao char(1) NOT NULL DEFAULT 1,
+  situacao tinyint(1) DEFAULT '1',
   nome_sessao varchar(20) NOT NULL,
   texto_colaborativo varchar(10) NOT NULL,
   tamanho_grupo tinyint(4) NOT NULL,

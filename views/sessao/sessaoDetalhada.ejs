@@ -23,7 +23,8 @@
     <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
     <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
     <script> var text_colaboractive = "<%=sessao[0].texto_colaborativo%>" </script>
-
+    <script> var situacao = "<%=sessao[0].situacao%>" </script>
+    <script>var channel;</script>
 </head>
     
 
@@ -43,16 +44,43 @@
 
         <div class="container">
             <div class="section_gap">
+                <% if(sessao[0].situacao == 0) {%>
+                    <h2 class="mb-30 title_color" style="text-align:center;">Sessão finalizada</h2>
+                <% } %>
                 <div class="row">
                     <div class="col-lg-8">
-                        <h2 class="title_color"><strong>Problema: </strong><%=sessao[0].nome_problema%></h2>
-                        <h4 class="mb-30 title_color"><strong>Dificuldade: </strong><%=sessao[0].dificuldade%></h4>
-                        
+                        <% if(sessao[0].situacao == 1) { %>
+                            <h2 class="title_color" style="display:inline-block"><strong>Problema: </strong><%=sessao[0].nome_problema%></h2>
+                            <h4 class="mb-30 title_color"><strong>Dificuldade: </strong><%=sessao[0].dificuldade%></h4>
 
                                 <blockquote class="generic-blockquote">
-                                    <%=sessao[0].desc_problema%> 
+                                    <%=sessao[0].desc_problema%>
                                 </blockquote>
+                        
+                        <% } else if(sessao[0].situacao == 0) { %>
+                            <% if(sessao[0].situacao == 0) { %>
+                                
+                        
+                                <div class="botao_style" id="botao_problema">Problema</div>
+                                <blockquote class="adapted-blockquote" id="problema">
 
+                                    <h3 class="title_color" style="display:inline-block"><strong>Problema: </strong><%=sessao[0].nome_problema%></h3>
+                                    <h5 class=" title_color"><strong>Dificuldade: </strong><%=sessao[0].dificuldade%></h5>
+                                    
+                                    <%=sessao[0].desc_problema%>
+                                </blockquote>
+                        
+                                <div class="botao_style" id="botao_resposta">Resposta</div>
+                                <blockquote class="adapted-blockquote" id="resposta">
+                                    <%=sessao[0].resposta_sessao_realizada%>
+                                </blockquote>
+                        
+                                <div class="botao_style" id="botao_chat">Chat</div>
+                                <blockquote class="adapted-blockquote" id="chat">
+                                    <%=sessao[0].chat_sessao_realizada%>
+                                </blockquote>
+                            <% } %>
+                        <% } %>
                         
                     </div>
                     <div class="col-lg-4">
@@ -75,19 +103,38 @@
                                     <li>
                                         <a class="d-flex justify-content-between">
                                             <p>Hora Início</p>
-                                            <p><%=sessao[0].hora_inicio%></p>
+                                            <p>
+                                                <% if(sessao[0].situacao == 1) { %>
+                                                    <%=sessao[0].hora_inicio%>
+                                                <% } else if(sessao[0].situacao == 0) { %>
+                                                    <%=sessao[0].hora_inicio_realizado%>
+                                                <% } %>
+                                            </p>
                                         </a>
                                     </li>
                                     <li>
                                         <a class="d-flex justify-content-between">
                                             <p>Hora Final</p>
-                                            <p><%=sessao[0].hora_final%></p>
+                                            <p>
+                                                <% if(sessao[0].situacao == 1) { %>
+                                                    <%=sessao[0].hora_final%>
+                                                <% } else if(sessao[0].situacao == 0) { %>
+                                                    <%=sessao[0].hora_final_realizado%>
+                                                <% } %>
+                                            </p>
                                         </a>
                                     </li>
                                     <li>
                                         <a class="d-flex justify-content-between">
                                             <p>Tamanho do grupo</p>
-                                            <p><%=sessao[0].tamanho_grupo%> pessoas</p>
+                                            <p>
+                                                <% if(sessao[0].situacao == 1) { %>
+                                                    <%=sessao[0].tamanho_grupo%>
+                                                <% } else if(sessao[0].situacao == 0) { %>
+                                                    <%=participantes.length%>
+                                                <% } %>
+                                            
+                                            pessoas</p>
                                         </a>
                                     </li>
                                     <li>
@@ -96,26 +143,39 @@
                                             <p><%=sessao[0].tempo_rotacao%> minutos</p>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a class="d-flex justify-content-between">
-                                            <p>Participantes Online</p>
-                                            <p id="<%=sessao[0].texto_colaborativo%>"></p>
-                                        </a>
-                                    </li>
-                                    <% if(session.usuario != 'undefined' && session.tipo == 'aluno') { %>
-                                        <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=1&id=presence-<%=sessao[0].texto_colaborativo%>">
-                                            <div  class="participaSessao">
-                                                <strong>Participar</strong>
+                                    <% if(sessao[0].situacao == 1) { %>
+                                        <li>
+                                            <a class="d-flex justify-content-between">
+                                                <p>Participantes Online</p>
+                                                <p id="<%=sessao[0].texto_colaborativo%>"></p>
+                                            </a>
+                                        </li>
+                                        <% if(session.usuario != 'undefined' && session.tipo == 'aluno') { %>
+                                            <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=1&id=presence-<%=sessao[0].texto_colaborativo%>">
+                                                <div  class="participaSessao">
+                                                    <strong>Participar</strong>
+                                                </div>
+                                            </a>
+                                        <% } %>
+
+                                        <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=0&id=presence-<%=sessao[0].texto_colaborativo%>">
+                                            <div  class="observaSessao">
+                                                <strong>Observar</strong>
                                             </div>
                                         </a>
-                                    <% } %>
+                                    <% } else if(sessao[0].situacao == 0) { %>
+                                        <h4 class="widget_title mt-10">Participantes</h4>
                                     
-                                    <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=0&id=presence-<%=sessao[0].texto_colaborativo%>">
-                                        <div  class="observaSessao">
-                                            <strong>Observar</strong>
-                                        </div>
-                                    </a>
+                                        <% for(i=0; i < participantes.length; i++) { %>
+                                            <li>
+                                                <a class="">
+                                                    <p class="partiList"><%=participantes[i].nome%></p>
+                                                </a>
+                                            </li>
+                                        <% } %>
+                                    <% } %>
                                 </ul>
+                                
                             </aside>
                         </div>
                     </div>
@@ -151,8 +211,29 @@
     <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
     <script src="/js/spySessao.js"></script>
     <script>
-        qtdUsersPorSessao(text_colaboractive);
+        
+        $("#botao_problema").click(function() {
+            $("#problema").slideToggle();
+        });
+        $("#botao_resposta").click(function() {
+            $("#resposta").slideToggle();
+        });
+        $("#botao_chat").click(function() {
+            $("#chat").slideToggle();
+        });
     </script>
+    <!--========================= Menssagem Sessão criada com sucesso ============================-->
+        <% if(typeof menssagem != 'undefined') { %>
+            <script>
+                var conf = 1;
+                qtdUsersPorSessao(text_colaboractive,situacao,conf);
+            </script>
+        <% } else { %>
+            <script>
+                qtdUsersPorSessao(text_colaboractive,situacao);
+            </script>
+        <% } %>
+    <!--========================= END - Menssagem Sessão criada com sucesso ============================-->
 </body>
 
 </html>

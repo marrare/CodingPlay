@@ -57,6 +57,7 @@
       
     });
     channel.bind('client-members_alert', function(func) {
+        console.log(func);
         if(func.func == 1) {
             confirmarResposta();
         } else if(func.func == 2) {
