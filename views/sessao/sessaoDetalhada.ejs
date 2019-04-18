@@ -49,7 +49,7 @@
                 <% } %>
                 <div class="row">
                     <div class="col-lg-8">
-                        <% if(sessao[0].situacao == 1) { %>
+                        <% if(sessao[0].situacao == 1 || sessao[0].situacao == 2) { %>
                             <h2 class="title_color" style="display:inline-block"><strong>Problema: </strong><%=sessao[0].nome_problema%></h2>
                             <h4 class="mb-30 title_color"><strong>Dificuldade: </strong><%=sessao[0].dificuldade%></h4>
 
@@ -73,11 +73,6 @@
                                 <div class="botao_style" id="botao_resposta">Resposta</div>
                                 <blockquote class="adapted-blockquote" id="resposta">
                                     <%=sessao[0].resposta_sessao_realizada%>
-                                </blockquote>
-                        
-                                <div class="botao_style" id="botao_chat">Chat</div>
-                                <blockquote class="adapted-blockquote" id="chat">
-                                    <%=sessao[0].chat_sessao_realizada%>
                                 </blockquote>
                             <% } %>
                         <% } %>
@@ -104,7 +99,7 @@
                                         <a class="d-flex justify-content-between">
                                             <p>Hora Início</p>
                                             <p>
-                                                <% if(sessao[0].situacao == 1) { %>
+                                                <% if(sessao[0].situacao == 1 || sessao[0].situacao == 2) { %>
                                                     <%=sessao[0].hora_inicio%>
                                                 <% } else if(sessao[0].situacao == 0) { %>
                                                     <%=sessao[0].hora_inicio_realizado%>
@@ -116,7 +111,7 @@
                                         <a class="d-flex justify-content-between">
                                             <p>Hora Final</p>
                                             <p>
-                                                <% if(sessao[0].situacao == 1) { %>
+                                                <% if(sessao[0].situacao == 1 || sessao[0].situacao == 2) { %>
                                                     <%=sessao[0].hora_final%>
                                                 <% } else if(sessao[0].situacao == 0) { %>
                                                     <%=sessao[0].hora_final_realizado%>
@@ -128,7 +123,7 @@
                                         <a class="d-flex justify-content-between">
                                             <p>Tamanho do grupo</p>
                                             <p>
-                                                <% if(sessao[0].situacao == 1) { %>
+                                                <% if(sessao[0].situacao == 1 || sessao[0].situacao == 2) { %>
                                                     <%=sessao[0].tamanho_grupo%>
                                                 <% } else if(sessao[0].situacao == 0) { %>
                                                     <%=participantes.length%>
@@ -143,7 +138,7 @@
                                             <p><%=sessao[0].tempo_rotacao%> minutos</p>
                                         </a>
                                     </li>
-                                    <% if(sessao[0].situacao == 1) { %>
+                                    <% if(sessao[0].situacao == 1 || sessao[0].situacao == 2) { %>
                                         <li>
                                             <a class="d-flex justify-content-between">
                                                 <p>Participantes Online</p>
@@ -217,9 +212,6 @@
         });
         $("#botao_resposta").click(function() {
             $("#resposta").slideToggle();
-        });
-        $("#botao_chat").click(function() {
-            $("#chat").slideToggle();
         });
     </script>
     <!--========================= Menssagem Sessão criada com sucesso ============================-->

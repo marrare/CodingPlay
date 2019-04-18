@@ -20,19 +20,19 @@ function qtdUsersPorSessao(text_colaboractive,situacao,confirm) {
     channel = pusher.subscribe(channelCodigo);
     channel.bind('pusher:subscription_succeeded', function(members) {
         
-      if(situacao == 1){    
+      if(situacao == 1 || situacao == 2){    
         updateMembersCount(channel.members);
       }
       resolve(channel);
     });
       
     channel.bind('pusher:member_added', function() {
-      if(situacao == 1){
+      if(situacao == 1 || situacao == 2){
         updateMembersCount(channel.members);
       }
     });
     channel.bind('pusher:member_removed', function() {
-      if(situacao == 1){
+      if(situacao == 1 || situacao == 2){
         updateMembersCount(channel.members);
       }
     });

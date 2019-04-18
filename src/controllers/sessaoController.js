@@ -126,11 +126,11 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
-                if(result[0].situacao == 1) {
+                if(result[0].situacao == 1 || result[0].situacao == 2) {
                     result[0].participante = valor.participante;
                     res.render('./sessao/sessaoAtiva',{sessao : result});
                 } else {
-                    ParticipaSessaoDao.buscarPorIdSessao(valor.id, function(err2, result2) {
+                    ParticipaSessaoDao.buscarPorIdSessao(valor.idSessao, function(err2, result2) {
                         if (err2) {
                             throw err;
                         } else {
@@ -141,6 +141,21 @@ module.exports = (app) => {
                 
             }
         });
+    },
+    iniciarSessao: function(req, res) {
+        var valor = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        
+        daoSessao.iniciar(valor, function(err) {
+            if(err) {
+                throw err;
+            } else {
+                res.redirect('/sessao/active?idSessao='+valor.idSessao+'&participante=0&id='+valor.id);
+            }
+        }); 
+
     },
     finalizarSessao: function(req, res) {
         var valor = req.query;

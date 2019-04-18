@@ -96,6 +96,14 @@
                                 </div>
                             </a>
                             <div class="cardsessions">
+                                <% if(sessoes[i].situacao == 2) { %>
+                                    <div class="status_session_start" data-toggle="tooltip" data-placement="right" title="Sessão em andamento"></div>
+                                <% } else if(sessoes[i].situacao == 1) { %>
+                                    <div class="status_session_wait" data-toggle="tooltip" data-placement="right" title="Sessão em espera"></div>
+                                <% } else if(sessoes[i].situacao == 0) { %>
+                                    <div class="status_session_finish" data-toggle="tooltip" data-placement="right" title="Sessão finalizada"></div>
+                                <% } %>
+                                
                                 <h6>Inicio: <%=sessoes[i].hora_inicio%></h6>
                                 <h6>Fim: <%=sessoes[i].hora_final%></h6>
                                 <h6>Professor: <%=sessoes[i].nome %></h6>

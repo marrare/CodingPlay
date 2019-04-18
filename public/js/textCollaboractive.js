@@ -100,6 +100,11 @@
     }
     function triggerChangeMembers () {
       channel.trigger('client-members-edit', $("#membersBlockSend").val());
+    
+      var dataInicio = new Date();
+      dataInicio = getTimeAndDate(dataInicio);
+        
+      window.location = "/sessao/start?idSessao="+idSessao+"&participante=0&id="+id+"&horaInicio="+dataInicio;
     }
     function triggerMensageSend () {
         if($("#msgChatSent").val() != "") {

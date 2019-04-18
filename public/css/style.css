@@ -2766,6 +2766,36 @@ h6 {
     margin: 0px 0px 5px 0px;
     padding: 0px;
 }
+.status_session_wait {	
+    float: right;
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border: 1px solid #000000;
+    background-color: #FFFF00;
+    box-shadow: inset -1px -1px 1px #660, inset 1px 1px 1px #FFF;
+}
+.status_session_start {	
+    float: right;
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border: 1px solid #000000;
+    background-color: #00DD00;
+    box-shadow: inset -1px -1px 1px #660, inset 1px 1px 1px #FFF;
+}
+.status_session_finish {	
+    float: right;
+    border-radius: 50%;
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border: 1px solid #000000;
+    background-color: #DD0000;
+    box-shadow: inset -1px -1px 1px #660, inset 1px 1px 1px #FFF;
+}
 
 /* Card Sessões Login area css
 ============================================================================================ */
