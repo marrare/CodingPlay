@@ -55,6 +55,16 @@ function qtdUsersPorSessao(text_colaboractive,situacao,confirm) {
             online++;
         }
     });
+
+    if(tipoUsuario == 'aluno') {
+        if(qtdGrupo > online) {
+            $("#participar").show();
+        } else if(qtdGrupo == online) {
+            $("#participar").hide();
+        }
+    }
+    
+      
     document.getElementById(text_colaboractive).innerHTML = online;
   }
 

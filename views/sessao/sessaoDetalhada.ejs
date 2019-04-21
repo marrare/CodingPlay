@@ -22,8 +22,11 @@
     <link rel="stylesheet" href="/css/sessaoDetalhada.css">
     <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
     <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
+    <script> var tipoUsuario = "<%= session.tipo %>" </script>
     <script> var text_colaboractive = "<%=sessao[0].texto_colaborativo%>" </script>
     <script> var situacao = "<%=sessao[0].situacao%>" </script>
+    <script> var idSessao = "<%=sessao[0].id%>" </script>
+    <script> var qtdGrupo = "<%=sessao[0].tamanho_grupo%>" </script>
     <script>var channel;</script>
 </head>
     
@@ -146,14 +149,14 @@
                                             </a>
                                         </li>
                                         <% if(session.usuario != 'undefined' && session.tipo == 'aluno') { %>
-                                            <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=1&id=presence-<%=sessao[0].texto_colaborativo%>">
+                                            <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=1&id=presence-<%=sessao[0].texto_colaborativo%>" id="participar">
                                                 <div  class="participaSessao">
                                                     <strong>Participar</strong>
                                                 </div>
                                             </a>
                                         <% } %>
 
-                                        <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=0&id=presence-<%=sessao[0].texto_colaborativo%>">
+                                        <a href="/sessao/active?idSessao=<%=sessao[0].id%>&participante=0&id=presence-<%=sessao[0].texto_colaborativo%>" id="observar">
                                             <div  class="observaSessao">
                                                 <strong>Observar</strong>
                                             </div>

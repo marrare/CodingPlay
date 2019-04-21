@@ -4,7 +4,6 @@ $(document).ready(function(){
     $("#textoColaborativo").attr("value",codigo);
 });
 
-
 //////////////////////////// EFEITOS DE SELECIONAR PROBLEMA
 $(function(){
     $(".pointer").click(function(e) {
@@ -38,35 +37,31 @@ $(function(){
     });
 });
 
+//////////////////////VALIDAÇÃO HORA INICIO E FINAL
+$("#hora_inicio").change(function() {
+    var horaInicioAtual = new Date($("#hora_inicio").val());
+    var minHoraFinal = new Date(horaInicioAtual);
+    minHoraFinal.setHours(horaInicioAtual.getHours() + 1);
+    
+    var maxHoraFinal = new Date(horaInicioAtual);
+    maxHoraFinal.setHours(horaInicioAtual.getHours() + 12);
+    
+    minHoraFinal = getFormatDate(minHoraFinal);
+    maxHoraFinal = getFormatDate(maxHoraFinal);
+
+    $("#hora_final").attr("min",minHoraFinal);
+    $("#hora_final").attr("max",maxHoraFinal);
+});
+
 //////////// PERMITE APENAS QUE A SESSÃO SEJA REALIZADA PARA UMA DATA FUTURA
 $(document).ready(function(){
     
-    var agora = new Date();
-    var ano = agora.getFullYear();
-    var mes = agora.getMonth()+1;
-    var data = agora.getDate();
-    var horas = agora.getHours();
-    var horasFinal = horas+1;
-    var minutos = agora.getMinutes();
+    var tempoInicio = new Date();
+    var tempoFinal = new Date(tempoInicio);
+    tempoFinal.setHours(tempoInicio.getHours() + 1);
     
-    if(mes < 10) {
-        mes = "0"+mes;
-    }
-    if(data < 10) {
-        data = "0"+data;
-    }
-    if(horas < 10) {
-        horas = "0"+horas;
-    }
-    if(horasFinal < 10) {
-        horasFinal = "0"+horasFinal;
-    }
-    if(minutos < 10) {
-        minutos = "0"+minutos;
-    }
-    
-    var tempoInicio = ano+"-"+mes+"-"+data+"T"+horas+":"+minutos;
-    var tempoFinal = ano+"-"+mes+"-"+data+"T"+horasFinal+":"+minutos;
+    tempoInicio = getFormatDate(tempoInicio);
+    tempoFinal = getFormatDate(tempoFinal);
 
     $("#hora_inicio").attr("min",tempoInicio);
     $("#hora_final").attr("min",tempoFinal);
@@ -103,3 +98,33 @@ $(".pointer").click(function(e) {
     }
     $("#nomeSessao").attr("value",palavra);
 });
+
+function getFormatDate(agora) {
+    
+    var ano = agora.getFullYear();
+    var mes = agora.getMonth()+1;
+    var data = agora.getDate();
+    var horas = agora.getHours();
+    var horasFinal = horas+1;
+    var minutos = agora.getMinutes();
+    
+    if(mes < 10) {
+        mes = "0"+mes;
+    }
+    if(data < 10) {
+        data = "0"+data;
+    }
+    if(horas < 10) {
+        horas = "0"+horas;
+    }
+    if(horasFinal < 10) {
+        horasFinal = "0"+horasFinal;
+    }
+    if(minutos < 10) {
+        minutos = "0"+minutos;
+    }
+    
+    var tempo = ano+"-"+mes+"-"+data+"T"+horas+":"+minutos;
+    
+    return tempo;
+}
