@@ -1,0 +1,93 @@
+.upcoming_games_area .listProblemas th, .listProblemas td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+.upcoming_games_area .listProblemas tr:hover .seleCampo {
+    background-color: #dcdcdc;
+    -webkit-transition: background-color 0.5s; /* Safari */
+    transition: background-color 0.5s;
+}
+.upcoming_games_area .listProblemas tr.pointer:hover {
+    cursor: pointer;
+}
+.upcoming_games_area .listProblemas tr .seleCampo {
+    -webkit-transition: background-color 0.5s; /* Safari */
+    transition: background-color 0.5s;
+}
+.upcoming_games_area .listProblemas th, .listProblemas th {
+  background-color: #2c2172;
+  color: white;
+}
+.upcoming_games_area {
+    padding: 40px 0 80px;
+}
+.upcoming_games_area form.filtro {
+    padding: 20px 0px 15px;
+}
+.listProblemas th, .listProblemas tr.problema td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+section#areaProblema {
+    margin-top: 7%;
+}
+.desc_problem {
+    border:0px;
+    display: none;
+}
+.list_problemas td, .list_problemas th {
+    vertical-align: middle;
+    text-align: center;
+}
+.msg_alert_del {
+    font-size: 14px;
+    font-weight: 100;
+    color: red;
+    margin: 0 auto 15px auto;
+}
+.desc_problema {
+    display: none;
+}
+
+/*============== NOVO PROBLEMA ===================*/
+.descricao_style {
+    width:100%;
+    resize: none;
+    border: 1px solid #ced4da;
+    padding:5px 10px;
+}
+.input_style {
+    display: inline-block;
+    width: 74%;
+    line-height: 36px;
+    border: none;
+    outline: none;
+    background: #fff;
+    padding: 0px 10px;
+    border: 1px solid #ced4da;
+}
+.select_dificuldade {
+    display:inline-block;
+    width:25%;
+}
+::-webkit-input-placeholder {
+    color: #495057;
+    font-size: 1rem;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+    color: #495057; 
+    font-size: 1rem;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+    color: #495057;
+    font-size: 1rem;
+}
+
+:-ms-input-placeholder {  
+    color: #495057;
+    font-size: 1rem;
+}

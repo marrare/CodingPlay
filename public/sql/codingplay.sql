@@ -34,8 +34,9 @@ CREATE TABLE problema (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_Professor int(11) NOT NULL,
   nome_problema varchar(40) NOT NULL,
-  desc_Problema mediumtext NOT NULL,
+  desc_Problema text NOT NULL,
   dificuldade varchar(7) NOT NULL,
+  situacao tinyint(1) DEFAULT '1',
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (id_Professor) REFERENCES professor (id)
