@@ -65,6 +65,7 @@
     background-color: #fcfcfc;
     border-top:1px solid #ddd;
     border-left: 1px solid #ddd;
+    overflow-x: auto;
 }
 #members{
     margin: 0px;
