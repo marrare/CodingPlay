@@ -6,6 +6,14 @@ function sessaoCriadoSucesso() {
       timer: 1500
     });
 }
+function sessaoCancelada() {
+    Swal.fire({
+      type: 'success',
+      title: 'Sessão Cancelada',
+      showConfirmButton: false,
+      timer: 1500
+    });
+}
 function usuarioCadastradoSucesso() {
     Swal.fire({
       type: 'success',

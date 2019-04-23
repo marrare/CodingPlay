@@ -19,6 +19,13 @@
 	<!-- main css -->
     <link rel="stylesheet" href="/css/sweetalert2.min.css">
 	<link rel="stylesheet" href="/css/style.css">
+    <style>
+        .button_remover {
+            position:absolute;
+            z-index:1;
+            padding: 5px 0px 0px 5px; 
+        }
+    </style>
 </head>
     
 
@@ -85,8 +92,17 @@
 
                 <% if(sessoes.length > 0) { %>
                     <% for(var i = 0; i < sessoes.length; i++) { %>
-
                         <div class="col-lg-3 col-md-6">
+                            
+                            
+                            <% if(session.tipo == 'professor' && session.usuario.id == sessoes[i].id_professor && sessoes[i].situacao == 1) { %>
+                            <div class="button_remover">
+                                <a href="/sessao/delete?id=<%=sessoes[i].id%>">
+                                    <img src="/img/iconExit.png" height="30" data-toggle="tooltip" data-placement="right" title="Cancelar Sessão">
+                                </a>
+                            </div>
+                            <% } %>
+                            
                             <a href="/sessao/info?id=<%=sessoes[i].id%>">
                                 <div class="new_games_item">
                                     <img src="/img/gallery_img2.png" alt="">
@@ -95,6 +111,7 @@
                                     </div>
                                 </div>
                             </a>
+                            
                             <div class="cardsessions">
                                 <% if(sessoes[i].situacao == 2) { %>
                                     <div class="status_session_start" data-toggle="tooltip" data-placement="right" title="Sessão em andamento"></div>
@@ -147,9 +164,13 @@
     <script src="/js/alerts.js"></script>
     
     <!--========================= Menssagem Sessão criada com sucesso ============================-->
-        <% if(typeof menssagem != 'undefined') { %>
+        <% if(typeof menssagemCriar != 'undefined') { %>
             <script>
                 sessaoCriadoSucesso();
+            </script>
+        <% } else if (typeof menssagemRemover != 'undefined') { %>
+            <script>
+                sessaoCancelada();
             </script>
         <% } %>
     <!--========================= END - Menssagem Sessão criada com sucesso ============================-->

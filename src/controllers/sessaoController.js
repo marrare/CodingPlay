@@ -9,7 +9,7 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
-                res.render('./sessao/listarSessoes',{sessoes : result, menssagem : req.flash("menssagem")});
+                res.render('./sessao/listarSessoes',{sessoes : result, menssagemCriar : req.flash("menssagemCriar"), menssagemRemover : req.flash("menssagemRemover")});
             }
         });
     },
@@ -71,7 +71,7 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
-                req.flash("menssagem","Sessão Criada com Sucesso");
+                req.flash("menssagemCriar","Sessão Criada com Sucesso");
                 res.redirect('/sessoes/list');
             }
         }); 
@@ -190,6 +190,23 @@ module.exports = (app) => {
                 
             }
         });
+
+    },
+    
+    deletarSessao: function(req, res) {
+        var sessao = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        
+        daoSessao.deletar(sessao.id, function(err) {
+            if(err) {
+                throw err;
+            } else {
+                req.flash("menssagemRemover","Sessao Removida com Sucesso");
+                res.redirect('/sessoes/list');
+            }
+        }); 
 
     }
   };
