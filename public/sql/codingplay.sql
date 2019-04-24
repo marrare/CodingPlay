@@ -95,7 +95,7 @@ INSERT INTO aluno(codigo_pusher,matricula,nome,email,senha) VALUES ('69021688912
 -- Senha "professor1234"
 INSERT INTO professor(codigo_pusher,matricula,nome,email,senha) VALUES ('7933409374315861','34452','professor','professor@gmail.com','db26588a2def92ed7e1e72ed8befe9a27af133542b2b088c6534489535badbff');
 
-INSERT INTO problema(id_professor,nome_problema,desc_problema,dificuldade) VALUES (1,'Soma idade','Criar uma variável idade, adicionar 20 ao seu valor e imprimi-la.','Fácil'),(1,'Média','Encontrar a média da soma destes valores: 7,8,8,5,4','Fácil');
+INSERT INTO problema(id_professor,nome_problema,desc_problema,dificuldade) VALUES (1,'PRODUTO SIMPLES','Ler dois valores inteiros, calcular o produto entre eles e armazenar numa variável PROD. Imprima o resultado no formato "Resultado: PROD". Exemplo: 4 5  ==> Resultado: 20','Fácil'),(1,'SALÁRIO COM COMISSÃO','Faça um programa que leia o salário fixo de um vendedor e o valor total de vendas no mês que ele realizou. Considerando que o vendedor tem uma comissão de 5% do valor vendido, imprimir o valor final recebido pelo vendedor. Exemplo: 1200.0 5000.0 ==> 1450.0','Fácil');
 
 INSERT INTO sessao(id_professor,id_problema,nome_sessao,texto_colaborativo,tamanho_grupo,tempo_rotacao,hora_inicio,hora_final) VALUES (1,2,'P5A4C','g073vryca',8,2,'2019-03-08 22:00:00','2019-03-08 23:00:00'),(1,2,'HTN46','nx15vztpj',4,5,'2019-03-20 18:00:00','2019-03-20 20:00:00'),(1,1,'26PAG','8wfhau04e',10,7,'2019-04-01 20:00:00','2019-04-01 22:00:00'),(1,1,'4ER2T','annjpa2zt',6,10,'2019-03-10 18:00:00','2019-03-10 20:00:00');
 

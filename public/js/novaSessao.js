@@ -43,14 +43,9 @@ $("#hora_inicio").change(function() {
     var minHoraFinal = new Date(horaInicioAtual);
     minHoraFinal.setHours(horaInicioAtual.getHours() + 1);
     
-    var maxHoraFinal = new Date(horaInicioAtual);
-    maxHoraFinal.setHours(horaInicioAtual.getHours() + 12);
-    
     minHoraFinal = getFormatDate(minHoraFinal);
-    maxHoraFinal = getFormatDate(maxHoraFinal);
 
     $("#hora_final").attr("min",minHoraFinal);
-    $("#hora_final").attr("max",maxHoraFinal);
 });
 
 //////////// PERMITE APENAS QUE A SESSÃO SEJA REALIZADA PARA UMA DATA FUTURA
