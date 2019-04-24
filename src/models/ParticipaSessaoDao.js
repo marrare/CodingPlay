@@ -7,7 +7,11 @@ ParticipaSessaoDao.prototype.salvar = function(participaSessao, callback){
 }
 
 ParticipaSessaoDao.prototype.buscarPorIdSessao = function(id_sessao, callback){
-	this._connection.query("select nome from aluno where id IN(select id_participante from participa_sessao where id_sessao = '"+id_sessao+"')", callback);
+	this._connection.query("select nome,id from aluno where id IN(select id_participante from participa_sessao where id_sessao = '"+id_sessao+"')", callback);
+}
+
+ParticipaSessaoDao.prototype.buscarUsuarioParticipaSessao = function(valor, callback){
+	this._connection.query("select id from participa_sessao where id_sessao = '"+valor.id_sessao+"' AND id_participante = '"+valor.id_participante+"'", callback);
 }
 
 module.exports = function(){

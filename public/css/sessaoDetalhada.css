@@ -93,3 +93,39 @@
     margin: 0;
     padding: 0;
 }
+.block_perguntas_estilo {
+    padding: 10px 0px 10px 25px;
+    border-top: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    list-style-type: decimal;
+}
+.block_perguntas_estilo:last-child {
+    border-bottom: 1px solid #ddd;
+}
+.block_opcoes {
+    padding: 5px 0px;
+}
+.block_opcoes p {
+    margin: 0px;
+}
+.opcoes_sim_nao {
+    width: 24.5%;
+    padding: 0px;
+    display: inline-block;
+    text-align: center;
+}
+.textarea_respostas {
+    resize: none;
+    line-height: inherit;
+    border:1px solid #ddd;
+}
+.botao_style_enviar {
+    text-align: center;
+    padding: 25px 0px 35px 0px;
+    margin:0px;
+}
+.style_div_questionario {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 25px;
+}

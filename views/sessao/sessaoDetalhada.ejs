@@ -43,10 +43,68 @@
             <%- include ../headerOff %>
     <% } %>
     <!--=============== END - Seleção do tipo de navegador de acordo com usuário logado ================-->
-    
+ 
 
         <div class="container">
             <div class="section_gap">
+                
+                <% if(typeof perguntas != 'undefined') { %>
+                    <div class="row">
+                        <div class="col-lg-12 style_div_questionario">
+                            <form id="novaConta" action="/questionario/save" method="post">
+                                <h2 class="mb-30 title_color" style="text-align:center;">Questionário</h2>
+                                <h5 class="title_color" style="text-align:center;">responda o questionário sobre a sessão</h5>
+                                <ul style="padding:0px;margin:0px;">
+
+                                    <% for(var i = 0; i < perguntas.length; i++) { %>
+                                        <% if(perguntas[i].pergunta_fechada == '1') { %>
+                                            <div class="row block_perguntas_estilo">
+                                                <div class="col-lg-4 col-md-4" style="margin: auto 0;">
+                                                    <li class="perguntas_estilo"><%=perguntas[i].pergunta%></li>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8 block_opcoes">
+                                                    <input type="radio" name="<%=perguntas[i].id%>" value="" hidden checked>
+                                                    <div class="col-sm-12 col-lg-3 col-md-3 opcoes_sim_nao">
+                                                        <input type="radio" name="<%=perguntas[i].id%>" value="3"><p>Sim</p>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-3 col-md-3 opcoes_sim_nao">
+                                                        <input type="radio" name="<%=perguntas[i].id%>" value="2"><p>Parcialmente Sim</p>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-3 col-md-3 opcoes_sim_nao">
+                                                        <input type="radio" name="<%=perguntas[i].id%>" value="1"><p>Parcialmente Não</p>
+                                                    </div>
+                                                    <div class="col-sm-12 col-lg-3 col-md-3 opcoes_sim_nao">
+                                                        <input type="radio" name="<%=perguntas[i].id%>" value="0"><p>Não</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% } else if(perguntas[i].pergunta_fechada == '0') { %>
+                                            <div class="row block_perguntas_estilo">
+                                                <div class="col-lg-4 col-md-4" style="margin: auto 0;">
+                                                    <li class="perguntas_estilo"><%=perguntas[i].pergunta%></li>
+                                                </div>
+                                                <div class="col-lg-8 col-md-8">
+                                                    <textarea name="<%=perguntas[i].id%>" class="single-input textarea_respostas" rows="3" maxlength="2000"></textarea>
+                                                </div>
+                                            </div>
+                                        <% } %>
+                                    <% } %>
+
+                                </ul>
+                                <div class="button-group-area botao_style_enviar">
+                                    <input type="submit" class="genric-btn info-border circle arrow" value="Enviar">
+                                </div>
+                                
+                                <!--============ Valores Inputs Ocultos ==============-->
+                                    <input type="text" name="id_sessao" value="<%=sessao[0].id%>" hidden required>
+                                <!--============ END - Valores Inputs Ocultos ==============-->
+
+                            </form>
+                        </div>
+                    </div>
+                <% } %>
+                
+                
                 <% if(sessao[0].situacao == 0) {%>
                     <h2 class="mb-30 title_color" style="text-align:center;">Sessão finalizada</h2>
                 <% } %>
@@ -216,6 +274,21 @@
         $("#botao_resposta").click(function() {
             $("#resposta").slideToggle();
         });
+        
+        $(window).resize(function() {
+            redmensionarQuestionário();
+        });
+        
+        redmensionarQuestionário();
+        
+        function redmensionarQuestionário() {
+            var tamanho = $(window).width();
+            if(tamanho < 580){
+                $(".opcoes_sim_nao").css("display","block");
+            }else {
+                $(".opcoes_sim_nao").css("display","inline-block");
+            }
+        }
     </script>
     <!--========================= Menssagem Sessão criada com sucesso ============================-->
         <% if(typeof menssagem != 'undefined') { %>

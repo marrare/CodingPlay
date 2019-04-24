@@ -39,6 +39,8 @@ function qtdUsersPorSessao(text_colaboractive,situacao,confirm) {
   }).then(function (channel) {
     function triggerEnviarResposta () {
       channel.trigger('client-members_alert', {func : 3});
+        
+      window.location = "/sessao/info?id="+idSessao;
     }
       
     if(confirm == 1) {

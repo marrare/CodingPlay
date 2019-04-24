@@ -34,7 +34,7 @@ CREATE TABLE problema (
   id int(11) NOT NULL AUTO_INCREMENT,
   id_Professor int(11) NOT NULL,
   nome_problema varchar(40) NOT NULL,
-  desc_Problema text NOT NULL,
+  desc_Problema text(10000) NOT NULL,
   dificuldade varchar(7) NOT NULL,
   situacao tinyint(1) DEFAULT '1',
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
@@ -55,7 +55,7 @@ CREATE TABLE sessao (
   hora_final timestamp NOT NULL,
   hora_inicio_realizado timestamp NULL DEFAULT NULL,
   hora_final_realizado timestamp NULL DEFAULT NULL,
-  resposta_sessao_realizada text DEFAULT NULL,
+  resposta_sessao_realizada text(10000) DEFAULT NULL,
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (id_Professor) REFERENCES professor (id),
@@ -71,6 +71,23 @@ CREATE TABLE participa_sessao (
   FOREIGN KEY (id_participante) REFERENCES aluno (id),
   FOREIGN KEY (id_sessao) REFERENCES sessao (id)
 );
+CREATE TABLE perguntas_questionario (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  pergunta varchar(100) NOT NULL,
+  pergunta_fechada tinyint(1) NOT NULL,
+  data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+);
+CREATE TABLE respostas_questionario (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_pergunta int(11) NOT NULL,
+  id_participa_sessao int(11) NOT NULL,
+  resposta text(10000) NOT NULL,
+  data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_pergunta) REFERENCES perguntas_questionario (id),
+  FOREIGN KEY (id_participa_sessao) REFERENCES participa_sessao (id)
+);
 
 -- Senha "aluno1234"
 INSERT INTO aluno(codigo_pusher,matricula,nome,email,senha) VALUES ('6902168891230884','321457','aluno','aluno@gmail.com','9b856e7d565fb4c118445b56259e3ad592c84a71eceafb793c48b367cdb84c88');
@@ -81,3 +98,5 @@ INSERT INTO professor(codigo_pusher,matricula,nome,email,senha) VALUES ('7933409
 INSERT INTO problema(id_professor,nome_problema,desc_problema,dificuldade) VALUES (1,'Soma idade','Criar uma variável idade, adicionar 20 ao seu valor e imprimi-la.','Fácil'),(1,'Média','Encontrar a média da soma destes valores: 7,8,8,5,4','Fácil');
 
 INSERT INTO sessao(id_professor,id_problema,nome_sessao,texto_colaborativo,tamanho_grupo,tempo_rotacao,hora_inicio,hora_final) VALUES (1,2,'P5A4C','g073vryca',8,2,'2019-03-08 22:00:00','2019-03-08 23:00:00'),(1,2,'HTN46','nx15vztpj',4,5,'2019-03-20 18:00:00','2019-03-20 20:00:00'),(1,1,'26PAG','8wfhau04e',10,7,'2019-04-01 20:00:00','2019-04-01 22:00:00'),(1,1,'4ER2T','annjpa2zt',6,10,'2019-03-10 18:00:00','2019-03-10 20:00:00');
+
+INSERT INTO perguntas_questionario(pergunta,pergunta_fechada) VALUES ('Sua equipe conseguiu montar as estratégias adequadas para alcançar a solução ?',1),('Os exercícios propostos estão adequados ?',1),('Esse método favorece a sua aprendizagem ?',1),('Esse é um ambiente colaborativo e cooperativo ?',1),('O que aprendemos ?',0),('O que tem dificultado a aprendizagem ?',0),('O que poderia melhorar ?',0),('O que ocorreu bem ?',0);
