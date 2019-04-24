@@ -521,7 +521,14 @@
                     if (result.value) {
                         
                         
-                        var resposta = $("#doc").text();
+                        var resposta = $("#doc").html();
+                        resposta = resposta.replace(/'/g, "\\'");
+                        resposta = resposta.replace(/%/g, "\\%");
+                        resposta = resposta.replace(/&nbsp;/g, "\ ");
+                        resposta = resposta.replace(/&gt;/g, "\>");
+                        resposta = resposta.replace(/&lt;/g, "\<");
+                        resposta = resposta.replace(/&amp;/g, "\&");
+                        
                         var qtdParticipantes = $("#members li").length;
                         var participantes = "";
                         for(i=1; i <= qtdParticipantes; i++){

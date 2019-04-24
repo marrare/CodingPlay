@@ -49,7 +49,6 @@ SessaoDao.prototype.iniciar = function(sessao, callback){
 }
 
 SessaoDao.prototype.finalizar = function(sessao, callback){
-    console.log(sessao.resposta);
 	this._connection.query("update sessao set hora_final_realizado = '"+sessao.horaFinal+"', resposta_sessao_realizada = '"+sessao.resposta+"', situacao = 0 WHERE id = '"+sessao.sessao_id+"' ", sessao, callback);
 }
 

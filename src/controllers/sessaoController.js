@@ -90,13 +90,11 @@ module.exports = (app) => {
             // Buscar Sessão
             daoSessao.buscarPorId(valor.id, function(err, result) {
                 if (err) {
-                    console.log("Error 1");
                     throw err;
                 } else {
                     // Buscar Participantes
                     ParticipaSessaoDao.buscarPorIdSessao(valor.id, function(err2, result2) {
                         if (err2) {
-                            console.log("Error 2");
                             throw err2;
                         } else {
                             // Buscar Verificar se usuario logado foi um dos participantes
@@ -121,7 +119,6 @@ module.exports = (app) => {
                                     
                                     QuestionarioDao.buscarRespostaUsuario(part, function(err3, result3) {
                                             if (err3) {
-                                                console.log("Error 3");
                                                 throw err3;
                                             } else {
                                                 
@@ -133,7 +130,6 @@ module.exports = (app) => {
                                                 } else if(result3[0].qtd_resposta == 0) {
                                                     QuestionarioDao.listarPerguntas(function(err4, result4) {
                                                         if (err4) {
-                                                            console.log("Error 4");
                                                             throw err4;
                                                         } else {
                                                             res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem")});
@@ -252,7 +248,6 @@ module.exports = (app) => {
     },
     finalizarSessao: function(req, res) {
         var valor = req.query;
-        console.log(valor.resposta);
         
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
@@ -260,7 +255,6 @@ module.exports = (app) => {
         
         daoSessao.finalizar(valor, function(err) {
             if(err) {
-                console.log(err);
                 throw err;
             } else {
                 
@@ -275,7 +269,6 @@ module.exports = (app) => {
                     
                     ParticipaSessaoDao.salvar(part, function(err) {
                         if(err) {
-                            console.log("Error Salvar participantes");
                             throw err;
                         }
                     });

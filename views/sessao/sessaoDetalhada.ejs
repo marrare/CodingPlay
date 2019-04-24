@@ -132,9 +132,9 @@
                                 </blockquote>
                         
                                 <div class="botao_style" id="botao_resposta">Resposta</div>
-                                <blockquote class="adapted-blockquote" id="resposta">
-                                    <%=sessao[0].resposta_sessao_realizada%>
-                                </blockquote>
+                                <pre class="adapted-blockquote" id="resposta">
+                                    
+                                </pre>
                             <% } %>
                         <% } %>
                         
@@ -289,6 +289,19 @@
                 $(".opcoes_sim_nao").css("display","inline-block");
             }
         }
+        
+        var respostaHtml = '<%=sessao[0].resposta_sessao_realizada%>'
+        
+        function strip(html) {
+           var tmp = document.createElement("DIV");
+           tmp.innerHTML = html;
+           return tmp.textContent || tmp.innerText || "";
+        }
+        respostaHtml = strip(respostaHtml);
+        
+        $("#resposta").html(respostaHtml);
+        
+                                    
     </script>
     <!--========================= Menssagem Sessão criada com sucesso ============================-->
         <% if(typeof menssagem != 'undefined') { %>
