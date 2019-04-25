@@ -10,6 +10,8 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
+                connection.end();
+                
                 res.render('./problema/listarProblemas',{problemas : result, menssagemCriar : req.flash("menssagemCriar"), menssagemRemover : req.flash("menssagemRemover")});
             }      
         });
@@ -31,6 +33,8 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                connection.end();
+                
                 req.flash("menssagemCriar","Problema Criado com Sucesso");
                 res.redirect('/problema/list');
             }
@@ -48,6 +52,8 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                connection.end();
+                
                 req.flash("menssagemRemover","Problema Removido com Sucesso");
                 res.redirect('/problema/list');
             }

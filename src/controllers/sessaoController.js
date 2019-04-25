@@ -9,6 +9,8 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
+                connection.end();
+                
                 res.render('./sessao/listarSessoes',{sessoes : result, menssagemCriar : req.flash("menssagemCriar"), menssagemRemover : req.flash("menssagemRemover")});
             }
         });
@@ -24,6 +26,8 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                connection.end();
+                
                 res.render('./sessao/listarSessoes',{sessoes : result});
             }
         });  
@@ -38,6 +42,8 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
+                connection.end();
+                
                 res.render('./sessao/novaSessao',{problemas : result});
             }      
         });
@@ -54,6 +60,8 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                connection.end();
+                
                 res.render('./sessao/novaSessao',{problemas : result});
             }
         });  
@@ -71,6 +79,8 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                connection.end();
+                
                 req.flash("menssagemCriar","Sessão Criada com Sucesso");
                 res.redirect('/sessoes/list');
             }
@@ -107,7 +117,10 @@ module.exports = (app) => {
                             
                             switch(ifUsuarioLogadoParticipante) {
                                 // Se usuario não foi participante carrega página normalmente
-                                case 0: res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                                case 0: 
+                                    connection.end();
+                                    
+                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
                                 break;
                                     
                                 // Se usuario foi participante, então verificar se já respondeu o questionário
@@ -124,6 +137,8 @@ module.exports = (app) => {
                                                 
                                                 // Se respondeu o questionário carrega página normalmente
                                                 if(result3[0].qtd_resposta > 0) {
+                                                    connection.end();
+                                                    
                                                     res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
                                                     
                                                 // Se não respondeu o questionário, então buscar perguntas do questionário para serem respondidas
@@ -132,6 +147,8 @@ module.exports = (app) => {
                                                         if (err4) {
                                                             throw err4;
                                                         } else {
+                                                            connection.end();
+                                                            
                                                             res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem")});
                                                         }
                                                     });
@@ -164,7 +181,10 @@ module.exports = (app) => {
                             
                             switch(ifUsuarioLogadoParticipante) {
                                 // Se usuario não foi participante carrega página normalmente
-                                case 0: res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                                case 0: 
+                                    connection.end();
+                                    
+                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
                                 break;
                                     
                                 // Se usuario foi participante, então verificar se já respondeu o questionário
@@ -181,6 +201,8 @@ module.exports = (app) => {
                                                 
                                                 // Se respondeu o questionário carrega página normalmente
                                                 if(result3[0].qtd_resposta > 0) {
+                                                    connection.end();
+                                                    
                                                     res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
                                                     
                                                 // Se não respondeu o questionário, então buscar perguntas do questionário para serem respondidas
@@ -189,6 +211,8 @@ module.exports = (app) => {
                                                         if (err4) {
                                                             throw err4;
                                                         } else {
+                                                            connection.end();
+                                                            
                                                             res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem")});
                                                         }
                                                     });
@@ -217,12 +241,17 @@ module.exports = (app) => {
             } else {
                 if(result[0].situacao == 1 || result[0].situacao == 2) {
                     result[0].participante = valor.participante;
+                    
+                    connection.end();
+                    
                     res.render('./sessao/sessaoAtiva',{sessao : result});
                 } else {
                     ParticipaSessaoDao.buscarPorIdSessao(valor.idSessao, function(err2, result2) {
                         if (err2) {
                             throw err;
                         } else {
+                            connection.end();
+                            
                             res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
                         }
                     });
@@ -241,6 +270,8 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                connection.end();
+                
                 res.redirect('/sessao/active?idSessao='+valor.idSessao+'&participante=0&id='+valor.id);
             }
         }); 
@@ -273,6 +304,7 @@ module.exports = (app) => {
                         }
                     });
                 }
+                connection.end();
                 
                 req.flash("menssagem","Sessão Finalizada com Sucesso");
                 res.redirect('/sessao/info?id='+valor.sessao_id);
@@ -292,6 +324,8 @@ module.exports = (app) => {
             if(err) {
                 throw err;
             } else {
+                connection.end();
+                
                 req.flash("menssagemRemover","Sessao Removida com Sucesso");
                 res.redirect('/sessoes/list');
             }

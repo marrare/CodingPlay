@@ -20,6 +20,9 @@ module.exports = (app) => {
                 if(resultAluno[0] != undefined) {
                     req.session.usuario = resultAluno[0];
                     req.session.tipo = 'aluno';
+                    
+                    connection.end();
+                    
                     res.redirect('/');
                 } else   {
                     
@@ -28,9 +31,14 @@ module.exports = (app) => {
                         if (err) {
                             throw err;
                         } else {
+                            
+                            
                             if(resultProfessor[0] != undefined) {
                                 req.session.usuario = resultProfessor[0];
                                 req.session.tipo = 'professor';
+                                
+                                connection.end();
+                                
                                 res.redirect('/');
                             } else {
                                 res.render('login', {msg:"Email ou senha invalido"});

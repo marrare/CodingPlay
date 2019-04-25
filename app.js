@@ -64,6 +64,8 @@ app.post('/pusher/auth', function(req, res) {
   res.send(auth);
 });
 
-app.listen(process.env.PORT || 3000, function(){
-  console.log("CodingPlay on port %d in %s mode", this.address().port, app.settings.env);
+app.set('port', process.env.PORT || 3000);
+
+app.listen(app.get('port'), function() {
+    console.log('Codingplay no ar');
 });

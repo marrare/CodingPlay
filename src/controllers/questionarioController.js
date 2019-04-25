@@ -38,6 +38,7 @@ module.exports = (app) => {
                         });
                     }
                 }
+                connection.end();
                 
                 res.redirect('/sessao/info?id='+valor.id_sessao);
                 

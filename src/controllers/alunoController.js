@@ -18,6 +18,8 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
+                connection.end();
+                
                 req.flash("msgUsuarioCad","Usuario Cadastrado com Sucesso");
                 res.redirect('/login');
             }
