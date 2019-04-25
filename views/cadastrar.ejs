@@ -30,6 +30,13 @@
                 <div class="offset-2"></div>
                     <div class="col-lg-8 col-md-8">
                         <h3 class="mb-30 title_color text-center">Criar Conta</h3>
+                        
+                        <!--========================= Menssagem Usuario criado com sucesso ============================-->
+                            <% if(typeof valorDuplicado != 'undefined') { %>
+                                <div style="text-align:center; color:red;font-size:0.9em;font-family:arial;"><%=valorDuplicado%></div>
+                            <% } %>
+                        <!--========================= END - Menssagem Usuario criado com sucesso ============================-->
+                        
                         <form id="novaConta" action="/aluno/save" method="post">
                             <div class="mt-10">
                                 <label for="matricula"></label>

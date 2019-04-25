@@ -5,7 +5,7 @@ USE codingplay;
 SET SQL_MODE='allow_invalid_dates';
 
 CREATE TABLE aluno (
-  id int(11) NOT NULL AUTO_INCREMENT,
+  id int NOT NULL AUTO_INCREMENT,
   codigo_pusher varchar(25) NOT NULL,
   matricula varchar(20)  NOT NULL,
   nome varchar(60) NOT NULL,
@@ -15,11 +15,13 @@ CREATE TABLE aluno (
   pontuacao int(11) DEFAULT '0',
   nivel tinyint(1) DEFAULT '0',
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_email (email),
+  UNIQUE KEY unique_matricula (matricula),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE professor (
-  id int(11) NOT NULL AUTO_INCREMENT,
+  id int NOT NULL AUTO_INCREMENT,
   codigo_pusher varchar(25) NOT NULL,
   matricula varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   nome varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -27,12 +29,14 @@ CREATE TABLE professor (
   senha varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   situacao tinyint(1) DEFAULT '1',
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY unique_email (email),
+  UNIQUE KEY unique_matricula (matricula),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE problema (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  id_Professor int(11) NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
+  id_Professor int NOT NULL,
   nome_problema varchar(40) NOT NULL,
   desc_Problema text(10000) NOT NULL,
   dificuldade varchar(7) NOT NULL,
@@ -43,9 +47,9 @@ CREATE TABLE problema (
 );
 
 CREATE TABLE sessao (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  id_Professor int(11) NOT NULL,
-  id_Problema int(11) NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
+  id_Professor int NOT NULL,
+  id_Problema int NOT NULL,
   situacao tinyint(1) DEFAULT '1',
   nome_sessao varchar(20) NOT NULL,
   texto_colaborativo varchar(10) NOT NULL,
@@ -63,25 +67,25 @@ CREATE TABLE sessao (
 );
 
 CREATE TABLE participa_sessao (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  id_participante int(11) NOT NULL,
-  id_sessao int(11) NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
+  id_participante int NOT NULL,
+  id_sessao int NOT NULL,
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (id_participante) REFERENCES aluno (id),
   FOREIGN KEY (id_sessao) REFERENCES sessao (id)
 );
 CREATE TABLE perguntas_questionario (
-  id int(11) NOT NULL AUTO_INCREMENT,
+  id int NOT NULL AUTO_INCREMENT,
   pergunta varchar(100) NOT NULL,
   pergunta_fechada tinyint(1) NOT NULL,
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id)
 );
 CREATE TABLE respostas_questionario (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  id_pergunta int(11) NOT NULL,
-  id_participa_sessao int(11) NOT NULL,
+  id int NOT NULL AUTO_INCREMENT,
+  id_pergunta int NOT NULL,
+  id_participa_sessao int NOT NULL,
   resposta text(10000) NOT NULL,
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
