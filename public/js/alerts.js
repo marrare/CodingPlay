@@ -30,3 +30,11 @@ function problemaCriadoSucesso() {
       timer: 1500
     });
 }
+function alunoAtivadoComSucesso() {
+    Swal.fire({
+      type: 'success',
+      title: 'Contas Ativadas com Sucesso',
+      showConfirmButton: false,
+      timer: 1500
+    });
+}

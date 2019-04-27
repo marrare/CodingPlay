@@ -11,7 +11,7 @@ CREATE TABLE aluno (
   nome varchar(60) NOT NULL,
   email varchar(40) NOT NULL,
   senha varchar(100) NOT NULL,
-  situacao tinyint(1) DEFAULT '1',
+  situacao tinyint(1) DEFAULT '0',
   pontuacao int(11) DEFAULT '0',
   nivel tinyint(1) DEFAULT '0',
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,

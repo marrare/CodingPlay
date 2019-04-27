@@ -52,6 +52,13 @@
                     <div id="login-column" class="col-md-6">
                         <form id="login-form" class="form" action="entrar" method="post">
                             <h3 class="text-center">Login</h3>
+                            
+                            <!--========================= Menssagem Usuario criado com sucesso ============================-->
+                                <% if(typeof contaDesativada != 'undefined') { %>
+                                    <div style="text-align:center; color:red;font-size:0.9em;font-family:arial;"><%=contaDesativada%></div>
+                                <% } %>
+                            <!--========================= END - Menssagem Usuario criado com sucesso ============================-->
+                            
                             <div class="form-group">
                                 <label for="email" >Email:</label><br>
                                 <input type="text" name="email" id="email" class="form-control">
