@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="img/favicon.icon" type="image/png">
+	<title>Coding Play</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+	<link rel="stylesheet" href="/vendors/linericon/style.css"> <!-- Icones -->
+	<link rel="stylesheet" href="/css/font-awesome.min.css"> <!-- Icones -->
+	<link rel="stylesheet" href="/vendors/owl-carousel/owl.carousel.min.css">
+	<link rel="stylesheet" href="/css/magnific-popup.css"> <!-- Popup de video ou fotos -->
+	<link rel="stylesheet" href="/vendors/nice-select/css/nice-select.css"> <!-- Selecionar select -->
+	<link rel="stylesheet" href="/vendors/animate-css/animate.css">
+	<link rel="stylesheet" href="/vendors/flaticon/flaticon.css"> <!-- Icones -->
+	<!-- main css -->
+	<link rel="stylesheet" href="/css/style.css">
+</head>
+    
+<body>
+    
+    <!--=============== Seleção do tipo de navegador de acordo com usuário logado ====================-->
+    <% if(session.tipo == 'aluno' && session.usuario != 'undefined') { %>
+            <%- include aluno/comum/header %>
+    <% } else if(session.tipo == 'professor' && session.usuario != 'undefined') { %>
+            <%- include professor/comum/header %>
+    <% } else { %>
+            <%- include headerOff %>
+    <% } %>
+    <!--=============== END - Seleção do tipo de navegador de acordo com usuário logado ================-->
+    
+    <section class="section_gap">
+        <div class="container">
+            <div class="row">
+                <div class="offset-2"></div>
+                    <div class="col-lg-8 col-md-8">
+                        <h3 class="mb-30 title_color text-center">Trocar Senha</h3>
+                        
+                        <form id="novaConta" action="save" method="post">
+                            <div class="mt-10">
+                                <label for="senha"></label>
+                                <input type="password" id="senha" name="senha" maxlength="100" placeholder="Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Senha'" class="single-input">
+                            </div>
+                            <div class="mt-10">
+                                <label for="confirSenha"></label>
+                                <input type="password" id="confirSenha" name="confirSenha"  placeholder="Confirmar Senha" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirmar Senha'"  class="single-input">
+                            </div>
+                            <div class="button-group-area mt-20">
+                                <input type="submit" class="genric-btn info-border circle arrow" value="Confirmar">
+                            </div>
+                            
+                            <!--============ Valores Inputs Ocultos ==============-->
+                                <input type="text" name="id" value="<%=contaProfessor.id%>" hidden required>
+                                <input type="text" name="email" value="<%=contaProfessor.email%>"  hidden required>
+                            <!--============ END - Valores Inputs Ocultos ==============-->
+                            
+                            
+                        </form>
+                    </div>
+                <div class="offset-2"></div>
+            </div>
+        </div>
+    </section>
+    
+    
+    
+    
+    <% include comum/footer %>
+    
+    <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="/js/jquery-3.2.1.min.js"></script>
+	<script src="/js/popper.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+	<script src="/js/stellar.js"></script>
+	<script src="/js/jquery.magnific-popup.min.js"></script> <!-- Popups -->
+	<script src="/vendors/nice-select/js/jquery.nice-select.min.js"></script> <!-- Selecionar select -->
+	<script src="/vendors/isotope/imagesloaded.pkgd.min.js"></script> <!-- Adicionar imagens aleatórias -->
+	<script src="/vendors/isotope/isotope-min.js"></script>
+	<script src="/vendors/owl-carousel/owl.carousel.min.js"></script>
+	<script src="/js/jquery.ajaxchimp.min.js"></script>
+	<script src="/vendors/counter-up/jquery.waypoints.min.js"></script> <!-- Acompanha tela e realiza eventos dependendo do que se vê na tela -->
+	<script src="/vendors/counter-up/jquery.counterup.min.js"></script>
+	<script src="/js/mail-script.js"></script>
+    <script src="js/theme.js"></script>
+    
+    <!-- JS adicionais -->
+    <script src="/js/footer.js"></script>
+    <script src="/js/jquery.validate.min.js"></script>
+    <script src="/js/novoUsuarioValidacao.js"></script>
+</body>
+
+</html>

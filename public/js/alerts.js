@@ -38,3 +38,11 @@ function alunoAtivadoComSucesso() {
       timer: 1500
     });
 }
+function professorCadastradoSucesso() {
+    Swal.fire({
+      type: 'success',
+      title: 'Professor Cadastrado com Sucesso',
+      showConfirmButton: false,
+      timer: 1500
+    });
+}

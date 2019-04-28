@@ -26,7 +26,7 @@ CREATE TABLE professor (
   matricula varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
   nome varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   email varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  senha varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  senha varchar(100) COLLATE utf8mb4_unicode_ci,
   situacao tinyint(1) DEFAULT '1',
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY unique_email (email),

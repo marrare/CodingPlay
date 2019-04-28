@@ -26,37 +26,91 @@ module.exports = (app) => {
 
                         res.redirect('/');
                     } else if(resultAluno[0].situacao == '0'){
+                        connection.end();
+                        
                         req.flash("contaDesativada","Conta inativa, aguarde o professor ativar");
                         res.redirect('/login');
                     }
 
-                } else   {
+                } else {
                     
                     var daoProfessor = new app.src.models.ProfessorDao(connection);
-                    daoProfessor.buscarLogin(dadosLogin, function(err, resultProfessor){
+                    
+                    
+                    daoProfessor.buscarLoginSemSenha(dadosLogin, function(err, resultProfSenha){
                         if (err) {
                             throw err;
                         } else {
-                            
-                            
-                            if(resultProfessor[0] != undefined) {
-                                if(resultProfessor[0].situacao == '1'){
-                                    req.session.usuario = resultProfessor[0];
-                                    req.session.tipo = 'professor';
-
+                            if(resultProfSenha[0] != undefined){
+                               if(resultProfSenha[0].senha == null){
+                                   
                                     connection.end();
 
-                                    res.redirect('/');
-                                } else if(resultProfessor[0].situacao == '0'){
-                                    req.flash("contaDesativada","Conta desativada");
-                                    res.redirect('/login');
-                                }
+                                    req.flash("contaProfessor", resultProfSenha[0] );
+                                    res.redirect('/professor/senha/change');
+                               } else {
+                                   daoProfessor.buscarLogin(dadosLogin, function(err, resultProfessor){
+                                        if (err) {
+                                            throw err;
+                                        } else {
+
+
+                                            if(resultProfessor[0] != undefined) {
+                                                if(resultProfessor[0].situacao == '1'){
+                                                    req.session.usuario = resultProfessor[0];
+                                                    req.session.tipo = 'professor';
+
+                                                    connection.end();
+
+                                                    res.redirect('/');
+                                                } else if(resultProfessor[0].situacao == '0'){
+                                                    connection.end();
+
+                                                    req.flash("contaDesativada","Conta desativada");
+                                                    res.redirect('/login');
+                                                }
+                                            } else {
+                                                connection.end();
+
+                                                res.render('login', {msg:"Email ou senha invalido"});
+                                            }
+                                        }
+                                    });
+                               }
                             } else {
-                                res.render('login', {msg:"Email ou senha invalido"});
+                                
+                                daoProfessor.buscarLogin(dadosLogin, function(err, resultProfessor){
+                                    if (err) {
+                                        throw err;
+                                    } else {
+
+
+                                        if(resultProfessor[0] != undefined) {
+                                            if(resultProfessor[0].situacao == '1'){
+                                                req.session.usuario = resultProfessor[0];
+                                                req.session.tipo = 'professor';
+
+                                                connection.end();
+
+                                                res.redirect('/');
+                                            } else if(resultProfessor[0].situacao == '0'){
+                                                connection.end();
+
+                                                req.flash("contaDesativada","Conta desativada");
+                                                res.redirect('/login');
+                                            }
+                                        } else {
+                                            connection.end();
+
+                                            res.render('login', {msg:"Email ou senha invalido"});
+                                        }
+                                    }
+                                });
+                                
                             }
                         }
                     });
-                    
+ 
                 }
             }
         });
