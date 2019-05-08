@@ -96,8 +96,8 @@
         }
         .panel-body {
             overflow-y: scroll;
-            min-height:150px;
-            max-height:150px;
+            min-height:200px;
+            max-height:200px;
             padding: 15px;
             border-left: 1px solid #f2f2f2;
         }
@@ -170,7 +170,9 @@
             }
             
             if(("user-"+codigoPusher) == idPiloto) {
-                $(".doc__text-editor").css("pointer-events", "none");
+                $(".CodeMirror").css("pointer-events", "none");
+                $(".doc").css("cursor","default");
+                $("#botaoExecutar").focus();
                 $(".panel-footer").hide();
                 $(".confirm_solução").hide();
                 redimensionarBlocoResposta();
@@ -181,7 +183,8 @@
             idPiloto = el && el.id;
             
             if(("user-"+codigoPusher) == idPiloto) {
-                $(".doc__text-editor").css("pointer-events", "auto");
+                $(".CodeMirror").css("pointer-events", "auto");
+                $(".doc").css("cursor","text");
                 $(".panel-footer").show();
                 $(".confirm_solução").show();
                 redimensionarBlocoResposta();
@@ -197,12 +200,24 @@
                 $("#tipoUserChat").val("copiloto");
             }
             
+            $(".CodeMirror-vscrollbar").css("pointer-events","auto");
+            
             contagemRegressiva();
 
             return 0;
         }
         
     </script>
+    
+    <!--editor Codemirror-->
+    <script src="/codemirror/lib/codemirror.js"></script>
+    <link rel="stylesheet" href="/codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="/codemirror/theme/neat.css">
+    <script src="/codemirror/mode/javascript/javascript.js"></script>
+    <script src="/codemirror/mode/css/css.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <!-- Fim editor Codemirror -->
+    
 </head>
 <body>
     <a href="/sessao/info?id=<%=sessao[0].id%>" class="sair_sessao_ativa">
@@ -218,37 +233,17 @@
     </div>
     <div class="container-fluid" >
         <div class="row">
-            <div class="col-lg-10 bloco_text_collaborative">
-                
+            <div class="col-lg-9 bloco_text_collaborative">
                 
                 
                 <div class="doc">
-                    <div id="doc" class="doc__text-editor"  ></div>
+                    <div id="codeeditor" class="doc__text-editor"></div>
                 </div>
                 
-                <div class="panel panel-info">
-                    <div class="panel-heading">Chat</div>
-                    <div class="blocoChat">
-                        <div class="panel-body" id="panelBody">
-                            <input type="text" id="tipoUserChat" hidden>
-                            <input type="text" id="msgChatSent" hidden>
-                            <ul class="chat" id="chat">
-                                
-                            </ul>
-                        </div>
-                        <div class="panel-footer">
-                          <div class="input-group">
-                            <input id="msgChat" type="text" class="form-control input-sm" placeholder="Digite aqui..." @keyup.enter="joinChat">
-                            <span class="input-group-btn">
-                              <button class="btn btn-primary btn-sm" id="btnChat">Enviar</button>
-                            </span>
-                          </div>
-                        </div>
-                    </div>
-                </div>
+                <button id="botaoExecutar">Executar Código</button>
                     
             </div>
-            <div class="col-lg-2 infoSessao">
+            <div class="col-lg-3 infoSessao">
                 <textarea id="membersBlockSend" hidden></textarea>
                 <div class="members_block" id="membersBlock">
                     <div id="idPilotoRecept" hidden></div>
@@ -271,7 +266,9 @@
                             }
 
                             if(("user-"+codigoPusher) == idPiloto) {
-                                $(".doc__text-editor").css("pointer-events", "none");
+                                $(".CodeMirror").css("pointer-events", "none");
+                                $(".doc").css("cursor","default");
+                                $("#botaoExecutar").focus();
                                 $(".panel-footer").hide();
                                 $(".confirm_solução").hide();
                                 redimensionarBlocoResposta();
@@ -282,7 +279,8 @@
                             idPiloto = el && el.id;
 
                             if(("user-"+codigoPusher) == idPiloto) {
-                                $(".doc__text-editor").css("pointer-events", "auto");
+                                $(".CodeMirror").css("pointer-events", "auto");
+                                $(".doc").css("cursor","text");
                                 $(".panel-footer").show();
                                 $(".confirm_solução").show();
                                 redimensionarBlocoResposta();
@@ -297,6 +295,8 @@
                                 redimensionarBlocoResposta();
                                 $("#tipoUserChat").val("copiloto");
                             }
+                            
+                            $(".CodeMirror-vscrollbar").css("pointer-events","auto");
                             
                             contagemRegressiva();
                             
@@ -325,6 +325,29 @@
                 
                 <button id="enviarResposta" class="confirm_solução">Enviar<br>Resposta</button>
                 
+                
+                <div class="panel panel-info">
+                    <div class="detalhes" id="botaoChat">Chat</div>
+                    
+                    <div class="blocoChat">
+                        <div class="panel-body" id="panelBody">
+                            <input type="text" id="tipoUserChat" hidden>
+                            <input type="text" id="msgChatSent" hidden>
+                            <ul class="chat" id="chat">
+                                
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="input-group">
+                            <input id="msgChat" type="text" class="form-control input-sm" placeholder="Digite aqui..." @keyup.enter="joinChat">
+                            <span class="input-group-btn">
+                              <button class="btn btn-primary btn-sm" id="btnChat">Enviar</button>
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
@@ -347,18 +370,21 @@
         function redimensionarBlocoResposta() {
             var alturaJanela = $(window).height();
             var alturaProblema = $('.bloco_problema').height();
-            var alturaChat = $('.panel-info').height();
+            var alturaBoataoExecutar = $('#botaoExecutar').height();
+            alturaBoataoExecutar = Math.ceil(alturaBoataoExecutar);
             alturaProblema = Math.ceil(alturaProblema);
-            alturaChat = Math.ceil(alturaChat);
-            var alturaResposta = (((alturaJanela - alturaProblema)-20)-alturaChat);
+            var alturaResposta = (((alturaJanela - alturaProblema) - alturaBoataoExecutar)-25);
             var alturaInfoSessao = ((alturaJanela - alturaProblema)-20);
 
-            $(".doc__text-editor").css("height",alturaResposta);
+            $(".CodeMirror").css("height",alturaResposta);
             $(".infoSessao").css("max-height",alturaInfoSessao);
 
         }
 
-        redimensionarBlocoResposta();
+        $(document).ready(function() {
+            redimensionarBlocoResposta();    
+        })
+        
 
         $(window).resize(function() {
             redimensionarBlocoResposta();
@@ -366,11 +392,6 @@
 
         $(".bloco_problema h5").click(function() {
             $(".bloco_problema p").slideToggle( function() {
-                redimensionarBlocoResposta();
-            }); 
-        });
-        $(".panel-heading").click(function() {
-            $(".blocoChat").fadeToggle( function() {
                 redimensionarBlocoResposta();
             }); 
         });
@@ -520,14 +541,14 @@
                 }).then((result) => {
                     if (result.value) {
                         
+                        var resposta = editor.getValue();
                         
-                        var resposta = $("#doc").html();
                         resposta = resposta.replace(/'/g, "\\'");
                         resposta = resposta.replace(/%/g, "\\%");
-                        resposta = resposta.replace(/&nbsp;/g, "\ ");
-                        resposta = resposta.replace(/&gt;/g, "\>");
-                        resposta = resposta.replace(/&lt;/g, "\<");
-                        resposta = resposta.replace(/&amp;/g, "\&");
+                        resposta = resposta.replace(/_/g, "\\_");
+                        alert(resposta);
+                        resposta = encodeURIComponent(resposta);
+                        alert(resposta);
                         
                         var qtdParticipantes = $("#members li").length;
                         var participantes = "";
@@ -537,8 +558,9 @@
                         }
                         
                         var horaFinal = getTimeAndDate(new Date());
-
-                        window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>
+                        
+                        
+                       window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>
  
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         channel.trigger('client-members_alert', {func : 2});
@@ -630,7 +652,34 @@
         $("#botaoObservadores").click(function() {
             $("#observador").slideToggle();
         });
+        $("#botaoChat").click(function() {
+            $(".blocoChat").slideToggle();
+        });
     </script>
+    
+    <!-- Inicio Code Mirror -->
+    <script>
+        var editor = CodeMirror(document.getElementById("codeeditor"), {
+            value: "",
+            mode: "javascript",
+            theme: "neat",
+            tabSize: "5",
+            lineNumbers: true
+        });
+
+        $("#botaoExecutar").click(function() {
+            $("#resultadoCode").html("");
+
+            var valor = editor.getValue();
+            if(valor.indexOf("document.write(") >= 0) {
+                valor = valor.replace(/document.write/g,"alert");
+            }
+
+            eval(valor);
+        });
+    </script>
+    <!-- Final CondeMirror --->
+    
 </body>
     
 </html>

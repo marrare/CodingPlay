@@ -4,6 +4,13 @@
     font-size: 16px;
     pointer-events: none;
 }
+.CodeMirror-vscrollbar{
+    pointer-events: auto;
+}
+.CodeMirror {
+    pointer-events: none;
+    border-right: 1px solid #ddd;
+}
 .bloco_problema{
     padding: 0.5% 2% 0.5% 2%; 
     background-color: #efeff5;
@@ -116,7 +123,7 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    margin: 10% 15% 10% 15%;
+    margin: 5% 15% 5% 15%;
     width:70%;
 }
 .confirm_solução {
@@ -130,6 +137,17 @@
     cursor: pointer;
     font-size: 14px;
     font-weight: bold;
-    margin: 10% 15% 10% 15%;
+    margin: 5% 15% 5% 15%;
     width:70%;
+}
+#botaoExecutar {
+    border-color: transparent;
+    width: 100%;
+    background-color: greenyellow;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0px 0px 5px black;
+}
+#botaoExecutar:hover {
+    cursor: pointer;
 }

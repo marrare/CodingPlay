@@ -2,8 +2,7 @@
 // and gets executed immediately!
 (function () {
   // make doc editable and focus
-  var doc = document.getElementById('doc');
-  doc.contentEditable = true;
+  var doc = document.getElementById('codeeditor');
   doc.focus();
     
   var sendAll = document.getElementById('sendAll');
@@ -46,9 +45,10 @@
     });
     channel = pusher.subscribe(id);
     channel.bind('client-text-edit', function(html) {
+        
       // save the current position
       var currentCursorPosition = getCaretCharacterOffsetWithin(doc);
-      doc.innerHTML = html;
+      editor.setValue(html);
       // set the previous cursor position
       setCaretPosition(doc, currentCursorPosition);
     });
@@ -57,7 +57,6 @@
       
     });
     channel.bind('client-members_alert', function(func) {
-        console.log(func);
         if(func.func == 1) {
             confirmarResposta();
         } else if(func.func == 2) {
@@ -85,7 +84,7 @@
       var idUserAntigo = oldUser(channel.members.count,channel.members);
       if(idUserAntigo == CodigoUser) {
           channel.trigger('client-members-edit', membersBlock.innerHTML);
-          channel.trigger('client-text-edit', doc.innerHTML);
+          channel.trigger('client-text-edit', editor.getValue());
       }
     });
     channel.bind('pusher:member_removed', function(member) {
@@ -93,7 +92,7 @@
     });
   }).then(function (channel) {
     function triggerChange (e) {
-      channel.trigger('client-text-edit', e.target.innerHTML);
+      channel.trigger('client-text-edit', editor.getValue());
     }
     function triggerEnviarResposta () {
       channel.trigger('client-members_alert', {func : 1});
@@ -112,7 +111,7 @@
         }
     }
     
-    doc.addEventListener('input', triggerChange);
+    doc.addEventListener('keyup', triggerChange);
     if(tipoUsuario == "professor") {
         sendAll.addEventListener('click', triggerChangeMembers);
     }

@@ -279,6 +279,7 @@ module.exports = (app) => {
     },
     finalizarSessao: function(req, res) {
         var valor = req.query;
+        valor.resposta = decodeURIComponent(valor.resposta);
         
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
