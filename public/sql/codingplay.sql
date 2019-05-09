@@ -3,6 +3,8 @@ CREATE DATABASE codingplay CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE codingplay;
 
 SET SQL_MODE='allow_invalid_dates';
+SET @@auto_increment_offset=1;
+SET @@auto_increment_increment=1;
 
 CREATE TABLE aluno (
   id int NOT NULL AUTO_INCREMENT,
