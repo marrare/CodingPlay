@@ -228,7 +228,7 @@
             Desafio 
             <span class="nome_usuario"><%= session.usuario.nome %></span>
         </h5>
-        <p><%=sessao[0].desc_problema%></p>
+        <pre style="white-space: pre-wrap;"><%=sessao[0].desc_problema%></pre>
         
     </div>
     <div class="container-fluid" >
@@ -391,7 +391,7 @@
         });
 
         $(".bloco_problema h5").click(function() {
-            $(".bloco_problema p").slideToggle( function() {
+            $(".bloco_problema pre").slideToggle( function() {
                 redimensionarBlocoResposta();
             }); 
         });
@@ -546,9 +546,7 @@
                         resposta = resposta.replace(/'/g, "\\'");
                         resposta = resposta.replace(/%/g, "\\%");
                         resposta = resposta.replace(/_/g, "\\_");
-                        alert(resposta);
                         resposta = encodeURIComponent(resposta);
-                        alert(resposta);
                         
                         var qtdParticipantes = $("#members li").length;
                         var participantes = "";

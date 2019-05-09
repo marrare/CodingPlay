@@ -67,6 +67,7 @@ section#areaProblema {
     background: #fff;
     padding: 0px 10px;
     border: 1px solid #ced4da;
+    text-transform: uppercase;
 }
 .select_dificuldade {
     display:inline-block;

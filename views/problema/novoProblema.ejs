@@ -43,8 +43,8 @@
                         <form id="novoProblema" action="/problema/save" method="post">
                             <div class="mt-10">
                                 <label for="nome_problema"></label>
-                                <input type="text" name="nome_problema" maxlength="40" class="input_style" placeholder="Título" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Título'"  >
-                                <select name="dificuldade" class="form-control search-slt select_dificuldade" >
+                                <input type="text" name="nome_problema" maxlength="40" class="input_style" placeholder="Título" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Título'"  required>
+                                <select name="dificuldade" class="form-control search-slt select_dificuldade" required>
                                     <option value="">Dificuldade</option>
                                     <option value="fácil">Fácil</option>
                                     <option value="médio">Médio</option>
@@ -53,7 +53,7 @@
                                 </select>
                             </div>
                             
-                            <textarea name="desc_Problema" class="mt-10 descricao_style" rows="5" placeholder="Descrição do problema" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Descrição do problema'" maxlength="60000"></textarea>
+                            <textarea name="desc_Problema" class="mt-10 descricao_style" rows="5" placeholder="Descrição do problema" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Descrição do problema'" maxlength="60000" required></textarea >
                             <div class="button-group-area text-center">
                                 <input type="submit" class="genric-btn info-border circle arrow" value="Confirmar">
                             </div>

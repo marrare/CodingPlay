@@ -76,7 +76,12 @@
                                 </td>
                                 
                             </tr>
-                            <tr id="idProblema<%=problemas[i].id%>" class="desc_problema"><td colspan="5"><%=problemas[i].desc_problema%></td></tr>
+                            <tr id="idProblema<%=problemas[i].id%>" class="desc_problema">
+                                <td colspan="5">
+                                <pre style="white-space: pre-wrap;"><%=problemas[i].desc_problema%></pre>
+                                </td>
+                            </tr>
+                                
                         <% } %>
                     </tbody>
                 </table>
