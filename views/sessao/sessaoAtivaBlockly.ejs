@@ -1,0 +1,993 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="icon" href="img/favicon.icon" type="image/png">
+	<title>Coding Play</title>
+    
+	<!-- CSS -->
+	<link rel="stylesheet" href="/css/bootstrap.css">
+    <link rel="stylesheet" href="/css/sweetalert2.min.css">
+    <link href="/css/textCollaboractive.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
+    <style>
+        .contagemRegressiva {
+            text-align: center;
+            text-shadow:1px 1px 5px black;
+            font-weight: bold;
+            letter-spacing:1px;
+            color: #fcfcfc;
+            background-color:#ddd;
+            padding:1px;
+            font-family:Orbitron;
+            
+        }
+        .observadores, .detalhes {
+            text-align: center;
+            text-shadow:1px 1px 5px black;
+            font-weight: bold;
+            border-top:2px ridge #fff;
+            border-bottom:2px ridge #fff;
+            letter-spacing:1px;
+            color: #fcfcfc;
+            background-color:#ddd;
+            padding:1px;
+            font-family:Orbitron;
+            cursor:pointer;
+            
+        }
+        #detalhes{
+            list-style-type:none;
+            padding:0px;
+            margin:0px;
+        }
+        #detalhes li{
+            font-size: 12px;
+            padding:5px;
+            border-bottom:1px solid #ddd;
+        }
+        .valor_lista_detalhes {
+            float:right;
+            padding:0px 5px 0px 0px;
+        }
+        .chat {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .message {
+          clear: both;
+          line-height: 18px;
+          font-size: 15px;
+          padding: 8px;
+          position: relative;
+          margin: 8px 0;
+          max-width: 85%;
+          word-wrap: break-word;
+        }
+        .message.copiloto_msg {
+          background: #f6cdc4;
+          border-radius: 5px 0px 5px 5px;
+          float: right;
+        }
+        .message.piloto_msg {
+          background: #c4ecf6;
+          border-radius: 0px 5px 5px 5px;
+          float: left;
+        }
+        .chat li .chat-body p {
+            margin: 0;
+            color: #777777;
+        }
+        .panel-heading {
+            cursor:pointer;
+            font-weight: bold;
+            text-shadow:1px 1px 5px black;
+            color: #fff;
+            background-color: #efeff5;
+            border-color: #f2f2f2;
+            padding: 10px 15px;
+            border-bottom: 1px solid transparent;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+        .panel-body {
+            overflow-y: scroll;
+            min-height:200px;
+            max-height:200px;
+            padding: 15px;
+            border-left: 1px solid #f2f2f2;
+        }
+        .panel-footer {
+            display:none;
+        }
+        .btn-sm {
+            height: 38px;
+        }
+        .input-sm {
+            border-radius: 0px 0px 0px 3px;
+            border: 1px solid #f2f2f2;
+        }
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+            background-color: #F5F5F5;
+        }
+        ::-webkit-scrollbar {
+            width: 12px;
+            background-color: #F5F5F5;
+        }
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+            background-color: #555;
+        }
+        #botaoExecutarCodigo {
+            border-color: transparent;
+            width: 100%;
+            background-color: greenyellow;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0px 0px 5px black;
+        }
+        #botaoExecutarCodigo:hover {
+            cursor: pointer;
+        }
+        #botaoExibirCodigo {
+            border-color: transparent;
+            width: 100%;
+            background-color: #ddd;
+            color: white;
+            font-weight: bold;
+            text-shadow: 0px 0px 5px black;
+        }
+        #botaoExibirCodigo:hover {
+            cursor: pointer;
+        }
+        #workspaceArea {
+            pointer-events: none;
+        }
+    </style>
+    
+    <script> var codigoPusher = "<%= session.usuario.codigo_pusher %>" </script>
+    <script> var nomeUsuario = "<%= session.usuario.nome %>" </script>
+    <script> var tipoUsuario = "<%= session.tipo %>" </script>
+    <script> var participante = "<%=sessao[0].participante%>" </script>
+    <script> var idSessao = "<%=sessao[0].id%>" </script>
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script>
+        var channel;
+            
+        //Alterar Piloto da Sessão
+        var idCopiloto = "";
+        var idPiloto = "";
+        function changePiloto() {
+            
+            workspace.removeChangeListener(enviarSolucaoParaTodos);
+            
+            if($(".piloto").html() != undefined) {
+                $("<li></li>").insertAfter($("#members li:last-child"));
+                $("#members li:last-child").html($("#members li:first-child").html());
+                $("#members li:last-child").attr("id",$("#members li:first-child").attr("id"));
+                $("#members li:first-child").remove();
+            }
+
+            $("#members li:first-child").addClass('piloto');
+            $("#members li:last-child").removeClass('piloto');
+            $("#members li:nth-child(2)").addClass('copiloto');
+            $("#members li:nth-child(1)").removeClass('copiloto');
+
+            $("#members li h3").html("plateia");
+            $(".piloto h3").html("piloto");
+            $(".copiloto h3").html("copiloto");
+            
+            var date1 = new Date();
+            var date2 = new Date(date1);
+            date2.setMinutes(date1.getMinutes()+<%=sessao[0].tempo_rotacao%>);
+            $("#cronometro").html(date2);
+
+            $("#idPilotoRecept").html(idPiloto);
+            $("#membersBlockSend").val($("#membersBlock").html());
+
+            if(("user-"+codigoPusher) == idCopiloto) {
+                $(".panel-footer").hide();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("");
+            }
+            
+            if(("user-"+codigoPusher) == idPiloto) {
+                $("#workspaceArea").css("pointer-events", "none");
+                $(".doc").css("cursor","default");
+                $("#botaoExecutarCodigo").focus();
+                $(".panel-footer").hide();
+                $(".confirm_solução").hide();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("");
+            }
+            
+            var el = document.querySelector('.piloto');
+            idPiloto = el && el.id;
+            
+            if(("user-"+codigoPusher) == idPiloto) {
+                $("#workspaceArea").css("pointer-events", "auto");
+                $(".doc").css("cursor","text");
+                $(".panel-footer").show();
+                $(".confirm_solução").show();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("piloto");
+                workspace.addChangeListener(enviarSolucaoParaTodos);
+            }
+            
+            var el = document.querySelector('.copiloto');
+            idCopiloto = el && el.id;
+            
+            if(("user-"+codigoPusher) == idCopiloto) {
+                $(".panel-footer").show();
+                redimensionarBlocoResposta();
+                $("#tipoUserChat").val("copiloto");
+            }
+            
+            $(".blocklyScrollbarHandle").css("pointer-events","auto");
+            $(".blocklyTrash").css("pointer-events","auto");
+            $(".blocklyZoom").css("pointer-events","auto");
+            
+            contagemRegressiva();
+
+            return 0;
+        }
+        
+    </script>
+    
+    <!--Blockly-->
+        <script src="/blockly/blockly_compressed.js"></script>
+        <script src="/blockly/blocks_compressed.js"></script>
+        <script src="/blockly/javascript_compressed.js"></script>
+        <script src="/blockly/msg/js/pt-br.js"></script>
+    <!-- Fim Blockly -->
+    
+</head>
+<body>
+    
+    <!-- Este XML é a paleta de blocos do lado esquerdo -->
+        <td>
+          <xml id="toolbox" style="display: none">
+            <category name="Logicos" colour="%{BKY_LOGIC_HUE}">
+              <block type="controls_if"></block>
+              <block type="logic_compare"></block>
+              <block type="logic_operation"></block>
+              <block type="logic_negate"></block>
+              <block type="logic_boolean"></block>
+              <block type="logic_null"></block>
+              <block type="logic_ternary"></block>
+            </category>
+            <category name="Loops" colour="%{BKY_LOOPS_HUE}">
+              <block type="controls_repeat_ext"></block>
+              <block type="controls_whileUntil"></block>
+              <block type="controls_for">
+                <value name="BY">
+                  <shadow type="math_number">
+                    <field name="NUM">1</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="controls_forEach"></block>
+              <block type="controls_flow_statements"></block>
+            </category>
+            <category name="Matemáticos" colour="%{BKY_MATH_HUE}">
+              <block type="math_number"></block>
+              <block type="math_arithmetic">
+
+              </block>
+              <block type="math_single">
+
+              </block>
+              <block type="math_trig">
+
+              </block>
+              <block type="math_constant"></block>
+              <block type="math_number_property">
+
+              </block>
+              <block type="math_round">
+
+              </block>
+              <block type="math_on_list"></block>
+              <block type="math_modulo">
+
+              </block>
+              <block type="math_constrain">
+
+
+              </block>
+              <block type="math_random_int">
+
+              </block>
+              <block type="math_random_float"></block>
+            </category>
+            <category name="Texto" colour="%{BKY_TEXTS_HUE}">
+              <block type="text"></block>
+              <block type="text_join"></block>
+              <block type="text_append">
+                <value name="TEXT">
+                  <shadow type="text"></shadow>
+                </value>
+              </block>
+              <block type="text_print"></block>
+              <block type="text_length">
+                <value name="VALUE">
+                  <shadow type="text">
+                    <field name="TEXT">abc</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="text_isEmpty">
+                <value name="VALUE">
+                  <shadow type="text">
+                    <field name="TEXT"></field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="text_indexOf">
+                <value name="VALUE">
+                  <block type="variables_get">
+                    <field name="VAR">{textVariable}</field>
+                  </block>
+                </value>
+                <value name="FIND">
+                  <shadow type="text">
+                    <field name="TEXT">abc</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="text_charAt">
+                <value name="VALUE">
+                  <block type="variables_get">
+                    <field name="VAR">{textVariable}</field>
+                  </block>
+                </value>
+              </block>
+              <block type="text_getSubstring">
+                <value name="STRING">
+                  <block type="variables_get">
+                    <field name="VAR">{textVariable}</field>
+                  </block>
+                </value>
+              </block>
+              <block type="text_changeCase">
+                <value name="TEXT">
+                  <shadow type="text">
+                    <field name="TEXT">abc</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="text_trim">
+                <value name="TEXT">
+                  <shadow type="text">
+                    <field name="TEXT">abc</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="text_print">
+                <value name="TEXT">
+                  <shadow type="text">
+                    <field name="TEXT">abc</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="text_prompt_ext">
+                <value name="TEXT">
+                  <shadow type="text">
+                    <field name="TEXT">abc</field>
+                  </shadow>
+                </value>
+              </block>
+            </category>
+            <category name="Listas" colour="%{BKY_LISTS_HUE}">
+              <block type="lists_create_with">
+                <mutation items="0"></mutation>
+              </block>
+              <block type="lists_create_with"></block>
+              <block type="lists_repeat">
+                <value name="NUM">
+                  <shadow type="math_number">
+                    <field name="NUM">5</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="lists_length"></block>
+              <block type="lists_isEmpty"></block>
+              <block type="lists_indexOf">
+                <value name="VALUE">
+                  <block type="variables_get">
+                    <field name="VAR">{listVariable}</field>
+                  </block>
+                </value>
+              </block>
+              <block type="lists_getIndex">
+                <value name="VALUE">
+                  <block type="variables_get">
+                    <field name="VAR">{listVariable}</field>
+                  </block>
+                </value>
+              </block>
+              <block type="lists_setIndex">
+                <value name="LIST">
+                  <block type="variables_get">
+                    <field name="VAR">{listVariable}</field>
+                  </block>
+                </value>
+              </block>
+              <block type="lists_getSublist">
+                <value name="LIST">
+                  <block type="variables_get">
+                    <field name="VAR">{listVariable}</field>
+                  </block>
+                </value>
+              </block>
+              <block type="lists_split">
+                <value name="DELIM">
+                  <shadow type="text">
+                    <field name="TEXT">,</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="lists_sort"></block>
+            </category>
+            <category name="Cores" colour="%{BKY_COLOUR_HUE}">
+              <block type="colour_picker"></block>
+              <block type="colour_random"></block>
+              <block type="colour_rgb">
+                <value name="RED">
+                  <shadow type="math_number">
+                    <field name="NUM">100</field>
+                  </shadow>
+                </value>
+                <value name="GREEN">
+                  <shadow type="math_number">
+                    <field name="NUM">50</field>
+                  </shadow>
+                </value>
+                <value name="BLUE">
+                  <shadow type="math_number">
+                    <field name="NUM">0</field>
+                  </shadow>
+                </value>
+              </block>
+              <block type="colour_blend">
+                <value name="COLOUR1">
+                  <shadow type="colour_picker">
+                    <field name="COLOUR">#ff0000</field>
+                  </shadow>
+                </value>
+                <value name="COLOUR2">
+                  <shadow type="colour_picker">
+                    <field name="COLOUR">#3333ff</field>
+                  </shadow>
+                </value>
+                <value name="RATIO">
+                  <shadow type="math_number">
+                    <field name="NUM">0.5</field>
+                  </shadow>
+                </value>
+              </block>
+            </category>
+            <sep></sep>
+            <category name="Variáveis" colour="%{BKY_VARIABLES_HUE}" custom="VARIABLE"></category>
+            <category name="Funções" colour="%{BKY_PROCEDURES_HUE}" custom="PROCEDURE"></category>
+          </xml>
+        </td>
+    <!-- Fim paleta de blocos do lado esquerdo -->
+    
+    <a href="/sessao/info?id=<%=sessao[0].id%>" class="sair_sessao_ativa">
+        <div class="participaSessao">Sair</div>
+    </a>
+    <div class="bloco_problema">
+        <h5 id="botaoDesafio">
+            Desafio 
+            <span class="nome_usuario"><%= session.usuario.nome %></span>
+        </h5>
+        <pre style="white-space: pre-wrap;"><%=sessao[0].desc_problema%></pre>
+        
+    </div>
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col-lg-9 bloco_text_collaborative">
+                
+                
+                <div class="doc">
+                    <div id="workspaceArea" style="width: 100%;"></div>
+                    <!--<div id="codeeditor" class="doc__text-editor"></div>-->
+                </div>
+                     
+                <button id="botaoExibirCodigo">Exibir Código</button>
+                <button id="botaoExecutarCodigo">Executar Código</button>
+                    
+            </div>
+            <div class="col-lg-3 infoSessao">
+                <textarea id="membersBlockSend" hidden></textarea>
+                <div class="members_block" id="membersBlock">
+                    <div id="idPilotoRecept" hidden></div>
+                    <div id="inicioSessao" hidden></div>
+                    <div id="cronometro" hidden></div>
+                    <ul id="members"></ul>
+                    <script>
+                        $("#members").ready(function() {
+                            
+                            workspace.removeChangeListener(enviarSolucaoParaTodos);
+                            
+                            if($("#idPilotoRecept").html() != ""){
+                                idPiloto = $("#idPilotoRecept").html();
+                            } else {
+                                idPiloto="";
+                            }
+                            
+                            //Documento compartilhado e chat
+                            if(("user-"+codigoPusher) == idCopiloto) {
+                                $(".panel-footer").hide();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("");
+                            }
+
+                            if(("user-"+codigoPusher) == idPiloto) {
+                                $("#workspaceArea").css("pointer-events", "none");
+                                $(".doc").css("cursor","default");
+                                $("#botaoExecutarCodigo").focus();
+                                $(".panel-footer").hide();
+                                $(".confirm_solução").hide();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("");
+                            }
+
+                            var el = document.querySelector('.piloto');
+                            idPiloto = el && el.id;
+
+                            if(("user-"+codigoPusher) == idPiloto) {
+                                $("#workspaceArea").css("pointer-events", "auto");
+                                $(".doc").css("cursor","text");
+                                $(".panel-footer").show();
+                                $(".confirm_solução").show();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("piloto");
+                                workspace.addChangeListener(enviarSolucaoParaTodos);
+                            }
+
+                            var el = document.querySelector('.copiloto');
+                            idCopiloto = el && el.id;
+
+                            if(("user-"+codigoPusher) == idCopiloto) {
+                                $(".panel-footer").show();
+                                redimensionarBlocoResposta();
+                                $("#tipoUserChat").val("copiloto");
+                            }
+                            
+                            $(".blocklyScrollbarHandle").css("pointer-events","auto");
+                            $(".blocklyTrash").css("pointer-events","auto");
+                            $(".blocklyZoom").css("pointer-events","auto");
+                            
+                            contagemRegressiva();
+                            
+                        });
+                        
+                    </script>
+                </div>
+                
+                <div id="contagemRegressiva" class="contagemRegressiva"></div>
+                
+                <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor' && sessao[0].hora_inicio_realizado == null) { %>
+                            <button id="sendAll">Iniciar Sessão</button>
+                <% } else if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor' && sessao[0].hora_inicio_realizado != null) { %>
+                            <button id="sendAll">Reiniciar Sessão</button>
+                <% } %>
+                <div class="observadores" id="botaoObservadores">Observadores</div>
+                <ul id="observador"></ul>
+                
+                <div class="detalhes" id="botaoDetalhes">Detalhes</div>
+                <ul id="detalhes">
+                    <li>Código<span class="valor_lista_detalhes"><%=sessao[0].nome_sessao%></span></li>
+                    <li>Professor<span class="valor_lista_detalhes"><%=sessao[0].nome%></span></li>
+                    <li>Tamanho Máximo Grupo<span class="valor_lista_detalhes"><%=sessao[0].tamanho_grupo%> pessoas</span></li>
+                    <li>Tempo Rotação<span class="valor_lista_detalhes"><%=sessao[0].tempo_rotacao%> minutos</span></li>
+                </ul>
+                
+                <button id="enviarResposta" class="confirm_solução">Enviar<br>Resposta</button>
+                
+                
+                <div class="panel panel-info">
+                    <div class="detalhes" id="botaoChat">Chat</div>
+                    
+                    <div class="blocoChat">
+                        <div class="panel-body" id="panelBody">
+                            <input type="text" id="tipoUserChat" hidden>
+                            <input type="text" id="msgChatSent" hidden>
+                            <ul class="chat" id="chat">
+                                
+                            </ul>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="input-group">
+                            <input id="msgChat" type="text" class="form-control input-sm" placeholder="Digite aqui..." @keyup.enter="joinChat">
+                            <span class="input-group-btn">
+                              <button class="btn btn-primary btn-sm" id="btnChat">Enviar</button>
+                            </span>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    
+    <!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	
+	<script src="/js/popper.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+    
+    <!-- JS adicionais -->
+    <script src="/js/sweetalert2.min.js"></script>
+	
+    <!-- API Pusher -->
+    <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
+    <script src="/js/textCollaboractiveBlockly.js"></script>
+    
+    <!-- Funcionamento página sessão -->
+    <script>
+        function redimensionarBlocoResposta() {
+            var alturaJanela = $(window).height();
+            var alturaProblema = $('.bloco_problema').height();
+            var alturaBoataoExecutar = $('#botaoExecutarCodigo').height();
+            var alturaExibirCodigo = $('#botaoExibirCodigo').height();
+            alturaBoataoExecutar = Math.ceil(alturaBoataoExecutar);
+            alturaExibirCodigo = Math.ceil(alturaExibirCodigo);
+            alturaProblema = Math.ceil(alturaProblema);
+            var alturaResposta = ((((alturaJanela - alturaProblema) - alturaBoataoExecutar) - alturaExibirCodigo)-30);
+            var alturaInfoSessao = ((alturaJanela - alturaProblema)-20);
+            
+            $("#workspaceArea").css("height",alturaResposta);
+            $(".blocklySvg").css("height",alturaResposta);
+            $(".blocklyToolboxDiv").css("height",alturaResposta);
+            
+            $(".infoSessao").css("max-height",alturaInfoSessao);
+
+        }
+        
+        $(".bloco_problema h5").click(function() {
+            $(".bloco_problema pre").slideToggle(function () {
+                redimensionarBlocoResposta();   
+            });
+        });
+        
+        document.addEventListener('ready', redimensionarBlocoResposta());
+
+        $(window).resize(function() {
+            redimensionarBlocoResposta();
+        });
+
+    </script>
+    <script>
+        //Contagem regrassiva
+        var intervalId;
+        
+        function contagemRegressiva() {
+                
+            var date2 = new Date($("#cronometro").html());
+            
+            if(isNaN(date2)) {
+                return 0;
+            }
+            if($("#inicioSessao").html() != 'ok') {   
+                return 0;
+            }
+            
+            stopContagem();
+            
+            intervalId = setInterval(function() {
+
+                var now = new Date();
+
+                if($(".piloto").html() === undefined) {
+                    $("#contagemRegressiva").html("00:00");
+                    stopContagem();
+                    
+                    var idUserAntigo = oldUser(channel.members.count,channel.members);
+                    if(idUserAntigo == ("user-" + codigoPusher)) {
+                        changePiloto();
+                        channel.trigger('client-members-edit', $("#membersBlockSend").val());
+                    }
+                    
+                    
+                } else if(now >= date2) {
+                    $("#contagemRegressiva").html("00:00");
+                    stopContagem();
+                    
+                    var idUserAntigo = oldUser(channel.members.count,channel.members);
+                    if(idUserAntigo == ("user-" + codigoPusher)) {
+                        changePiloto();
+                        channel.trigger('client-members-edit', $("#membersBlockSend").val());
+                    }
+                    
+                    
+                }
+
+                var timeDiff = (Math.abs(date2.getTime() - now.getTime()) / 1000);
+                var minutes = (timeDiff - (timeDiff % 60)) / 60;
+                var seconds = Math.floor(timeDiff % 60);
+                timeDiff = Math.floor(timeDiff);
+
+                if(minutes<10) {
+                    minutes = "0"+minutes;
+                }
+                if(seconds<10) {
+                    seconds = "0"+seconds;
+                }
+
+                $("#contagemRegressiva").html(minutes + ":" + seconds);
+                
+
+            }, 1000);
+        }
+        function stopContagem() {
+            clearInterval(intervalId);
+        }
+        $("#sendAll").click(function() {
+            $("#inicioSessao").html('ok');
+            changePiloto();
+        });
+        
+        function insertMessages() {
+            var text = "";
+            var tipoUsuario = $("#tipoUserChat").val();
+            var msg = $("#msgChat").val();
+            
+            if(msg != "" && msg != undefined) {
+                
+                if(tipoUsuario == "piloto") {
+                  text = "<li class='message piloto_msg'>";
+                } else if(tipoUsuario == "copiloto") {
+                  text = "<li class='message copiloto_msg'>";
+                }
+                text += "<div class='chat-body clearfix'>";
+                text += "<strong class='primary-font'>";
+                text += nomeUsuario;
+                text += "</strong><p>";
+                text += msg;
+                text += "</p></div></li>";
+
+                $("#chat").prepend(text);
+            } 
+            
+        }
+        
+        $("#btnChat").click(function() {
+            insertMessages();
+            var el =document.getElementById("panelBody");
+            var height = el.scrollHeight;
+            el.scrollBottom = height;
+            $("#msgChatSent").val($("#msgChat").val());
+            $("#msgChat").val("");
+        });
+        $("#msgChat").on('keypress',function(e) {
+            if(e.which == 13) {
+                insertMessages();
+                var el =document.getElementById("panelBody");
+                var height = el.scrollHeight;
+                el.scrollBottom = height;
+                $("#msgChatSent").val($("#msgChat").val());
+                $("#msgChat").val("");
+            }
+        });
+        
+        function oldUser(countMembers,membersOnline) {
+            var acessoOld= new Date(membersOnline.me.info.acesso);
+            var idUser = membersOnline.me.id;
+
+            membersOnline.each(function(member) {
+                var membroAcesso = new Date(member.info.acesso);
+
+                if(membroAcesso < acessoOld) {
+                    idUser = member.id;
+                    acessoOld = new Date(member.info.acesso);
+                }
+            });
+
+            return idUser;
+        }
+        
+        function confirmarResposta() {
+            var usuarioSeletor = "#user-"+codigoPusher+" h3";
+            var funcaoSessao = $(usuarioSeletor).html();
+            
+            if(funcaoSessao == 'copiloto') {
+                Swal.fire({
+                    title: 'Concorda com a solução ?',
+                    type: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Sim',
+                    cancelButtonText: 'Não'
+                }).then((result) => {
+                    if (result.value) {
+                        var resposta = Blockly.Xml.workspaceToDom(workspace);
+                        
+                        alert(resposta);
+                        
+                        /*
+                        resposta = resposta.replace(/'/g, "\\'");
+                        resposta = resposta.replace(/%/g, "\\%");
+                        resposta = resposta.replace(/_/g, "\\_");
+                        resposta = encodeURIComponent(resposta);*/
+                        
+                        var qtdParticipantes = $("#members li").length;
+                        var participantes = "";
+                        for(i=1; i <= qtdParticipantes; i++){
+                            var participante = $("#members li:nth-child("+i+")").attr('id');
+                            participantes += (participante.substring(5,21)+"/");
+                        }
+                        
+                        var horaFinal = getTimeAndDate(new Date());
+                        
+                        
+                       window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>
+ 
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        channel.trigger('client-members_alert', {func : 2});
+                        alertRetomarSessao();
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: 'Finalizando sessão',
+                    text: "aguardando confirmação do copiloto para finalizar"
+                })
+            }
+            
+            
+        }
+        
+        $("#enviarResposta").click(function() {
+            confirmarResposta();
+        });
+        
+        function getTimeAndDate(date) {
+            var now = new Date(date);
+            
+            var year = now.getFullYear();
+            var month = now.getMonth()+1;
+            var data = now.getDate();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            
+            month = verificaTamanhoData(month);
+            data = verificaTamanhoData(data);
+            hours = verificaTamanhoData(hours);
+            minutes = verificaTamanhoData(minutes);
+            seconds = verificaTamanhoData(seconds);
+            
+            return year+"-"+month+"-"+data+" "+hours+":"+minutes+":"+seconds;
+        }
+        function verificaTamanhoData(valor) {
+            if(valor < 10) {
+                valor = "0"+valor;
+            }
+            
+            return valor;
+        }
+        
+        function alertRetomarSessao() {
+            let timerInterval
+            Swal.fire({
+              title: 'Envio cancelado',
+              html: 'Retomando sessão em <strong></strong> segundos',
+              timer: 3000,
+              onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  Swal.getContent().querySelector('strong')
+                    .textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              onClose: () => {
+                clearInterval(timerInterval)
+              }
+            })
+        }
+        
+        function finalizandoSessao() {
+            let timerInterval
+            Swal.fire({
+              title: 'Sessão finalizada',
+              html: 'finalizando em <strong></strong> segundos',
+              timer: 3000,
+              onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  Swal.getContent().querySelector('strong')
+                    .textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              onClose: () => {
+                clearInterval(timerInterval);
+              }
+            })
+            window.location = "/sessao/info?id=<%=sessao[0].id%>";
+        }
+        
+        $("#botaoDetalhes").click(function() {
+            $("#detalhes").slideToggle();
+        });
+        $("#botaoObservadores").click(function() {
+            $("#observador").slideToggle();
+        });
+        $("#botaoChat").click(function() {
+            $(".blocoChat").slideToggle();
+        });
+    </script>
+    
+    <script>
+        
+        // Generate JavaScript code and display it.
+        function showCode() {
+          Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+          var code = Blockly.JavaScript.workspaceToCode(workspace);
+          alert(code);
+        }
+
+        // Generate JavaScript code and run it.
+        function runCode() {
+          Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
+          var code = Blockly.JavaScript.workspaceToCode(workspace);
+          try {
+            eval(code);
+          } catch (e) {
+            alert(e);
+          }
+        }
+
+        var workspace = Blockly.inject('workspaceArea', {
+            media: '/blockly/media/',
+            toolbox: document.getElementById('toolbox'),
+            grid:
+              {spacing: 25,
+               length: 3,
+               colour: '#ccc',
+               snap: true},
+            zoom:
+                 {controls: true,
+                  wheel: true,
+                  startScale: 1.0,
+                  maxScale: 3,
+                  minScale: 0.3,
+                  scaleSpeed: 1.2},
+             trashcan: true
+        });
+        
+
+        function changeBlockly() {
+
+            var blocos = Blockly.Xml.workspaceToDom(workspace);
+            workspace.clear();
+            Blockly.Xml.domToWorkspace(document.getElementById('text_aux').value, workspace);
+
+        }
+        
+        $("#botaoExecutarCodigo").click(function() {
+            runCode();
+        })
+        $("#botaoExibirCodigo").click(function() {
+            showCode();
+        })
+        
+        function enviarSolucaoParaTodos() {
+            var blocos = Blockly.Xml.workspaceToDom(workspace);
+            channel.trigger('client-text-edit', Blockly.Xml.domToPrettyText(blocos));
+        }
+    </script>
+    <!-- Final Blockly --->
+    
+</body>
+    
+</html>

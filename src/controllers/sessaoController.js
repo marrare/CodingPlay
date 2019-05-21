@@ -244,7 +244,13 @@ module.exports = (app) => {
                     
                     connection.end();
                     
-                    res.render('./sessao/sessaoAtiva',{sessao : result});
+                    if(result[0].tipo_sessao == 'blocos') {
+                        res.render('./sessao/sessaoAtivaBlockly',{sessao : result});
+                    } else if(result[0].tipo_sessao == 'codigo') {
+                        res.render('./sessao/sessaoAtiva',{sessao : result});
+                    }
+                    
+                    
                 } else {
                     ParticipaSessaoDao.buscarPorIdSessao(valor.idSessao, function(err2, result2) {
                         if (err2) {
