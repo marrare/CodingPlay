@@ -53,8 +53,15 @@
                             </div>
                             
                             <!--============ Valores Inputs Ocultos ==============-->
+                            <% if(typeof contaProfessor != 'undefined') { %>
                                 <input type="text" name="id" value="<%=contaProfessor.id%>" hidden required>
                                 <input type="text" name="email" value="<%=contaProfessor.email%>"  hidden required>
+                            <input type="text" name="tipo" value="professor"  hidden required>
+                            <% } else { %>
+                                <input type="text" name="id" value="<%=session.usuario.id%>" hidden required>
+                                <input type="text" name="email" value="<%=session.usuario.email%>"  hidden required>
+                                <input type="text" name="tipo" value="<%=session.tipo%>"  hidden required>
+                            <% } %>
                             <!--============ END - Valores Inputs Ocultos ==============-->
                             
                             

@@ -1,12 +1,52 @@
 module.exports = (app) => {
   const HomeController = {
     paginaIndex: function(req, res) {
-      res.render('index');
+      res.render('index',{SenhaAlterada : req.flash("SenhaAlterada")});
     },
     paginaLogin: function(req, res) {
-      res.render('login',{msgUsuarioCad : req.flash("msgUsuarioCad"), contaDesativada : req.flash("contaDesativada")});
+      res.render('login',{msgUsuarioCad : req.flash("msgUsuarioCad"), contaDesativada : req.flash("contaDesativada"), SenhaAlterada : req.flash("SenhaAlterada")});
     },
-    
+    paginaTrocarSenha: function(req, res) {
+      res.render('trocarSenha');
+    },
+      
+    trocarSenha: function(req, res) {
+        var valor = req.body;
+        
+        if(valor.tipo == 'professor') {
+            var connection = app.config.dbConnection();
+            var daoProfessor = new app.src.models.ProfessorDao(connection);
+
+            daoProfessor.trocarSenha(valor, function(err) {
+                if (err) {
+                    throw err;
+                } else {
+                    connection.end();
+
+                    req.flash("SenhaAlterada","Senha Alterada");
+                    res.redirect("/");
+                }
+
+            });
+        } else if(valor.tipo == 'aluno') {
+            var connection = app.config.dbConnection();
+            var daoAluno = new app.src.models.AlunoDao(connection);
+
+            daoAluno.trocarSenha(valor, function(err) {
+                if (err) {
+                    throw err;
+                } else {
+                    connection.end();
+
+                    req.flash("SenhaAlterada","Senha Alterada");
+                    res.redirect("/");
+                }
+
+            });
+        }
+        
+    },
+      
     login(req, res) {
         var dadosLogin = req.body;
         

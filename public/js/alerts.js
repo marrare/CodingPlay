@@ -46,3 +46,11 @@ function professorCadastradoSucesso() {
       timer: 1500
     });
 }
+function senhaAlteradaSucesso() {
+    Swal.fire({
+      type: 'success',
+      title: 'Senha alterada com Sucesso',
+      showConfirmButton: false,
+      timer: 1500
+    });
+}

@@ -7,4 +7,6 @@ module.exports = (app) => {
     app.post('/entrar', autenticadorOff, homeController.login);
     app.get('/sair', autenticadorLogado, homeController.logout);
     app.get('/login', autenticadorOff, homeController.paginaLogin);
+    app.get('/senha/change', autenticadorLogado, homeController.paginaTrocarSenha);
+    app.post('/senha/save', autenticadorLogado, homeController.trocarSenha);
 };

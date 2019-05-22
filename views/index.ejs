@@ -52,6 +52,7 @@
 							<p>
 								
 							</p>
+                            <!--
 							<div class="d-flex align-items-center">
 								<a id="play-home-video" class="video-play-button" href="https://www.youtube.com/watch?v=vParh5wE-tM">
 									<span></span>
@@ -60,6 +61,7 @@
 									Assista o video
 								</div>
 							</div>
+                            -->
 						</div>
 					</div>
 				</div>
@@ -120,27 +122,6 @@
 							<p>Ambiente virtual de aprendizagem, trata-se da plataforma em si, pois ela tem como finalidade ser o meio que possibilita a troca de conhecimento.</p>
 						</div>
 					</div>
-					<div class="offset-lg-2 col-lg-5 offset-md-2 col-md-5">
-						<div class="frequent_item">
-							<h3>We Believe that Interior beauty Lasts Long</h3>
-							<p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards
-								especially in the workplace. That’s why it’s crucial that as women.</p>
-						</div>
-					</div>
-					<div class="col-lg-5 col-md-5">
-						<div class="frequent_item last-child">
-							<h3>We Believe that Interior beauty Lasts Long</h3>
-							<p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards
-								especially in the workplace. That’s why it’s crucial that as women.</p>
-						</div>
-					</div>
-					<div class="offset-lg-2 col-lg-5 offset-md-2 col-md-5">
-						<div class="frequent_item last-child">
-							<h3>We Believe that Interior beauty Lasts Long</h3>
-							<p>inappropriate behavior is often laughed off as “boys will be boys,” women face higher conduct standards
-								especially in the workplace. That’s why it’s crucial that as women.</p>
-						</div>
-					</div>
 				</div>
 			</div>
 		</section>
@@ -169,7 +150,15 @@
     <!-- JS adicionais -->
     <script src="/js/sweetalert2.min.js"></script>
     <script src="/js/footer.js"></script>
-	
+	<script src="/js/alerts.js"></script>
+
+    <!--========================= Menssagem Senha alterada com sucesso ============================-->
+        <% if(typeof SenhaAlterada != 'undefined') { %>
+            <script>
+                senhaAlteradaSucesso();
+            </script>
+        <% } %>
+    <!--========================= END - Menssagem Senha alterada com sucesso ============================-->
 </body>
 
 </html>
