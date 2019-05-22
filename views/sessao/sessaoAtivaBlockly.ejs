@@ -813,8 +813,6 @@
                         
                         Blockly.JavaScript.INFINITE_LOOP_TRAP = null;
                         var resposta = Blockly.JavaScript.workspaceToCode(workspace);
-                        alert(resposta);
-                        
                         
                         resposta = resposta.replace(/'/g, "\\'");
                         resposta = resposta.replace(/%/g, "\\%");
