@@ -151,6 +151,28 @@
     <script src="/js/sweetalert2.min.js"></script>
     <script src="/js/footer.js"></script>
 	<script src="/js/alerts.js"></script>
+    
+    <script>
+        function exibirBotao() {
+            var comprimento = $(window).width();
+            if(comprimento >= 977) {
+                if ($("#botaoFazerLogin").length) {
+                    $("#botaoFazerLogin").remove();
+                }
+            } else {
+                if (!$("#botaoFazerLogin").length) {
+                    var text = "";
+                    text += "<ul class='nav navbar-nav navbar-right' id='botaoFazerLogin'>";
+                    text += "<li class='nav-item'><a class='nav-link' href='/login'>Login</a></li>";
+                    text += "</ul>";
+
+                    $("#navbarSupportedContent").append(text);
+                }
+            }
+        }
+        $(window).resize(exibirBotao);
+        $(document).ready(exibirBotao);
+    </script>
 
     <!--========================= Menssagem Senha alterada com sucesso ============================-->
         <% if(typeof SenhaAlterada != 'undefined') { %>
