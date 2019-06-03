@@ -167,63 +167,69 @@ module.exports = (app) => {
                 if (err) {
                     throw err;
                 } else {
-                    ParticipaSessaoDao.buscarPorIdSessao(result[0].id, function(err2, result2) {
-                        if (err2) {
-                            throw err;
-                        } else {
-                            // Buscar Verificar se usuario logado foi um dos participantes
-                            var ifUsuarioLogadoParticipante = 0;
-                            for(i=0; i < result2.length; i++){
-                                if(result2[i].id == req.session.usuario.id && req.session.tipo == 'aluno') {
-                                    ifUsuarioLogadoParticipante = 1;
+                    if(result.length == 0){
+                        connection.end();
+
+                        res.redirect('/');
+                    }else {
+                        ParticipaSessaoDao.buscarPorIdSessao(result[0].id, function(err2, result2) {
+                            if (err2) {
+                                throw err;
+                            } else {
+                                // Buscar Verificar se usuario logado foi um dos participantes
+                                var ifUsuarioLogadoParticipante = 0;
+                                for(i=0; i < result2.length; i++){
+                                    if(result2[i].id == req.session.usuario.id && req.session.tipo == 'aluno') {
+                                        ifUsuarioLogadoParticipante = 1;
+                                    }
+                                }
+
+                                switch(ifUsuarioLogadoParticipante) {
+                                    // Se usuario não foi participante carrega página normalmente
+                                    case 0: 
+                                        connection.end();
+
+                                        res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
+                                    break;
+
+                                    // Se usuario foi participante, então verificar se já respondeu o questionário
+                                    case 1: 
+                                        var part = {
+                                            id_participante : req.session.usuario.id,
+                                            id_sessao : result[0].id
+                                        }
+
+                                        QuestionarioDao.buscarRespostaUsuario(part, function(err3, result3) {
+                                                if (err3) {
+                                                    throw err3;
+                                                } else {
+
+                                                    // Se respondeu o questionário carrega página normalmente
+                                                    if(result3[0].qtd_resposta > 0) {
+                                                        connection.end();
+
+                                                        res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
+
+                                                    // Se não respondeu o questionário, então buscar perguntas do questionário para serem respondidas
+                                                    } else if(result3[0].qtd_resposta == 0) {
+                                                        QuestionarioDao.listarPerguntas(function(err4, result4) {
+                                                            if (err4) {
+                                                                throw err4;
+                                                            } else {
+                                                                connection.end();
+
+                                                                res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
+                                                            }
+                                                        });
+                                                    }
+
+                                                }
+                                            });
+                                    break;
                                 }
                             }
-                            
-                            switch(ifUsuarioLogadoParticipante) {
-                                // Se usuario não foi participante carrega página normalmente
-                                case 0: 
-                                    connection.end();
-                                    
-                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
-                                break;
-                                    
-                                // Se usuario foi participante, então verificar se já respondeu o questionário
-                                case 1: 
-                                    var part = {
-                                        id_participante : req.session.usuario.id,
-                                        id_sessao : result[0].id
-                                    }
-                                    
-                                    QuestionarioDao.buscarRespostaUsuario(part, function(err3, result3) {
-                                            if (err3) {
-                                                throw err3;
-                                            } else {
-                                                
-                                                // Se respondeu o questionário carrega página normalmente
-                                                if(result3[0].qtd_resposta > 0) {
-                                                    connection.end();
-                                                    
-                                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
-                                                    
-                                                // Se não respondeu o questionário, então buscar perguntas do questionário para serem respondidas
-                                                } else if(result3[0].qtd_resposta == 0) {
-                                                    QuestionarioDao.listarPerguntas(function(err4, result4) {
-                                                        if (err4) {
-                                                            throw err4;
-                                                        } else {
-                                                            connection.end();
-                                                            
-                                                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
-                                                        }
-                                                    });
-                                                }
-                                                
-                                            }
-                                        });
-                                break;
-                            }
-                        }
-                    });
+                        });
+                    }   
                 }
             });
         }
