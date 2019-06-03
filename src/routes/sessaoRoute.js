@@ -13,4 +13,5 @@ module.exports = (app) => {
     app.get('/sessao/start', autenticadorProfessor, sessaoController.iniciarSessao);
     app.get('/sessao/confirm', autenticadorLogado, sessaoController.finalizarSessao);
     app.get('/sessao/delete', autenticadorProfessor, sessaoController.deletarSessao);
+    app.post('/sessao/feedback/save', autenticadorProfessor, sessaoController.feedbackSave);
 };

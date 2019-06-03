@@ -120,7 +120,7 @@ module.exports = (app) => {
                                 case 0: 
                                     connection.end();
                                     
-                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
                                 break;
                                     
                                 // Se usuario foi participante, então verificar se já respondeu o questionário
@@ -139,7 +139,7 @@ module.exports = (app) => {
                                                 if(result3[0].qtd_resposta > 0) {
                                                     connection.end();
                                                     
-                                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
                                                     
                                                 // Se não respondeu o questionário, então buscar perguntas do questionário para serem respondidas
                                                 } else if(result3[0].qtd_resposta == 0) {
@@ -149,7 +149,7 @@ module.exports = (app) => {
                                                         } else {
                                                             connection.end();
                                                             
-                                                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem")});
+                                                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
                                                         }
                                                     });
                                                 }
@@ -184,7 +184,7 @@ module.exports = (app) => {
                                 case 0: 
                                     connection.end();
                                     
-                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
                                 break;
                                     
                                 // Se usuario foi participante, então verificar se já respondeu o questionário
@@ -203,7 +203,7 @@ module.exports = (app) => {
                                                 if(result3[0].qtd_resposta > 0) {
                                                     connection.end();
                                                     
-                                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                                                    res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
                                                     
                                                 // Se não respondeu o questionário, então buscar perguntas do questionário para serem respondidas
                                                 } else if(result3[0].qtd_resposta == 0) {
@@ -213,7 +213,7 @@ module.exports = (app) => {
                                                         } else {
                                                             connection.end();
                                                             
-                                                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem")});
+                                                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, perguntas : result4, menssagem : req.flash("menssagem"), menssagemFeedbackSalvo : req.flash("menssagemFeedbackSalvo")});
                                                         }
                                                     });
                                                 }
@@ -335,6 +335,25 @@ module.exports = (app) => {
                 
                 req.flash("menssagemRemover","Sessao Removida com Sucesso");
                 res.redirect('/sessoes/list');
+            }
+        }); 
+
+    },
+    
+    feedbackSave: function(req, res) {
+        var valor = req.body;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        
+        daoSessao.feedbackSalvar(valor, function(err) {
+            if(err) {
+                throw err;
+            } else {
+                connection.end();
+                
+                req.flash("menssagemFeedbackSalvo","Feedback Salvo com Sucesso");
+                res.redirect('/sessao/info?id='+valor.sessao_id);
             }
         }); 
 

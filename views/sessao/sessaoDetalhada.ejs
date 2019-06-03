@@ -138,6 +138,47 @@
                                 <div class="botao_style" id="botao_resposta">Resposta</div>
                                 <pre class="adapted-blockquote" id="resposta"><%=sessao[0].resposta_sessao_realizada%>
                                 </pre>
+                        
+                                <% if(sessao[0].resposta_correta != null) { %>
+                                    <div class="botao_style" id="botao_feedback">Feedback do Professor</div>
+                                    
+                                    <% if(sessao[0].resposta_correta == 1) { %>
+                                        <blockquote class="adapted-blockquote" id="feedback">
+                                            <h4 class="title_color" style="display:inline-block"><strong>Resposta Correta</strong></h4>
+                                            
+                                            <% if(sessao[0].feedback_sessao != "") { %>
+                                                <pre style="white-space: pre-wrap;"><strong><%=sessao[0].nome%>: </strong><%=sessao[0].feedback_sessao%></pre>
+                                            <% } %>
+                                        </blockquote>
+                                    <% } else if(sessao[0].resposta_correta == 0) { %>
+                                        <blockquote class="adapted-blockquote" id="feedback">
+                                            <h4 class="title_color" style="display:inline-block"><strong>Resposta Incorreta</strong></h4>
+
+                                            <% if(sessao[0].feedback_sessao != "") { %>
+                                                <pre style="white-space: pre-wrap;"><strong><%=sessao[0].nome%>: </strong><%=sessao[0].feedback_sessao%></pre>
+                                            <% } %>
+                                        </blockquote>
+                                    <% } %>
+                                <% } %>
+                        
+                                <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor' && sessao[0].resposta_correta == null) { %>
+                                    <form action="/sessao/feedback/save" method="post">
+                                        <h4 class="title_color"><strong>A resposta está correta ?</strong></h4>
+                        
+                                        <label><input type="radio" name="resposta" value="1" required> Sim</label>
+                                        <label><input type="radio" name="resposta" value="0" required> Não</label>
+
+                                        <textarea name="feedback" class="single-input textarea_respostas" rows="5" maxlength="2000" placeholder="Escreva um feedback" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Escreva um feedback'"></textarea>
+                                        
+                                        <div class="button-group-area botao_style_enviar">
+                                            <input type="submit" class="genric-btn info-border circle arrow" value="Enviar">
+                                        </div>
+                                        
+                                        <!--============ Valores Inputs Ocultos ==============-->
+                                            <input type="text" name="sessao_id" value="<%=sessao[0].id%>" hidden required>
+                                        <!--============ END - Valores Inputs Ocultos ==============-->
+                                    </form>
+                                <% } %>
                             <% } %>
                         <% } %>
                         
@@ -272,6 +313,7 @@
     <!-- JS adicionais -->
     <script src="/js/sweetalert2.min.js"></script>
     <script src="/js/footer.js"></script>
+    <script src="/js/alerts.js"></script>
     
     <script src="https://js.pusher.com/4.4/pusher.min.js"></script>
     <script src="/js/spySessao.js"></script>
@@ -282,6 +324,9 @@
         });
         $("#botao_resposta").click(function() {
             $("#resposta").slideToggle();
+        });
+        $("#botao_feedback").click(function() {
+            $("#feedback").slideToggle();
         });
         
         $(window).resize(function() {
@@ -309,6 +354,12 @@
         <% } else { %>
             <script>
                 qtdUsersPorSessao(text_colaboractive,situacao);
+            </script>
+        <% } %>
+    
+        <% if(typeof menssagemFeedbackSalvo != 'undefined') { %>
+            <script>
+                FeedbackSalvo();
             </script>
         <% } %>
     <!--========================= END - Menssagem Sessão criada com sucesso ============================-->

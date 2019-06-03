@@ -54,3 +54,11 @@ function senhaAlteradaSucesso() {
       timer: 1500
     });
 }
+function FeedbackSalvo() {
+    Swal.fire({
+      type: 'success',
+      title: 'Feedback Enviado com Sucesso',
+      showConfirmButton: false,
+      timer: 1500
+    });
+}

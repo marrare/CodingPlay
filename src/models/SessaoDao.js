@@ -37,11 +37,11 @@ SessaoDao.prototype.filtrar = function(sessao, callback){
 }
 
 SessaoDao.prototype.buscarPorId = function(id_sessao, callback){
-	this._connection.query("select A.id,A.id_professor,DATE_FORMAT(hora_inicio_realizado,'%Y/%m/%d  %H:%i') AS hora_inicio_realizado,DATE_FORMAT(hora_final_realizado,'%Y/%m/%d  %H:%i') AS hora_final_realizado,A.resposta_sessao_realizada,A.situacao,A.tipo_sessao,A.nome_sessao,A.texto_colaborativo,A.tamanho_grupo,A.tempo_rotacao,B.nome,C.nome_problema,C.desc_problema,C.dificuldade,DATE_FORMAT(hora_inicio,'%Y/%m/%d  %H:%i') AS hora_inicio, DATE_FORMAT(hora_final,'%Y/%m/%d  %H:%i') AS hora_final FROM sessao A INNER JOIN professor B INNER JOIN problema C ON A.id_professor = B.id AND A.id_problema = C.id WHERE A.id = '" +id_sessao+ "'", callback);
+	this._connection.query("select A.id,A.id_professor,DATE_FORMAT(hora_inicio_realizado,'%Y/%m/%d  %H:%i') AS hora_inicio_realizado,DATE_FORMAT(hora_final_realizado,'%Y/%m/%d  %H:%i') AS hora_final_realizado,A.resposta_sessao_realizada,A.resposta_correta,A.feedback_sessao,A.situacao,A.tipo_sessao,A.nome_sessao,A.texto_colaborativo,A.tamanho_grupo,A.tempo_rotacao,B.nome,C.nome_problema,C.desc_problema,C.dificuldade,DATE_FORMAT(hora_inicio,'%Y/%m/%d  %H:%i') AS hora_inicio, DATE_FORMAT(hora_final,'%Y/%m/%d  %H:%i') AS hora_final FROM sessao A INNER JOIN professor B INNER JOIN problema C ON A.id_professor = B.id AND A.id_problema = C.id WHERE A.id = '" +id_sessao+ "'", callback);
 }
 
 SessaoDao.prototype.buscarPorNomeSessao = function(nome_sessao, callback){
-	this._connection.query("select A.id,A.id_professor,DATE_FORMAT(hora_inicio_realizado,'%Y/%m/%d  %H:%i') AS hora_inicio_realizado,DATE_FORMAT(hora_final_realizado,'%Y/%m/%d  %H:%i') AS hora_final_realizado,A.resposta_sessao_realizada,A.situacao,A.tipo_sessao,A.nome_sessao,A.texto_colaborativo,A.tamanho_grupo,A.tempo_rotacao,B.nome,C.nome_problema,C.desc_problema,C.dificuldade,DATE_FORMAT(hora_inicio,'%Y/%m/%d  %H:%i') AS hora_inicio, DATE_FORMAT(hora_final,'%Y/%m/%d  %H:%i') AS hora_final FROM sessao A INNER JOIN professor B INNER JOIN problema C ON A.id_professor = B.id AND A.id_problema = C.id WHERE A.nome_sessao = '" +nome_sessao+ "'", callback);
+	this._connection.query("select A.id,A.id_professor,DATE_FORMAT(hora_inicio_realizado,'%Y/%m/%d  %H:%i') AS hora_inicio_realizado,DATE_FORMAT(hora_final_realizado,'%Y/%m/%d  %H:%i') AS hora_final_realizado,A.resposta_sessao_realizada,A.resposta_correta,A.feedback_sessao,A.situacao,A.tipo_sessao,A.nome_sessao,A.texto_colaborativo,A.tamanho_grupo,A.tempo_rotacao,B.nome,C.nome_problema,C.desc_problema,C.dificuldade,DATE_FORMAT(hora_inicio,'%Y/%m/%d  %H:%i') AS hora_inicio, DATE_FORMAT(hora_final,'%Y/%m/%d  %H:%i') AS hora_final FROM sessao A INNER JOIN professor B INNER JOIN problema C ON A.id_professor = B.id AND A.id_problema = C.id WHERE A.nome_sessao = '" +nome_sessao+ "'", callback);
 }
 
 SessaoDao.prototype.iniciar = function(sessao, callback){
@@ -54,6 +54,10 @@ SessaoDao.prototype.finalizar = function(sessao, callback){
 
 SessaoDao.prototype.deletar = function(idSessao, callback){
 	this._connection.query("delete from sessao WHERE id = "+idSessao+"", callback);
+}
+
+SessaoDao.prototype.feedbackSalvar = function(sessao, callback){
+	this._connection.query("update sessao set resposta_correta = '"+sessao.resposta+"', feedback_sessao = '"+sessao.feedback+"' WHERE id = '"+sessao.sessao_id+"' ", callback);
 }
 
 module.exports = function(){

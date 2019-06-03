@@ -63,6 +63,8 @@ CREATE TABLE sessao (
   hora_inicio_realizado timestamp NULL DEFAULT NULL,
   hora_final_realizado timestamp NULL DEFAULT NULL,
   resposta_sessao_realizada text(10000) DEFAULT NULL,
+  resposta_correta tinyint(1) DEFAULT NULL,
+  feedback_sessao text(10000) DEFAULT NULL,
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (id_Professor) REFERENCES professor (id),
