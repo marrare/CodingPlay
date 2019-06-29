@@ -29,16 +29,35 @@ module.exports = (app) => {
         var connection = app.config.dbConnection();
         var daoProblema = new app.src.models.ProblemaDao(connection);
         
-        daoProblema.salvar(problema, function(err) {
+        daoProblema.salvar(problema, function(err,result) {
             if(err) {
                 throw err;
             } else {
+                var quantidadeEntradas = parseInt(problema.entrada_quantidade);
+                var countSaida = 0;
+                for(i=quantidadeEntradas; i<=problema.entrada.length; i = i+quantidadeEntradas) {
+                    var entradaArray = problema.entrada.slice((i-quantidadeEntradas),i);
+                    
+                    var casoTesteAtual = {
+                        id_Problema : result.insertId,
+                        entrada : entradaArray.join("/|-"),
+                        saida : problema.saida[countSaida]
+                    }
+                    daoProblema.salvarCasoDeTeste(casoTesteAtual, function(err) {
+                        if(err) {
+                            throw err;
+                        }
+                    });                           
+                    countSaida++;
+                }
+                
                 connection.end();
                 
                 req.flash("menssagemCriar","Problema Criado com Sucesso");
                 res.redirect('/problema/list');
+                
             }
-        }); 
+        });
 
     },
     

@@ -39,24 +39,64 @@
             <div class="row">
                 <div class="offset-1"></div>
                     <div class="col-lg-10 col-md-10">
-                        <h3 class="mb-30 title_color text-center">Criar Problema</h3>
                         <form id="novoProblema" action="/problema/save" method="post">
-                            <div class="mt-10">
-                                <label for="nome_problema"></label>
-                                <input type="text" name="nome_problema" maxlength="40" class="input_style" placeholder="Título" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Título'"  required>
-                                <select name="dificuldade" class="form-control search-slt select_dificuldade" required>
-                                    <option value="">Dificuldade</option>
-                                    <option value="fácil">Fácil</option>
-                                    <option value="médio">Médio</option>
-                                    <option value="difícil">Difícil</option>
-                                    <option value="expert">Expert</option>
-                                </select>
+                            
+                            <div id="primeira_etapa">
+                                <h3 class="mb-30 title_color text-center">Criar Problema</h3>
+                                <div class="mt-10">
+                                    <label for="nome_problema"></label>
+                                    <input type="text" name="nome_problema" maxlength="40" class="input_style" placeholder="Título" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Título'"  required>
+                                    <select name="dificuldade" class="form-control search-slt select_dificuldade" required>
+                                        <option value="">Dificuldade</option>
+                                        <option value="fácil">Fácil</option>
+                                        <option value="médio">Médio</option>
+                                        <option value="difícil">Difícil</option>
+                                        <option value="expert">Expert</option>
+                                    </select>
+                                </div>
+                                <textarea name="desc_problema" class="mt-10 descricao_style" rows="5" placeholder="Descrição do problema" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Descrição do problema'" maxlength="60000" required></textarea >
+                                
+                                <div class="button-group-area text-center">
+                                    <a href="#" class="genric-btn info circle arrow" id="avancar">Avançar<span class="lnr lnr-arrow-right"></span></a>
+                                </div>
                             </div>
                             
-                            <textarea name="desc_Problema" class="mt-10 descricao_style" rows="5" placeholder="Descrição do problema" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Descrição do problema'" maxlength="60000" required></textarea >
-                            <div class="button-group-area text-center">
-                                <input type="submit" class="genric-btn info-border circle arrow" value="Confirmar">
+                            <div id="segunda_etapa">
+                                <h3 class="mb-30 title_color text-center">Descreva os casos de teste</h3>
+                                <table class="table table-striped table-bordered" id="entradas" style="margin-bottom:0px;">
+                                    <select name = "entrada_quantidade"  class="form-control search-slt" id="select_entradas" required>
+                                        <option value="" >Entradas</option>
+                                        <option value="1" >1</option>
+                                        <option value="2" >2</option>
+                                        <option value="3" >3</option>
+                                        <option value="4" >4</option>
+                                        <option value="5" >5</option>
+                                    </select>
+                                    <thead>                                    
+                                        <tr class="list_entradas">
+                                            <th style="width: 75%;">Entradas</th>
+                                            <th style="width: 25%;">Saída</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tabelaListaProduto">
+                                        <tr class="list_problemas">
+                                            <td data-entrada="" class="seleCampo"></td>
+                                            <td data-dificuldade="" class="seleCampo"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                                <div class="novo_caso_teste" id="add_caso_teste">Novo caso de teste</div>
+                                
+                                <div class="text-center button-group-area mt-20">
+                                    <input type="submit" class="genric-btn info-border circle arrow" value="Confirmar" id="confirmar">
+                                </div>
+                                <div class="text-center button-group-area mt-0">
+                                    <input type="reset" class="genric-btn danger-border circle arrow" value="Cancelar" id="cancelar">
+                                </div>
+                                
                             </div>
+                            
                         </form>
                     </div>
                 <div class="offset-1"></div>
@@ -86,6 +126,52 @@
     <!-- JS adicionais -->
     <script src="/js/sweetalert2.min.js"></script>
     <script src="/js/footer.js"></script>
+    <script>
+        $("#avancar").click(function() {
+            $("#primeira_etapa").hide('slow');
+            $("#segunda_etapa").show('slow');
+        });
+        $("#cancelar").click(function() {
+            $("#primeira_etapa").show('slow');
+            $("#segunda_etapa").hide('slow');
+        });
+        
+        $("#select_entradas").change(function(){
+            var numeroEntradas = document.getElementById('select_entradas').value;
+            var linhaEntrada = "<tr class='list_problemas'>";
+                linhaEntrada += "<td data-entrada='' class='seleCampo'></td>";
+                linhaEntrada += "<td data-saida='' class='seleCampo'></td>";
+                linhaEntrada += "</tr>";
+            
+            $("#tabelaListaProduto").html(linhaEntrada);
+            for(i=0; i<numeroEntradas ;i++){
+                $("#tabelaListaProduto tr:last-child td:first-child").append("<input name = 'entrada' class='campo_entradas_caso_test' type='text' maxlength='20' required>");
+            }
+            if(numeroEntradas > 0){
+                $("#tabelaListaProduto tr:last-child td:last-child").append("<input name='saida' class='campo_entradas_caso_test' type='text' maxlength='20'' required>");
+            }
+            
+        });
+        
+        $("#add_caso_teste").click(function(){
+            var numeroEntradas = document.getElementById('select_entradas').value;
+            var linhaEntrada = "<tr class='list_problemas'>";
+                linhaEntrada += "<td data-entrada='' class='seleCampo'></td>";
+                linhaEntrada += "<td data-saida='' class='seleCampo'></td>";
+                linhaEntrada += "</tr>";
+            if(numeroEntradas > 0){
+                $("#tabelaListaProduto").append(linhaEntrada);
+                for(i=0; i<numeroEntradas ;i++){
+                    $("#tabelaListaProduto tr:last-child td:first-child").append("<input name = 'entrada' class='campo_entradas_caso_test' type='text' maxlength='20' required>");
+                }
+                $("#tabelaListaProduto tr:last-child td:last-child").append("<input name='saida' class='campo_entradas_caso_test' type='text' maxlength='20'' required>");   
+            }
+        });
+        
+        function adicionarCasoDeTeste() {
+            
+        }
+    </script>
     
 </body>
 

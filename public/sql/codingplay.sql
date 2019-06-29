@@ -48,6 +48,15 @@ CREATE TABLE problema (
   FOREIGN KEY (id_Professor) REFERENCES professor (id)
 );
 
+CREATE TABLE problema_caso_teste (
+  id int NOT NULL AUTO_INCREMENT,
+  id_Problema int NOT NULL,
+  entrada varchar(120) NOT NULL,
+  saida varchar(50) NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_Problema) REFERENCES problema (id)
+);
+
 CREATE TABLE sessao (
   id int NOT NULL AUTO_INCREMENT,
   id_Professor int NOT NULL,

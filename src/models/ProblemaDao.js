@@ -3,7 +3,9 @@ function ProblemaDao(connection){
 }
 
 ProblemaDao.prototype.salvar = function(problema, callback){
-	this._connection.query('insert into problema set ? ', problema, callback);
+    console.log(problema);
+    console.log(problema.desc_problema);
+	this._connection.query("insert into problema (id_professor,nome_problema,dificuldade,desc_problema) values("+problema.id_professor+",'"+problema.nome_problema+"','"+problema.dificuldade+"','"+problema.desc_problema+"')", callback);
 }
 
 ProblemaDao.prototype.listaProblemasProfessor = function(callback){
@@ -38,6 +40,10 @@ ProblemaDao.prototype.filtrar = function(sessao, callback){
 
 ProblemaDao.prototype.deletar = function(idProblema, callback){
 	this._connection.query("update problema set situacao = 0 where id = "+idProblema+"", callback);
+}
+
+ProblemaDao.prototype.salvarCasoDeTeste = function(casoTeste, callback){
+	this._connection.query('insert into problema_caso_teste set ? ', casoTeste, callback);
 }
 
 module.exports = function(){

@@ -60,7 +60,7 @@ section#areaProblema {
 }
 .input_style {
     display: inline-block;
-    width: 74%;
+    width: 75%;
     line-height: 36px;
     border: none;
     outline: none;
@@ -71,7 +71,12 @@ section#areaProblema {
 }
 .select_dificuldade {
     display:inline-block;
-    width:25%;
+    width:24%;
+}
+@media screen and (max-width: 992px) {
+    .select_dificuldade {
+        width:23.5%;
+    }
 }
 ::-webkit-input-placeholder {
     color: #495057;
@@ -91,4 +96,33 @@ section#areaProblema {
 :-ms-input-placeholder {  
     color: #495057;
     font-size: 1rem;
+}
+#segunda_etapa {
+    display: none;
+}
+#cancelar {
+    margin-top: 10px;
+}
+.list_entradas td, .list_entradas th {
+    vertical-align: middle;
+    text-align: center;
+}
+.campo_entradas_caso_test {
+    margin: 2px 5px; 
+    text-align: center;
+    border-radius: 5px;
+}
+.novo_caso_teste {
+    float: right;
+    color: #777777;
+    background-color: #dee2e6;
+    border: 1px solid #dee2e6;
+    padding: 5px;
+}
+.novo_caso_teste:hover {
+    cursor: pointer;
+    background-color: white;
+}
+#tabelaListaProduto tr:nth-child(even) {
+    background-color: rgba(0, 0, 0, .05);
 }
