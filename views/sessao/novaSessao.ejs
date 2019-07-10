@@ -44,13 +44,8 @@
             <h3 class="mb-30 title_color text-center" id="teast">Criar Sessão do Dojo de Programação</h3>
             <form action="/sessao/save" method="post" id="novaSessao">
                 <div class="row">
-                    <div class="offset-lg-1"></div>
-                    <div class="col-lg-5 col-sm-12">
-                            <label for="hora_inicio">Data Inicio</label>
-                            <input id="hora_inicio" type="datetime-local" name="hora_inicio" required>
-                    </div>
                     
-                    <label class="col-sm-2 col-form-label" for="tamanho_grupo">Tamanho do Grupo</label>
+                    <label class="col-2 col-form-label mb-20" for="tamanho_grupo">Tamanho do Grupo</label>
                     <div class="col-lg-3 col-sm-10 p-0">
                         <select name="tamanho_grupo" class="form-control search-slt" id="tamanho_grupo" required>
                             <option></option>
@@ -64,17 +59,8 @@
                         </select>
                     </div>
                     <div class="offset-lg-1"></div>
-                </div>
-                
-                <div class="row mt-10">
                     
-                    <div class="offset-lg-1"></div>
-                    <div class="col-lg-5 col-sm-12">
-                            <label for="hora_final">Data Final</label>&nbsp;
-                            <input id="hora_final" type="datetime-local" name="hora_final" required>
-                    </div>
-                    
-                    <label class="col-sm-2 col-form-label" for="tempo_rotacao">Tempo de Rotação </label>
+                    <label class="col-2 col-form-label mb-20" for="tempo_rotacao">Tempo de Rotação </label>
                     <div class="col-lg-3 col-sm-10 p-0">
                         <select name="tempo_rotacao" class="form-control search-slt" id="tempo_rotacao" required>
                             <option></option>
@@ -84,11 +70,9 @@
                             <option value="10">10 Minutos</option>
                         </select>
                     </div>
-                </div>
-                
-                <div class="row mt-10">
-                    <div class="offset-lg-6"></div>
-                    <label class="col-sm-2 col-form-label" for="tempo_rotacao">Tipo de Sessão </label>
+                    <div class="offset-lg-1"></div>
+                    
+                    <label class="col-2 col-form-label mb-20" for="tempo_rotacao">Tipo de Sessão </label>
                     <div class="col-lg-3 col-sm-10 p-0">
                         <select name="tipo_sessao" class="form-control search-slt" id="tipo_sessao" required>
                             <option></option>

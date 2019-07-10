@@ -206,30 +206,26 @@
                                             <p><%=sessao[0].tipo_sessao%></p>
                                         </a>
                                     </li>
-                                    <li>
-                                        <a class="d-flex justify-content-between">
-                                            <p>Hora Início</p>
-                                            <p>
-                                                <% if(sessao[0].situacao == 1 || sessao[0].situacao == 2) { %>
-                                                    <%=sessao[0].hora_inicio%>
-                                                <% } else if(sessao[0].situacao == 0) { %>
-                                                    <%=sessao[0].hora_inicio_realizado%>
-                                                <% } %>
-                                            </p>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="d-flex justify-content-between">
-                                            <p>Hora Final</p>
-                                            <p>
-                                                <% if(sessao[0].situacao == 1 || sessao[0].situacao == 2) { %>
-                                                    <%=sessao[0].hora_final%>
-                                                <% } else if(sessao[0].situacao == 0) { %>
-                                                    <%=sessao[0].hora_final_realizado%>
-                                                <% } %>
-                                            </p>
-                                        </a>
-                                    </li>
+                                    <% if(sessao[0].situacao == 0) { %>
+                                        <li>
+                                            <a class="d-flex justify-content-between">
+                                                <p>Hora Início</p>
+                                                <p>
+                                                        <%=sessao[0].hora_inicio_realizado%>
+                                                </p>
+                                            </a>
+                                        </li>
+                                    <% } %>
+                                    <% if(sessao[0].situacao == 0) { %>
+                                        <li>
+                                            <a class="d-flex justify-content-between">
+                                                <p>Hora Final</p>
+                                                <p>
+                                                        <%=sessao[0].hora_final_realizado%>
+                                                </p>
+                                            </a>
+                                        </li>
+                                    <% } %>
                                     <li>
                                         <a class="d-flex justify-content-between">
                                             <p>Tamanho do grupo</p>
