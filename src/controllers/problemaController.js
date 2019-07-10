@@ -40,7 +40,7 @@ module.exports = (app) => {
                     
                     var casoTesteAtual = {
                         id_Problema : result.insertId,
-                        entrada : entradaArray.join("/|-"),
+                        entrada : entradaArray.join(";"),
                         saida : problema.saida[countSaida]
                     }
                     daoProblema.salvarCasoDeTeste(casoTesteAtual, function(err) {
