@@ -3,8 +3,6 @@ function ProblemaDao(connection){
 }
 
 ProblemaDao.prototype.salvar = function(problema, callback){
-    console.log(problema);
-    console.log(problema.desc_problema);
 	this._connection.query("insert into problema (id_professor,nome_problema,dificuldade,desc_problema) values("+problema.id_professor+",'"+problema.nome_problema+"','"+problema.dificuldade+"','"+problema.desc_problema+"')", callback);
 }
 
