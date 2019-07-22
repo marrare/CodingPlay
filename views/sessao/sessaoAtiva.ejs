@@ -235,11 +235,15 @@
         <div class="row">
             <div class="col-lg-9 bloco_text_collaborative">
                 
-                
-                <div class="doc">
-                    <div id="codeeditor" class="doc__text-editor"></div>
+                <div style="background-color: #f7f7f7;border: 1px solid #f2f2f2">
+                    <h5 class="function-style" id="declaracaoFuncaoEntradas"></h5>
+                    <div class="doc">
+                        <div id="codeeditor" class="doc__text-editor"></div>
+                    </div>
+                    <h5 class="function-style">}</h5>
                 </div>
                 
+                <button id="botaoVerificarCasosTeste">Verificar Casos de Testes</button>
                 <button id="botaoExecutar">Executar Código</button>
                     
             </div>
@@ -248,6 +252,7 @@
                 <div class="members_block" id="membersBlock">
                     <div id="idPilotoRecept" hidden></div>
                     <div id="inicioSessao" hidden></div>
+                    <div id="acertos_caso_teste" hidden></div>
                     <div id="cronometro" hidden></div>
                     <ul id="members"></ul>
                     <script>
@@ -371,9 +376,11 @@
             var alturaJanela = $(window).height();
             var alturaProblema = $('.bloco_problema').height();
             var alturaBoataoExecutar = $('#botaoExecutar').height();
+            var alturafunctionCodingPlay = ($('#declaracaoFuncaoEntradas').height() * 3);
+            var alturaBotaoCasosTeste = $('#botaoVerificarCasosTeste').height();
             alturaBoataoExecutar = Math.ceil(alturaBoataoExecutar);
             alturaProblema = Math.ceil(alturaProblema);
-            var alturaResposta = (((alturaJanela - alturaProblema) - alturaBoataoExecutar)-25);
+            var alturaResposta = (((((alturaJanela - alturaProblema) - alturaBoataoExecutar) - alturaBotaoCasosTeste) - alturafunctionCodingPlay)-36);
             var alturaInfoSessao = ((alturaJanela - alturaProblema)-20);
 
             $(".CodeMirror").css("height",alturaResposta);
@@ -555,10 +562,13 @@
                             participantes += (participante.substring(5,21)+"/");
                         }
                         
+                        verificarCasosDeTeste();
+                        var acertosCasoTeste = $("#acertos_caso_teste").html();
+                        
                         var horaFinal = getTimeAndDate(new Date());
                         
                         
-                       window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>
+                       window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&acertosCasoTeste="+acertosCasoTeste+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>
  
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         channel.trigger('client-members_alert', {func : 2});
@@ -570,10 +580,9 @@
                     title: 'Finalizando sessão',
                     text: "aguardando confirmação do copiloto para finalizar"
                 })
-            }
-            
-            
+            }   
         }
+        
         
         $("#enviarResposta").click(function() {
             confirmarResposta();
@@ -672,11 +681,85 @@
             if(valor.indexOf("document.write(") >= 0) {
                 valor = valor.replace(/document.write/g,"alert");
             }
-
+            
+            
             eval(valor);
         });
     </script>
     <!-- Final CondeMirror --->
+    
+    <!-- INICIO FUNÇÃO TDD -->
+    <script>
+        var qtdEntradas = <%=sessao[0].quantidade_entradas%>
+            
+        var textoFuncaoEntrada = "function CodingPlay(";
+        for(i=1; i<=qtdEntradas; i++){
+            if(i == qtdEntradas) {
+                textoFuncaoEntrada += ("para" + i);
+            } else {
+                textoFuncaoEntrada += ("para" + i + ",");                           
+            }
+        }
+        
+        textoFuncaoEntrada += ") {";
+        $("#declaracaoFuncaoEntradas").html(textoFuncaoEntrada);
+        
+        function alertsCasosDeTeste(){
+            
+            verificarCasosDeTeste();
+            
+            var tamCasosTeste = <%=casosTeste.length%>
+            var qtdSucessos = $("#acertos_caso_teste").html();
+                
+            
+            if(qtdSucessos == tamCasosTeste){
+               Swal.fire({
+                  type: 'success',
+                  title: 'Resposta Correta',
+                  text: qtdSucessos+' acertos de '+tamCasosTeste+' casos de teste',
+                })
+            } else if(qtdSucessos == 0){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Resposta Incorreta',
+                  text: qtdSucessos+' acertos de '+tamCasosTeste+' casos de teste',
+                })       
+            } else if(qtdSucessos < tamCasosTeste) {
+                Swal.fire({
+                  type: 'warning',
+                  title: 'Quase lá',
+                  text: qtdSucessos+' acertos de '+tamCasosTeste+' casos de teste',
+                })       
+            }
+        }
+        function verificarCasosDeTeste(){
+            var textoTdd = $("#declaracaoFuncaoEntradas").html() + editor.getValue() + "}";
+            textoTdd += "var resp, qtdSucessos = 0;";
+            
+            <% casosTeste.forEach(function(casoTeste) { %>
+                var entrada = "<%=casoTeste.entrada%>"
+                var saida = "<%=casoTeste.saida%>"
+
+                textoTdd += "resp = CodingPlay(" + entrada.replace(/;/g, ",") + ");";
+                textoTdd += "if (resp == " + saida + ") { ";
+                textoTdd += " qtdSucessos++; }";
+            <% }); %>
+           
+            eval(textoTdd);
+            
+            $("#acertos_caso_teste").html(qtdSucessos);
+            var acertosCasoTeste = $("#acertos_caso_teste").html();
+
+            
+        }
+        $("#botaoVerificarCasosTeste").click(function(){
+            alertsCasosDeTeste();
+        });
+        
+        
+        
+    </script>
+    <!-- FINAL FUNÇÃO TDD -->
     
 </body>
     

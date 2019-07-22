@@ -240,6 +240,7 @@ module.exports = (app) => {
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
         var ParticipaSessaoDao = new app.src.models.ParticipaSessaoDao(connection);
+        var ProblemaCasoTesteDao = new app.src.models.ProblemaCasoTesteDao(connection);
         
         daoSessao.buscarPorId(valor.idSessao, function(err, result) {
             if (err) {
@@ -248,23 +249,31 @@ module.exports = (app) => {
                 if(result[0].situacao == 1 || result[0].situacao == 2) {
                     result[0].participante = valor.participante;
                     
-                    connection.end();
-                    
-                    if(result[0].tipo_sessao == 'blocos') {
-                        res.render('./sessao/sessaoAtivaBlockly',{sessao : result});
-                    } else if(result[0].tipo_sessao == 'codigo') {
-                        res.render('./sessao/sessaoAtiva',{sessao : result});
-                    }
-                    
-                    
-                } else {
-                    ParticipaSessaoDao.buscarPorIdSessao(valor.idSessao, function(err2, result2) {
+                    ProblemaCasoTesteDao.buscarCasosPorProblema(result[0].id_problema, function(err2, result2) {
                         if (err2) {
-                            throw err;
+                            throw err2;
                         } else {
                             connection.end();
                             
-                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result2, menssagem : req.flash("menssagem")});
+                            if(result[0].tipo_sessao == 'blocos') {
+                                res.render('./sessao/sessaoAtivaBlockly',{sessao : result, casosTeste: result2});
+                            } else if(result[0].tipo_sessao == 'codigo') {
+                                res.render('./sessao/sessaoAtiva',{sessao : result, casosTeste: result2});
+                            }
+                        }
+                    });
+                    
+                    
+                    
+                    
+                } else {
+                    ParticipaSessaoDao.buscarPorIdSessao(valor.idSessao, function(err3, result3) {
+                        if (err3) {
+                            throw err3;
+                        } else {
+                            connection.end();
+                            
+                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result3, menssagem : req.flash("menssagem")});
                         }
                     });
                 }

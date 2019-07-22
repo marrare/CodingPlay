@@ -140,8 +140,14 @@
     margin: 5% 15% 5% 15%;
     width:70%;
 }
+.function-style{
+    font-family:monospace;
+    padding:5px 0px 5px 10px;
+    margin:0px;
+    background-color: #ddd;
+}
 #botaoExecutar {
-    border-color: transparent;
+    
     width: 100%;
     background-color: greenyellow;
     color: white;
@@ -149,5 +155,16 @@
     text-shadow: 0px 0px 5px black;
 }
 #botaoExecutar:hover {
+    cursor: pointer;
+    background-color: #c1ff62;
+}
+#botaoVerificarCasosTeste {
+    
+    width: 100%;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0px 0px 5px black;
+}
+#botaoVerificarCasosTeste:hover {
     cursor: pointer;
 }
