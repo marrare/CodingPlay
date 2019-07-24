@@ -25,6 +25,7 @@ module.exports = (app) => {
         var problema = req.body;
         
         problema.id_professor = req.session.usuario.id;
+        problema.nome_problema = problema.nome_problema.toUpperCase();
         
         var connection = app.config.dbConnection();
         var daoProblema = new app.src.models.ProblemaDao(connection);
@@ -35,20 +36,28 @@ module.exports = (app) => {
             } else {
                 var quantidadeEntradas = parseInt(problema.entrada_quantidade);
                 var countSaida = 0;
-                for(i=quantidadeEntradas; i<=problema.entrada.length; i = i+quantidadeEntradas) {
-                    var entradaArray = problema.entrada.slice((i-quantidadeEntradas),i);
-                    
-                    var casoTesteAtual = {
-                        id_Problema : result.insertId,
-                        entrada : entradaArray.join(";"),
-                        saida : problema.saida[countSaida]
-                    }
-                    daoProblema.salvarCasoDeTeste(casoTesteAtual, function(err) {
-                        if(err) {
-                            throw err;
+                
+                if(problema.entrada != undefined) {
+                    for(i=quantidadeEntradas; i<=problema.entrada.length; i = i+quantidadeEntradas) {
+                        if(Array.isArray(problema.entrada)) {
+                            var entradaArray = problema.entrada.slice((i-quantidadeEntradas),i);
+                            entradaArray = entradaArray.join(";");
+                        } else {
+                            var entradaArray = problema.entrada;
                         }
-                    });                           
-                    countSaida++;
+
+                        var casoTesteAtual = {
+                            id_Problema : result.insertId,
+                            entrada : entradaArray,
+                            saida : problema.saida[countSaida]
+                        }
+                        daoProblema.salvarCasoDeTeste(casoTesteAtual, function(err) {
+                            if(err) {
+                                throw err;
+                            }
+                        });                           
+                        countSaida++;
+                    }
                 }
                 
                 connection.end();
