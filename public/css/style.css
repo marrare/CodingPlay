@@ -2755,7 +2755,7 @@ h6 {
 /*---------------------------------------------------- */
 .cardsessions{
     margin:0px 0px 25px 0px;
-    padding: 10px;
+    padding: 10px 0px 0px 0px;
     border-style: double;
     border-color: #ddd;
     border-top: 0px; 
@@ -2764,7 +2764,25 @@ h6 {
 .cardsessions h6 {
     text-align: left;
     margin: 0px 0px 5px 0px;
-    padding: 0px;
+    padding: 0px 10px;
+}
+.cardsessions a div {
+    background-color: #fff;
+    padding: 7px;
+    border-radius: 0px 0px 10px 10px;
+    border:1px solid #00f8b6;
+    color: #00f8b6;
+    margin-top:5%;
+    width: 100%;
+    transition: color 0.5s;
+    transition: background-color 0.5s;
+    text-align: center;
+    
+}
+.cardsessions a div:hover {
+    color: #fff;
+    background-color: #00f8b6;
+    cursor: pointer;
 }
 .status_session_wait {	
     float: right;

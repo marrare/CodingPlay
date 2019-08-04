@@ -64,6 +64,7 @@ CREATE TABLE sessao (
   id_Problema int NOT NULL,
   situacao tinyint(1) DEFAULT '1',
   tipo_sessao varchar(7) NOT NULL,
+  confirm_sessao_professor tinyint(1) DEFAULT 0,
   nome_sessao varchar(20) NOT NULL,
   texto_colaborativo varchar(10) NOT NULL,
   tamanho_grupo tinyint(4) NOT NULL,

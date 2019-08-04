@@ -14,6 +14,14 @@ function sessaoCancelada() {
       timer: 1500
     });
 }
+function menssagemLiberada() {
+    Swal.fire({
+      type: 'success',
+      title: 'Sessão Liberada',
+      showConfirmButton: false,
+      timer: 1500
+    });
+}
 function usuarioCadastradoSucesso() {
     Swal.fire({
       type: 'success',

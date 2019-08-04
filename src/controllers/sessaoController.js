@@ -11,7 +11,7 @@ module.exports = (app) => {
             } else {
                 connection.end();
                 
-                res.render('./sessao/listarSessoes',{sessoes : result, menssagemCriar : req.flash("menssagemCriar"), menssagemRemover : req.flash("menssagemRemover")});
+                res.render('./sessao/listarSessoes',{sessoes : result, menssagemCriar : req.flash("menssagemCriar"), menssagemRemover : req.flash("menssagemRemover"), menssagemActivate : req.flash("menssagemActivate")});
             }
         });
     },
@@ -372,7 +372,25 @@ module.exports = (app) => {
             }
         }); 
 
-    }
+    },
+    ativarSessaoProfessor: function(req, res) {
+        var valor = req.query;
+        
+        var connection = app.config.dbConnection();
+        var daoSessao = new app.src.models.SessaoDao(connection);
+        
+        daoSessao.ativarSessaoProfessor(valor, function(err) {
+            if(err) {
+                throw err;
+            } else {
+                connection.end();
+                
+                req.flash("menssagemActivate","Sessão Liberada com Sucesso");
+                res.redirect('/sessoes/list');
+            }
+        }); 
+
+    },
   };
     return SessoesController;
 };

@@ -574,9 +574,9 @@
                 
                 <div id="contagemRegressiva" class="contagemRegressiva"></div>
                 
-                <% if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor' && sessao[0].hora_inicio_realizado == null) { %>
+                <% if(sessao[0].hora_inicio_realizado == null && sessao[0].confirm_sessao_professor == 1) { %>
                             <button id="sendAll">Iniciar Sessão</button>
-                <% } else if(session.usuario.id == sessao[0].id_professor && session.tipo == 'professor' && sessao[0].hora_inicio_realizado != null) { %>
+                <% } else if(sessao[0].hora_inicio_realizado != null && sessao[0].confirm_sessao_professor == 1 && session.usuario.id == sessao[0].id_professor && session.tipo == 'professor') { %>
                             <button id="sendAll">Reiniciar Sessão</button>
                 <% } %>
                 <div class="observadores" id="botaoObservadores">Observadores</div>

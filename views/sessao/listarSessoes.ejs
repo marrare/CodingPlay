@@ -124,6 +124,16 @@
                                 <h6>Professor: <%=sessoes[i].nome %></h6>
                                 <h6>Codigo: <%=sessoes[i].nome_sessao %></h6>
                                 <h6>Tipo de Sessão: <%=sessoes[i].tipo_sessao %></h6>
+                                
+                                <% if(session.tipo == 'professor' && session.usuario.id == sessoes[i].id_professor && sessoes[i].confirm_sessao_professor == 0) { %>
+                                
+                                    <a href="/sessao/activate?idSessao=<%=sessoes[i].id%>">
+                                        <div>
+                                            <strong>Liberar Sessão</strong>
+                                        </div>
+                                    </a>
+                                    
+                                <% } %>
                             </div>
                         </div>
 
@@ -170,6 +180,10 @@
         <% } else if (typeof menssagemRemover != 'undefined') { %>
             <script>
                 sessaoCancelada();
+            </script>
+        <% } else if (typeof menssagemActivate != 'undefined') { %>
+            <script>
+                menssagemLiberada();
             </script>
         <% } %>
     <!--========================= END - Menssagem Sessão criada com sucesso ============================-->
