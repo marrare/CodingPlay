@@ -293,7 +293,7 @@ module.exports = (app) => {
             } else {
                 connection.end();
                 
-                res.redirect('/sessao/active?idSessao='+valor.idSessao+'&participante=0&id='+valor.id);
+                res.redirect('/sessao/active?idSessao='+valor.idSessao+'&participante=1&id='+valor.id);
             }
         }); 
 
@@ -301,6 +301,12 @@ module.exports = (app) => {
     finalizarSessao: function(req, res) {
         var valor = req.query;
         valor.resposta = decodeURIComponent(valor.resposta);
+
+        if(typeof(valor.acertosCasoTeste) === 'undefined') {
+            valor.acertosCasoTeste = 0;
+        }
+        
+        console.log(valor);
         
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);

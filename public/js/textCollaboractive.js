@@ -103,7 +103,7 @@
       var dataInicio = new Date();
       dataInicio = getTimeAndDate(dataInicio);
         
-      window.location = "/sessao/start?idSessao="+idSessao+"&participante=0&id="+id+"&horaInicio="+dataInicio;
+      window.location = "/sessao/start?idSessao="+idSessao+"&participante=1&id="+id+"&horaInicio="+dataInicio;
     }
     function triggerMensageSend () {
         if($("#msgChatSent").val() != "") {
@@ -112,8 +112,8 @@
     }
     
     doc.addEventListener('keyup', triggerChange);
-    if(tipoUsuario == "professor") {
-        sendAll.addEventListener('click', triggerChangeMembers);
+    if(sendAll !== null) {
+      sendAll.addEventListener('click', triggerChangeMembers);
     }
     btnChat.addEventListener('click', triggerMensageSend);
     msgChat.addEventListener('keypress',function(e) {
