@@ -19,6 +19,7 @@ CREATE TABLE aluno (
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY unique_email (email),
   UNIQUE KEY unique_matricula (matricula),
+  UNIQUE KEY unique_codigo_pusher (codigo_pusher),
   PRIMARY KEY (id)
 );
 
@@ -33,6 +34,7 @@ CREATE TABLE professor (
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY unique_email (email),
   UNIQUE KEY unique_matricula (matricula),
+  UNIQUE KEY unique_codigo_pusher (codigo_pusher),
   PRIMARY KEY (id)
 );
 

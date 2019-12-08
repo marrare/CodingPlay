@@ -5,7 +5,12 @@ module.exports = (app) => {
         res.render("./professor/cadastrarProfessor",{ NovoProfessor : req.flash("NovoProfessor"), valorDuplicado : req.flash("valorDuplicado")});
     },
     novoProfessor: function(req, res) {
-        var professor = req.body;
+        if(typeof(primeiraExecucao) === 'undefined') {
+            var professor = req.body;
+        } else {
+            var professor = req.body;
+            professor.codigo_pusher = Math.random().toString().substring(2);
+        }
         
         var connection = app.config.dbConnection();
         var daoProfessor = new app.src.models.ProfessorDao(connection);
@@ -15,6 +20,7 @@ module.exports = (app) => {
                 if(err.errno == 1062 && err.code == 'ER_DUP_ENTRY') {
                     var errorEmail = err.sqlMessage.indexOf("unique_email");
                     var errorMatricula = err.sqlMessage.indexOf("unique_matricula");
+                    var errorCodigoPusher = err.sqlMessage.indexOf("unique_codigo_pusher");
 
                     if(errorEmail > -1){
                         connection.end();
@@ -26,6 +32,11 @@ module.exports = (app) => {
                         
                         req.flash("valorDuplicado","Matrícula já cadastrada");
                         res.redirect('/professor/add');
+                    } else if(errorCodigoPusher > -1) {
+                        connection.end();
+
+                        primeiraExecucao = true;
+                        res.redirect(307,'/professor/save');
                     }
                 } else {
                     throw err;   

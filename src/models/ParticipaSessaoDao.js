@@ -3,7 +3,7 @@ function ParticipaSessaoDao(connection){
 }
 
 ParticipaSessaoDao.prototype.salvar = function(participaSessao, callback){
-	this._connection.query("insert into participa_sessao (id_participante,id_sessao	) values((select id from aluno where codigo_pusher like '%"+participaSessao.id_participante+"%'),'"+participaSessao.id_sessao+"')", callback);
+	this._connection.query("insert into participa_sessao (id_participante,id_sessao) values((select id from aluno where codigo_pusher like '%"+participaSessao.id_participante+"%'),'"+participaSessao.id_sessao+"')", callback);
 }
 
 ParticipaSessaoDao.prototype.buscarPorIdSessao = function(id_sessao, callback){

@@ -6,9 +6,14 @@ module.exports = (app) => {
     },
       
     novoAluno: function(req, res) {
-        var aluno = req.body;
-        
-        delete aluno.confirSenha;
+        if(typeof(primeiraExecucao) === 'undefined') {
+            var aluno = req.body;
+            delete aluno.confirSenha;
+        } else {
+            var aluno = req.body;
+            aluno.codigo_pusher = Math.random().toString().substring(2);
+            delete aluno.confirSenha;
+        }
         
         var connection = app.config.dbConnection();
         var daoAluno = new app.src.models.AlunoDao(connection);
@@ -19,13 +24,23 @@ module.exports = (app) => {
                 if(err.errno == 1062 && err.code == 'ER_DUP_ENTRY') {
                     var errorEmail = err.sqlMessage.indexOf("unique_email");
                     var errorMatricula = err.sqlMessage.indexOf("unique_matricula");
+                    var errorCodigoPusher = err.sqlMessage.indexOf("unique_codigo_pusher");
 
                     if(errorEmail > -1){
+                        connection.end();
+
                         req.flash("valorDuplicado","Email já cadastrado");
                         res.redirect('/aluno/add');
                     } else if(errorMatricula > -1) {
+                        connection.end();
+
                         req.flash("valorDuplicado","Matrícula já cadastrada");
                         res.redirect('/aluno/add');
+                    } else if(errorCodigoPusher > -1) {
+                        connection.end();
+
+                        primeiraExecucao = true;
+                        res.redirect(307,'/aluno/save');
                     }
                 } else {
                     throw err;   
