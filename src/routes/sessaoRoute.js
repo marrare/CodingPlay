@@ -11,7 +11,7 @@ module.exports = (app) => {
     app.get('/sessao/info', autenticadorLogado, sessaoController.paginaSessaoDetalhada);
     app.get('/sessao/active', autenticadorLogado, sessaoController.paginaSessaoAtiva);
     app.get('/sessao/start', autenticadorLogado, sessaoController.iniciarSessao);
-    app.get('/sessao/confirm', autenticadorLogado, sessaoController.finalizarSessao);
+    app.post('/sessao/confirm', autenticadorLogado, sessaoController.finalizarSessao);
     app.get('/sessao/delete', autenticadorProfessor, sessaoController.deletarSessao);
     app.post('/sessao/feedback/save', autenticadorProfessor, sessaoController.feedbackSave);
     app.get('/sessao/activate', autenticadorProfessor, sessaoController.ativarSessaoProfessor);

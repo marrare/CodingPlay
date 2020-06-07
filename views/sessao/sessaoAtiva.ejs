@@ -354,6 +354,17 @@
                         </div>
                     </div>
                 </div>
+
+
+                <!-- Form Submit -->
+                <form action="/sessao/confirm" method="post" id="formSubmit" hidden>
+                    <textarea name="resposta" id="resposta"></textarea>
+                    <input type="text" name="participantes" id="participantes">
+                    <input type="text" name="acertosCasoTeste" id="acertosCasoTeste">
+                    <input type="text" name="horaFinal" id="horaFinal">
+                    <input type="text" name="sessao_id" id="sessao_id">
+                    <button type="submit"></button>
+                </form>
                 
             </div>
         </div>
@@ -552,11 +563,6 @@
                         
                         var resposta = editor.getValue();
                         
-                        resposta = resposta.replace(/'/g, "\\'");
-                        resposta = resposta.replace(/%/g, "\\%");
-                        resposta = resposta.replace(/_/g, "\\_");
-                        resposta = encodeURIComponent(resposta);
-                        
                         var qtdParticipantes = $("#members li").length;
                         var participantes = "";
                         for(i=1; i <= qtdParticipantes; i++){
@@ -569,8 +575,20 @@
                         
                         var horaFinal = getTimeAndDate(new Date());
                         
+                        $("#resposta").val(resposta);
+                        $("#participantes").val(participantes);
+                        $("#acertosCasoTeste").val(acertosCasoTeste);
+                        $("#horaFinal").val(horaFinal);
+                        $("#sessao_id").val(idSessao);
+
+                        console.log($("#resposta").val());
+                        console.log($("#participantes").val());
+                        console.log($("#acertosCasoTeste").val());
+                        console.log($("#horaFinal").val());
+                        console.log($("#sessao_id").val());
+
+                        $("#formSubmit").submit();
                         
-                       window.location = "/sessao/confirm?resposta="+resposta+"&participantes="+participantes+"&acertosCasoTeste="+acertosCasoTeste+"&horaFinal="+horaFinal+"&sessao_id="+<%=sessao[0].id%>
  
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
                         channel.trigger('client-members_alert', {func : 2});

@@ -299,14 +299,11 @@ module.exports = (app) => {
 
     },
     finalizarSessao: function(req, res) {
-        var valor = req.query;
-        valor.resposta = decodeURIComponent(valor.resposta);
+        var valor = req.body;
 
         if(typeof(valor.acertosCasoTeste) === 'undefined') {
             valor.acertosCasoTeste = 0;
         }
-        
-        console.log(valor);
         
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
