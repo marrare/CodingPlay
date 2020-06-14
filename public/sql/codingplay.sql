@@ -60,10 +60,26 @@ CREATE TABLE problema_caso_teste (
   FOREIGN KEY (id_Problema) REFERENCES problema (id)
 );
 
+CREATE TABLE equipe (
+  id int NOT NULL AUTO_INCREMENT,
+  nome varchar(120) NOT NULL,  
+  PRIMARY KEY (id
+);
+
+CREATE TABLE aluno_equipe (
+  id int NOT NULL AUTO_INCREMENT,
+  id_Equipe int NOT NULL,
+  id_Aluno int NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (id_Equipe) REFERENCES equipe (id),
+  FOREIGN KEY (id_Aluno) REFERENCES aluno (id)
+);
+
 CREATE TABLE sessao (
   id int NOT NULL AUTO_INCREMENT,
   id_Professor int NOT NULL,
   id_Problema int NOT NULL,
+  id_Equipe int NOT NULL,
   situacao tinyint(1) DEFAULT '1',
   tipo_sessao varchar(7) NOT NULL,
   confirm_sessao_professor tinyint(1) DEFAULT 0,
@@ -82,7 +98,8 @@ CREATE TABLE sessao (
   data_Alteracao timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   FOREIGN KEY (id_Professor) REFERENCES professor (id),
-  FOREIGN KEY (id_Problema) REFERENCES problema (id)
+  FOREIGN KEY (id_Problema) REFERENCES problema (id),
+  FOREIGN KEY (id_Equipe) REFERENCES equipe (id)
 );
 
 CREATE TABLE participa_sessao (

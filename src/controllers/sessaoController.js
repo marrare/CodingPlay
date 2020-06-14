@@ -5,7 +5,7 @@ module.exports = (app) => {
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
         
-        daoSessao.listaSessoes(function(err, result) {
+        daoSessao.listaSessoes(req.session,function(err, result) {
             if (err) {
                 throw err;
             } else {
@@ -22,7 +22,7 @@ module.exports = (app) => {
         var connection = app.config.dbConnection();
         var daoSessao = new app.src.models.SessaoDao(connection);
         
-        daoSessao.filtrar(valor, function(err, result) {
+        daoSessao.filtrar(req.session, valor, function(err, result) {
             if(err) {
                 throw err;
             } else {
@@ -37,14 +37,21 @@ module.exports = (app) => {
         
         var connection = app.config.dbConnection();
         var daoProblema = new app.src.models.ProblemaDao(connection);
+        var daoEquipe = new app.src.models.EquipeDao(connection);
         
         daoProblema.listaProblemasProfessor(function(err, result) {
             if (err) {
                 throw err;
             } else {
-                connection.end();
-                
-                res.render('./sessao/novaSessao',{problemas : result});
+                daoEquipe.listaEquipe(function(err2, result2) {
+                    if (err2) {
+                        throw err2;
+                    } else {
+                        connection.end();
+
+                        res.render('./sessao/novaSessao',{problemas : result, equipes : result2});
+                    }
+                });
             }      
         });
         
@@ -69,6 +76,7 @@ module.exports = (app) => {
     
     novaSessao: function(req, res) {
         var sessao = req.body;
+        console.log(sessao);
         
         sessao.id_professor = req.session.usuario.id;
         
@@ -98,7 +106,7 @@ module.exports = (app) => {
         
         if (valor.id != null) {
             // Buscar Sessão
-            daoSessao.buscarPorId(valor.id, function(err, result) {
+            daoSessao.buscarPorId(req.session, valor.id, function(err, result) {
                 if (err) {
                     throw err;
                 } else {
@@ -163,7 +171,7 @@ module.exports = (app) => {
                 }
             });
         } else if (valor.nome_sessao != null) {
-            daoSessao.buscarPorNomeSessao(valor.nome_sessao, function(err, result) {
+            daoSessao.buscarPorNomeSessao(req.session, valor.nome_sessao, function(err, result) {
                 if (err) {
                     throw err;
                 } else {
@@ -242,7 +250,7 @@ module.exports = (app) => {
         var ParticipaSessaoDao = new app.src.models.ParticipaSessaoDao(connection);
         var ProblemaCasoTesteDao = new app.src.models.ProblemaCasoTesteDao(connection);
         
-        daoSessao.buscarPorId(valor.idSessao, function(err, result) {
+        daoSessao.buscarPorId(req.session, valor.idSessao, function(err, result) {
             if (err) {
                 throw err;
             } else {

@@ -69,6 +69,18 @@
                         </select>
                     </div>
                     <div class="offset-lg-1"></div>
+
+                    <label class="col-2 col-form-label mb-20" for="tempo_rotacao">Equipe</label>
+                    <div class="col-lg-3 col-sm-10 p-0">
+                        <select name="id_equipe" class="form-control search-slt" id="idEquipe" required>
+                            <option></option>
+                            <% for(var i = 0; i < equipes.length; i++) { %>
+                                <option value="<%=equipes[i].id%>"><%=equipes[i].nome%></option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="offset-lg-1"></div>
+
                 </div>
                 
                 <!--============ Valores Inputs Ocultos ==============-->
