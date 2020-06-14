@@ -76,7 +76,6 @@ module.exports = (app) => {
     
     novaSessao: function(req, res) {
         var sessao = req.body;
-        console.log(sessao);
         
         sessao.id_professor = req.session.usuario.id;
         

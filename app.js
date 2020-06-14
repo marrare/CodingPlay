@@ -14,7 +14,8 @@ app.set('views', path.join(__dirname, 'views')); //middlewares pasta views
 app.set('view engine', 'ejs');   //middlewares template engine ejs
 app.use(cookieParser('codingplay'));
 app.use(expressSession({
-  secret: 'blocos', 
+  secret: 'blocos',
+  expires: new Date(Date.now() + (60 * 60* 3 * 1000)),
   resave: false, 
   saveUninitialized: false,
   cookie:{

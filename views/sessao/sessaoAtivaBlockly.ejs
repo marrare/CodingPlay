@@ -196,6 +196,7 @@
                 $(".panel-footer").hide();
                 redimensionarBlocoResposta();
                 $("#tipoUserChat").val("");
+                alertSuaVez();
             }
             
             if(("user-"+codigoPusher) == idPiloto) {
@@ -206,6 +207,8 @@
                 $(".confirm_solução").hide();
                 redimensionarBlocoResposta();
                 $("#tipoUserChat").val("");
+                alertTempoAcabou();
+
             }
             
             var el = document.querySelector('.piloto');
@@ -228,6 +231,7 @@
                 $(".panel-footer").show();
                 redimensionarBlocoResposta();
                 $("#tipoUserChat").val("copiloto");
+                alertProximo();
             }
             
             $(".blocklyScrollbarHandle").css("pointer-events","auto");
@@ -529,6 +533,7 @@
                                 $(".panel-footer").hide();
                                 redimensionarBlocoResposta();
                                 $("#tipoUserChat").val("");
+                                alertSuaVez();
                             }
 
                             if(("user-"+codigoPusher) == idPiloto) {
@@ -539,6 +544,7 @@
                                 $(".confirm_solução").hide();
                                 redimensionarBlocoResposta();
                                 $("#tipoUserChat").val("");
+                                alertTempoAcabou();
                             }
 
                             var el = document.querySelector('.piloto');
@@ -561,6 +567,7 @@
                                 $(".panel-footer").show();
                                 redimensionarBlocoResposta();
                                 $("#tipoUserChat").val("copiloto");
+                                alertProximo();
                             }
                             
                             $(".blocklyScrollbarHandle").css("pointer-events","auto");
@@ -840,11 +847,6 @@
                         $("#horaFinal").val(horaFinal);
                         $("#sessao_id").val(idSessao);
 
-                        console.log($("#resposta").val());
-                        console.log($("#participantes").val());
-                        console.log($("#horaFinal").val());
-                        console.log($("#sessao_id").val());
-
                         $("#formSubmit").submit();
  
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -1003,6 +1005,35 @@
     </script>
     <!-- Final Blockly --->
     
+    <script>
+        function alertTempoAcabou() {
+            Swal.fire({
+                type: 'info',
+                title: 'O tempo acabou.',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true
+            });
+        }
+        function alertSuaVez() {
+            Swal.fire({
+                type: 'info',
+                title: 'Sua Vez',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true
+            });
+        }
+        function alertProximo() {
+            Swal.fire({
+                type: 'info',
+                title: 'Você será o próximo',
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true
+            });
+        }
+    </script>
 </body>
     
 </html>
