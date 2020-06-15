@@ -36,8 +36,9 @@
 
         <div class="container">
             <div class="section_gap">
-                
-                <% if(typeof perguntas != 'undefined') { %>
+                <!-- Perguntas Desativadas -->
+                <%# if(typeof perguntas != 'undefined') { %>
+                <% if(false) { %>
                     <div class="row">
                         <div class="col-lg-12 style_div_questionario">
                             <form id="novaConta" action="/questionario/save" method="post">
