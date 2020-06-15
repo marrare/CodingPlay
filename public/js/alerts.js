@@ -70,3 +70,12 @@ function FeedbackSalvo() {
       timer: 1500
     });
 }
+function liberacaoProfessor() {
+  Swal.fire({
+    type: 'info',
+    title: 'Sessão bloqueada',
+    text: 'Solicite liberação ao professor',
+    showConfirmButton: false,
+    timer: 5000
+  });
+}

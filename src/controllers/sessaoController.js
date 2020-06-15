@@ -253,38 +253,43 @@ module.exports = (app) => {
             if (err) {
                 throw err;
             } else {
-                if(result[0].situacao == 1 || result[0].situacao == 2) {
-                    result[0].participante = valor.participante;
-                    
-                    ProblemaCasoTesteDao.buscarCasosPorProblema(result[0].id_problema, function(err2, result2) {
-                        if (err2) {
-                            throw err2;
-                        } else {
-                            connection.end();
-                            
-                            if(result[0].tipo_sessao == 'blocos') {
-                                res.render('./sessao/sessaoAtivaBlockly',{sessao : result, casosTeste: result2});
-                            } else if(result[0].tipo_sessao == 'codigo') {
-                                res.render('./sessao/sessaoAtiva',{sessao : result, casosTeste: result2});
-                            }
-                        }
-                    });
-                    
-                    
-                    
-                    
+                if(result[0].confirm_sessao_professor != 1){
+                    res.render('./sessao/sessaoDetalhada',{sessao : result, menssagem : req.flash("menssagem"), mensagemLiberacaoProfessor : true});                
                 } else {
-                    ParticipaSessaoDao.buscarPorIdSessao(valor.idSessao, function(err3, result3) {
-                        if (err3) {
-                            throw err3;
-                        } else {
-                            connection.end();
-                            
-                            res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result3, menssagem : req.flash("menssagem")});
-                        }
-                    });
-                }
-                
+                    if(result[0].situacao == 1 || result[0].situacao == 2) {
+                        result[0].participante = valor.participante;
+                        
+                        ProblemaCasoTesteDao.buscarCasosPorProblema(result[0].id_problema, function(err2, result2) {
+                            if (err2) {
+                                throw err2;
+                            } else {
+                                console.log("continuou");
+                                connection.end();
+                                
+                                if(result[0].tipo_sessao == 'blocos') {
+                                    res.render('./sessao/sessaoAtivaBlockly',{sessao : result, casosTeste: result2});
+                                } else if(result[0].tipo_sessao == 'codigo') {
+                                    res.render('./sessao/sessaoAtiva',{sessao : result, casosTeste: result2});
+                                }
+                            }
+                        });
+                        
+                        
+                        
+                        
+                    } else {
+                        ParticipaSessaoDao.buscarPorIdSessao(valor.idSessao, function(err3, result3) {
+                            if (err3) {
+                                throw err3;
+                            } else {
+                                console.log(result3);
+                                connection.end();
+                                
+                                res.render('./sessao/sessaoDetalhada',{sessao : result, participantes : result3, menssagem : req.flash("menssagem")});
+                            }
+                        });
+                    }
+                } 
             }
         });
     },

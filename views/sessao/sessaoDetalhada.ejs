@@ -330,7 +330,7 @@
         }
                                     
     </script>
-    <!--========================= Menssagem Sessão criada com sucesso ============================-->
+    <!--========================= Menssagens ============================-->
         <% if(typeof menssagem != 'undefined') { %>
             <script>
                 var conf = 1;
@@ -347,7 +347,13 @@
                 FeedbackSalvo();
             </script>
         <% } %>
-    <!--========================= END - Menssagem Sessão criada com sucesso ============================-->
+
+        <% if (typeof mensagemLiberacaoProfessor != 'undefined') { %>
+            <script>
+                liberacaoProfessor();
+            </script>
+        <% } %>
+    <!--========================= END - Menssagens ============================-->
 </body>
 
 </html>
