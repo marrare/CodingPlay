@@ -8,7 +8,7 @@
 - Codemirror
 - Google Blockly
 
-
+![Codingplay.online](public/img/codingplay.png)
 
 #### Montando ambiente local
 ```javascript
