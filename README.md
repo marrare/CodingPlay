@@ -1,5 +1,6 @@
 # Codingplay
 É uma plataforma que possibilita encontros online em torno de desafios de programação, nos quais os participantes são incentivados a participar e compartilhar suas habilidades de codificação com os demais, com foco na resolução de problemas trazendo a aprendizagem através de colaboração e cooperação.
+https://codingplay.online
 
 #### Tecnologias utilizadas:
 - NodeJs
