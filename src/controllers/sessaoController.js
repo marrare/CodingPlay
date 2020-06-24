@@ -263,7 +263,6 @@ module.exports = (app) => {
                             if (err2) {
                                 throw err2;
                             } else {
-                                console.log("continuou");
                                 connection.end();
                                 
                                 if(result[0].tipo_sessao == 'blocos') {

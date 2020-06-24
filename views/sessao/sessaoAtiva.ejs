@@ -245,7 +245,7 @@
                     <div class="doc">
                         <div id="codeeditor" class="doc__text-editor"></div>
                     </div>
-                    <h5 class="function-style">}</h5>
+                    <h5 class="function-style"></h5>
                 </div>
                 
                 <button id="botaoVerificarCasosTeste">Verificar Casos de Testes</button>
@@ -715,14 +715,15 @@
         var textoFuncaoEntrada = "function CodingPlay(";
         for(i=1; i<=qtdEntradas; i++){
             if(i == qtdEntradas) {
-                textoFuncaoEntrada += ("para" + i);
+                textoFuncaoEntrada += ("x" + i);
             } else {
-                textoFuncaoEntrada += ("para" + i + ",");                           
+                textoFuncaoEntrada += ("x" + i + ",");                           
             }
         }
         
-        textoFuncaoEntrada += ") {";
-        $("#declaracaoFuncaoEntradas").html(textoFuncaoEntrada);
+        textoFuncaoEntrada += ") {\n    // Escreva seu código aqui\n}";
+        
+        editor.setValue(textoFuncaoEntrada);
         
         function alertsCasosDeTeste(){
             
@@ -753,7 +754,7 @@
             }
         }
         function verificarCasosDeTeste(){
-            var textoTdd = $("#declaracaoFuncaoEntradas").html() + editor.getValue() + "}";
+            var textoTdd = editor.getValue();
             textoTdd += "var resp, qtdSucessos = 0;";
             
             <% casosTeste.forEach(function(casoTeste) { %>
